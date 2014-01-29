@@ -1,0 +1,16 @@
+citHeader("To cite the 'cpca' package in publications use:")
+
+citEntry(
+  entry="inproceedings",
+  title = "Engineering in Medicine and Biology Society (EMBC), 2012 Annual International Conference of the IEEE",
+  author = personList(
+    as.person("Samir Kanaan-Izquierdo"),
+    as.person("Andrey Ziyatdinov"),
+    as.person("Raimon Massanet"),
+    as.person("Alexandre Perera")),
+  booktitle = "Engineering in Medicine and Biology Society (EMBC), 2012 Annual International Conference of the IEEE",
+  year = "2012",
+  textVersion =  paste("S. Kanaan-Izquierdo et al.,",
+    "Multiview approach to spectral clustering,",
+    "EMBC, 2012")
+)

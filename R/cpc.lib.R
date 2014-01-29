@@ -2,6 +2,30 @@
 # Main function `cpc`
 #-------------------------
 
+#' Function cpc. 
+#'
+#' This function computes the CPCA from a given set of covariance matrices 
+#' (of different groups). 
+#'
+#' Currently, the only the power algorithm by Trendafilov is supported.
+#'
+#' @name cpc
+#' @param X An array of three dimensions: the 3rd dimension encodes the groups
+#'   and the first two dimension contain the covariance matrices.
+#' @param method The name of the method for computing the CPCA.
+#'   The default value is \code{"power"}, which is the power algorithm by Trendafilov.
+#' @param k The number of components to be computed (all if it is \code{0}).
+#'   This paramter is valid if the given method supports 
+#'   built-in ordering of the eigvenvectors.
+#'   The default value is \code{0}, that means computing of all the components.
+#' @param threshold The threshold value of the captured variance,
+#'   which is reserved for further extensions.
+#' @return A list several slots: \code{CPC} rotation matrix with eigenvectors in columns;
+#'   \code{ncomp} the number of components evaluated (equal to the number of columns in \code{CPC}).
+#' @example demo/iris.R
+#' @references Trendafilov (2010). Stepwise estimation of common principal components. 
+#'   Computational Statistics & Data Analysis, 54(12), 3446–3457. 
+#'   doi:10.1016/j.csda.2010.03.010
 #' @export
 cpc <- function(X, method = "power", k = 0, threshold = 0, ...)
 {
