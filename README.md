@@ -45,11 +45,13 @@ library(cpca)
 citation(package = "cpca")
 ```
 
-The citation information is stored in the `CITATION` file in the `inst` directory.
+The citation information is stored in the `CITATION` file in the `inst` directory and can be updated in the future.
+
+* CITATION - cpca package citation information
 
 ## References
 
-List of publications where the `cpca` package was used:
+List of publications, where the `cpca` package was used:
 
 * Kanaan-Izquierdo, S., Ziyatdinov, A., Massanet, R., & Perera, A. (2012). Multiview approach to spectral clustering.  In 2012 Annual International Conference of the IEEE Engineering in Medicine and Biology Society (pp. 1254–1257). IEEE. doi:10.1109/EMBC.2012.6346165
 * Fernandez-Albert, F. et al. (to be appeared). A Common Variance Compensation method for intensity drift removal in LC / MS metabolomics.
@@ -62,4 +64,4 @@ Mathematical algorithms implemented in the `cpca` package:
 
 The cpca package is licensed under the GPLv3. See COPYING file in the `inst` directory for additional details.
 
-- COPYING - cpca package license (GPLv3)
+* COPYING - cpca package license (GPLv3)
