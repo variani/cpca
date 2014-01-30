@@ -5,7 +5,7 @@
 The main function to perform CPCA is called `cpc`. See `?cpc` for the help.
 
 For now, the `cpc` function implements only one method based on Trendafilov, 2010.
-This method estimated the Common Principal Components (CPCs) by a stepwise procedure 
+This method estimates the Common Principal Components (CPCs) by a stepwise procedure 
 based on the well-known power method for a single covariance/correlation matrix.
 The feature of this method is that it orders the CPCs by the explained variance (intrincically),
 and the user can estimate the few first components, e.g. 2-3, rather than all the components.
