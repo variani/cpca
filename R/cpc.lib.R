@@ -7,13 +7,13 @@
 #' This function computes the CPCA from a given set of covariance matrices 
 #' (of different groups). 
 #'
-#' Currently, the only the power algorithm by Trendafilov is supported.
+#' Currently, the only the stepwise algorithm by Trendafilov is supported.
 #'
 #' @name cpc
 #' @param X An array of three dimensions: the 3rd dimension encodes the groups
 #'   and the first two dimension contain the covariance matrices.
 #' @param method The name of the method for computing the CPCA.
-#'   The default value is \code{"power"}, which is the power algorithm by Trendafilov.
+#'   The default value is \code{"stepwise"}, which is the stepwise algorithm by Trendafilov.
 #' @param k The number of components to be computed (all if it is \code{0}).
 #'   This paramter is valid if the given method supports 
 #'   built-in ordering of the eigvenvectors.
@@ -27,19 +27,19 @@
 #'   Computational Statistics & Data Analysis, 54(12), 3446–3457. 
 #'   doi:10.1016/j.csda.2010.03.010
 #' @export
-cpc <- function(X, method = "power", k = 0, threshold = 0, ...)
+cpc <- function(X, method = "stepwise", k = 0, threshold = 0, ...)
 {
   ### processing input argumets
   stopifnot(length(dim(X)) == 3)
   
-  method <- match.arg(method, c("power"))
+  method <- match.arg(method, c("stepwise"))
   
   switch(method,
-    power = cpc_power(X, apply(X, 3, nrow), k, ...),
+    stepwise = cpc_stepwise(X, apply(X, 3, nrow), k, ...),
     stop("Error in swotch."))
 }
 
-cpc_power <- function(X, n_g, k = 0, iter = 15, ...)
+cpc_stepwise <- function(X, n_g, k = 0, iter = 15, ...)
 {
   p <- dim(X)[1]
   mcas <- dim(X)[3]

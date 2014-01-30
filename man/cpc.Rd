@@ -2,7 +2,7 @@
 \alias{cpc}
 \title{Function cpc.}
 \usage{
-  cpc(X, method = "power", k = 0, threshold = 0, ...)
+  cpc(X, method = "stepwise", k = 0, threshold = 0, ...)
 }
 \arguments{
   \item{X}{An array of three dimensions: the 3rd dimension
@@ -10,8 +10,8 @@
   the covariance matrices.}
 
   \item{method}{The name of the method for computing the
-  CPCA.  The default value is \code{"power"}, which is the
-  power algorithm by Trendafilov.}
+  CPCA.  The default value is \code{"stepwise"}, which is
+  the stepwise algorithm by Trendafilov.}
 
   \item{k}{The number of components to be computed (all if
   it is \code{0}).  This paramter is valid if the given
@@ -33,8 +33,8 @@
   covariance matrices (of different groups).
 }
 \details{
-  Currently, the only the power algorithm by Trendafilov is
-  supported.
+  Currently, the only the stepwise algorithm by Trendafilov
+  is supported.
 }
 \examples{
 library(plyr)

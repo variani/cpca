@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="https://github.com/variani/cpca" />
+  <meta name="date" content="2014-12-01" />
+  <title>Output from R code</title>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link href="data:text/css,%2F%2A%21%20normalize%2Ecss%20v2%2E0%2E1%20%7C%20MIT%20License%20%7C%20git%2Eio%2Fnormalize%20%2A%2F%0A%0A%2F%2A%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0A%20%20%20HTML5%20display%20definitions%0A%20%20%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%20%2A%2F%0A%0A%2F%2A%0A%20%2A%20Corrects%20%60block%60%20display%20not%20defined%20in%20IE%208%2F9%2E%0A%20%2A%2F%0A%0Aarticle%2C%0Aaside%2C%0Adetails%2C%0Afigcaption%2C%0Afigure%2C%0Afooter%2C%0Aheader%2C%0Ahgroup%2C%0Anav%2C%0Asection%2C%0Asummary%20%7B%0A%20%20%20%20display%3A%20block%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%20Corrects%20%60inline%2Dblock%60%20display%20not%20defined%20in%20IE%208%2F9%2E%0A%20%2A%2F%0A%0Aaudio%2C%0Acanvas%2C%0Avideo%20%7B%0A%20%20%20%20display%3A%20inline%2Dblock%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%20Prevents%20modern%20browsers%20from%20displaying%20%60audio%60%20without%20controls%2E%0A%20%2A%20Remove%20excess%20height%20in%20iOS%205%20devices%2E%0A%20%2A%2F%0A%0Aaudio%3Anot%28%5Bcontrols%5D%29%20%7B%0A%20%20%20%20display%3A%20none%3B%0A%20%20%20%20height%3A%200%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%20Addresses%20styling%20for%20%60hidden%60%20attribute%20not%20present%20in%20IE%208%2F9%2E%0A%20%2A%2F%0A%0A%5Bhidden%5D%20%7B%0A%20%20%20%20display%3A%20none%3B%0A%7D%0A%0A%2F%2A%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0A%20%20%20Base%0A%20%20%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%20%2A%2F%0A%0A%2F%2A%0A%20%2A%201%2E%20Sets%20default%20font%20family%20to%20sans%2Dserif%2E%0A%20%2A%202%2E%20Prevents%20iOS%20text%20size%20adjust%20after%20orientation%20change%2C%20without%20disabling%0A%20%2A%20%20%20%20user%20zoom%2E%0A%20%2A%2F%0A%0Ahtml%20%7B%0A%20%20%20%20font%2Dfamily%3A%20sans%2Dserif%3B%20%2F%2A%201%20%2A%2F%0A%20%20%20%20%2Dwebkit%2Dtext%2Dsize%2Dadjust%3A%20100%25%3B%20%2F%2A%202%20%2A%2F%0A%20%20%20%20%2Dms%2Dtext%2Dsize%2Dadjust%3A%20100%25%3B%20%2F%2A%202%20%2A%2F%0A%7D%0A%0A%2F%2A%0A%20%2A%20Removes%20default%20margin%2E%0A%20%2A%2F%0A%0Abody%20%7B%0A%20%20%20%20margin%3A%200%3B%0A%7D%0A%0A%2F%2A%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0A%20%20%20Links%0A%20%20%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%20%2A%2F%0A%0A%2F%2A%0A%20%2A%20Addresses%20%60outline%60%20inconsistency%20between%20Chrome%20and%20other%20browsers%2E%0A%20%2A%2F%0A%0Aa%3Afocus%20%7B%0A%20%20%20%20outline%3A%20thin%20dotted%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%20Improves%20readability%20when%20focused%20and%20also%20mouse%20hovered%20in%20all%20browsers%2E%0A%20%2A%2F%0A%0Aa%3Aactive%2C%0Aa%3Ahover%20%7B%0A%20%20%20%20outline%3A%200%3B%0A%7D%0A%0A%2F%2A%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0A%20%20%20Typography%0A%20%20%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%20%2A%2F%0A%0A%2F%2A%0A%20%2A%20Addresses%20%60h1%60%20font%20sizes%20within%20%60section%60%20and%20%60article%60%20in%20Firefox%204%2B%2C%0A%20%2A%20Safari%205%2C%20and%20Chrome%2E%0A%20%2A%2F%0A%0Ah1%20%7B%0A%20%20%20%20font%2Dsize%3A%202em%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%20Addresses%20styling%20not%20present%20in%20IE%208%2F9%2C%20Safari%205%2C%20and%20Chrome%2E%0A%20%2A%2F%0A%0Aabbr%5Btitle%5D%20%7B%0A%20%20%20%20border%2Dbottom%3A%201px%20dotted%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%20Addresses%20style%20set%20to%20%60bolder%60%20in%20Firefox%204%2B%2C%20Safari%205%2C%20and%20Chrome%2E%0A%20%2A%2F%0A%0Ab%2C%0Astrong%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%20Addresses%20styling%20not%20present%20in%20Safari%205%20and%20Chrome%2E%0A%20%2A%2F%0A%0Adfn%20%7B%0A%20%20%20%20font%2Dstyle%3A%20italic%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%20Addresses%20styling%20not%20present%20in%20IE%208%2F9%2E%0A%20%2A%2F%0A%0Amark%20%7B%0A%20%20%20%20background%3A%20%23ff0%3B%0A%20%20%20%20color%3A%20%23000%3B%0A%7D%0A%0A%0A%2F%2A%0A%20%2A%20Corrects%20font%20family%20set%20oddly%20in%20Safari%205%20and%20Chrome%2E%0A%20%2A%2F%0A%0Acode%2C%0Akbd%2C%0Apre%2C%0Asamp%20%7B%0A%20%20%20%20font%2Dfamily%3A%20monospace%2C%20serif%3B%0A%20%20%20%20font%2Dsize%3A%201em%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%20Improves%20readability%20of%20pre%2Dformatted%20text%20in%20all%20browsers%2E%0A%20%2A%2F%0A%0Apre%20%7B%0A%20%20%20%20white%2Dspace%3A%20pre%3B%0A%20%20%20%20white%2Dspace%3A%20pre%2Dwrap%3B%0A%20%20%20%20word%2Dwrap%3A%20break%2Dword%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%20Sets%20consistent%20quote%20types%2E%0A%20%2A%2F%0A%0Aq%20%7B%0A%20%20%20%20quotes%3A%20%22%5C201C%22%20%22%5C201D%22%20%22%5C2018%22%20%22%5C2019%22%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%20Addresses%20inconsistent%20and%20variable%20font%20size%20in%20all%20browsers%2E%0A%20%2A%2F%0A%0Asmall%20%7B%0A%20%20%20%20font%2Dsize%3A%2080%25%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%20Prevents%20%60sub%60%20and%20%60sup%60%20affecting%20%60line%2Dheight%60%20in%20all%20browsers%2E%0A%20%2A%2F%0A%0Asub%2C%0Asup%20%7B%0A%20%20%20%20font%2Dsize%3A%2075%25%3B%0A%20%20%20%20line%2Dheight%3A%200%3B%0A%20%20%20%20position%3A%20relative%3B%0A%20%20%20%20vertical%2Dalign%3A%20baseline%3B%0A%7D%0A%0Asup%20%7B%0A%20%20%20%20top%3A%20%2D0%2E5em%3B%0A%7D%0A%0Asub%20%7B%0A%20%20%20%20bottom%3A%20%2D0%2E25em%3B%0A%7D%0A%0A%2F%2A%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0A%20%20%20Embedded%20content%0A%20%20%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%20%2A%2F%0A%0A%2F%2A%0A%20%2A%20Removes%20border%20when%20inside%20%60a%60%20element%20in%20IE%208%2F9%2E%0A%20%2A%2F%0A%0Aimg%20%7B%0A%20%20%20%20border%3A%200%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%20Corrects%20overflow%20displayed%20oddly%20in%20IE%209%2E%0A%20%2A%2F%0A%0Asvg%3Anot%28%3Aroot%29%20%7B%0A%20%20%20%20overflow%3A%20hidden%3B%0A%7D%0A%0A%2F%2A%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0A%20%20%20Figures%0A%20%20%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%20%2A%2F%0A%0A%2F%2A%0A%20%2A%20Addresses%20margin%20not%20present%20in%20IE%208%2F9%20and%20Safari%205%2E%0A%20%2A%2F%0A%0Afigure%20%7B%0A%20%20%20%20margin%3A%200%3B%0A%7D%0A%0A%2F%2A%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0A%20%20%20Forms%0A%20%20%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%20%2A%2F%0A%0A%2F%2A%0A%20%2A%20Define%20consistent%20border%2C%20margin%2C%20and%20padding%2E%0A%20%2A%2F%0A%0Afieldset%20%7B%0A%20%20%20%20border%3A%201px%20solid%20%23c0c0c0%3B%0A%20%20%20%20margin%3A%200%202px%3B%0A%20%20%20%20padding%3A%200%2E35em%200%2E625em%200%2E75em%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%201%2E%20Corrects%20color%20not%20being%20inherited%20in%20IE%208%2F9%2E%0A%20%2A%202%2E%20Remove%20padding%20so%20people%20aren%27t%20caught%20out%20if%20they%20zero%20out%20fieldsets%2E%0A%20%2A%2F%0A%0Alegend%20%7B%0A%20%20%20%20border%3A%200%3B%20%2F%2A%201%20%2A%2F%0A%20%20%20%20padding%3A%200%3B%20%2F%2A%202%20%2A%2F%0A%7D%0A%0A%2F%2A%0A%20%2A%201%2E%20Corrects%20font%20family%20not%20being%20inherited%20in%20all%20browsers%2E%0A%20%2A%202%2E%20Corrects%20font%20size%20not%20being%20inherited%20in%20all%20browsers%2E%0A%20%2A%203%2E%20Addresses%20margins%20set%20differently%20in%20Firefox%204%2B%2C%20Safari%205%2C%20and%20Chrome%0A%20%2A%2F%0A%0Abutton%2C%0Ainput%2C%0Aselect%2C%0Atextarea%20%7B%0A%20%20%20%20font%2Dfamily%3A%20inherit%3B%20%2F%2A%201%20%2A%2F%0A%20%20%20%20font%2Dsize%3A%20100%25%3B%20%2F%2A%202%20%2A%2F%0A%20%20%20%20margin%3A%200%3B%20%2F%2A%203%20%2A%2F%0A%7D%0A%0A%2F%2A%0A%20%2A%20Addresses%20Firefox%204%2B%20setting%20%60line%2Dheight%60%20on%20%60input%60%20using%20%60%21important%60%20in%0A%20%2A%20the%20UA%20stylesheet%2E%0A%20%2A%2F%0A%0Abutton%2C%0Ainput%20%7B%0A%20%20%20%20line%2Dheight%3A%20normal%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%201%2E%20Avoid%20the%20WebKit%20bug%20in%20Android%204%2E0%2E%2A%20where%20%282%29%20destroys%20native%20%60audio%60%0A%20%2A%20%20%20%20and%20%60video%60%20controls%2E%0A%20%2A%202%2E%20Corrects%20inability%20to%20style%20clickable%20%60input%60%20types%20in%20iOS%2E%0A%20%2A%203%2E%20Improves%20usability%20and%20consistency%20of%20cursor%20style%20between%20image%2Dtype%0A%20%2A%20%20%20%20%60input%60%20and%20others%2E%0A%20%2A%2F%0A%0Abutton%2C%0Ahtml%20input%5Btype%3D%22button%22%5D%2C%20%2F%2A%201%20%2A%2F%0Ainput%5Btype%3D%22reset%22%5D%2C%0Ainput%5Btype%3D%22submit%22%5D%20%7B%0A%20%20%20%20%2Dwebkit%2Dappearance%3A%20button%3B%20%2F%2A%202%20%2A%2F%0A%20%20%20%20cursor%3A%20pointer%3B%20%2F%2A%203%20%2A%2F%0A%7D%0A%0A%2F%2A%0A%20%2A%20Re%2Dset%20default%20cursor%20for%20disabled%20elements%2E%0A%20%2A%2F%0A%0Abutton%5Bdisabled%5D%2C%0Ainput%5Bdisabled%5D%20%7B%0A%20%20%20%20cursor%3A%20default%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%201%2E%20Addresses%20box%20sizing%20set%20to%20%60content%2Dbox%60%20in%20IE%208%2F9%2E%0A%20%2A%202%2E%20Removes%20excess%20padding%20in%20IE%208%2F9%2E%0A%20%2A%2F%0A%0Ainput%5Btype%3D%22checkbox%22%5D%2C%0Ainput%5Btype%3D%22radio%22%5D%20%7B%0A%20%20%20%20box%2Dsizing%3A%20border%2Dbox%3B%20%2F%2A%201%20%2A%2F%0A%20%20%20%20padding%3A%200%3B%20%2F%2A%202%20%2A%2F%0A%7D%0A%0A%2F%2A%0A%20%2A%201%2E%20Addresses%20%60appearance%60%20set%20to%20%60searchfield%60%20in%20Safari%205%20and%20Chrome%2E%0A%20%2A%202%2E%20Addresses%20%60box%2Dsizing%60%20set%20to%20%60border%2Dbox%60%20in%20Safari%205%20and%20Chrome%0A%20%2A%20%20%20%20%28include%20%60%2Dmoz%60%20to%20future%2Dproof%29%2E%0A%20%2A%2F%0A%0Ainput%5Btype%3D%22search%22%5D%20%7B%0A%20%20%20%20%2Dwebkit%2Dappearance%3A%20textfield%3B%20%2F%2A%201%20%2A%2F%0A%20%20%20%20%2Dmoz%2Dbox%2Dsizing%3A%20content%2Dbox%3B%0A%20%20%20%20%2Dwebkit%2Dbox%2Dsizing%3A%20content%2Dbox%3B%20%2F%2A%202%20%2A%2F%0A%20%20%20%20box%2Dsizing%3A%20content%2Dbox%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%20Removes%20inner%20padding%20and%20search%20cancel%20button%20in%20Safari%205%20and%20Chrome%0A%20%2A%20on%20OS%20X%2E%0A%20%2A%2F%0A%0Ainput%5Btype%3D%22search%22%5D%3A%3A%2Dwebkit%2Dsearch%2Dcancel%2Dbutton%2C%0Ainput%5Btype%3D%22search%22%5D%3A%3A%2Dwebkit%2Dsearch%2Ddecoration%20%7B%0A%20%20%20%20%2Dwebkit%2Dappearance%3A%20none%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%20Removes%20inner%20padding%20and%20border%20in%20Firefox%204%2B%2E%0A%20%2A%2F%0A%0Abutton%3A%3A%2Dmoz%2Dfocus%2Dinner%2C%0Ainput%3A%3A%2Dmoz%2Dfocus%2Dinner%20%7B%0A%20%20%20%20border%3A%200%3B%0A%20%20%20%20padding%3A%200%3B%0A%7D%0A%0A%2F%2A%0A%20%2A%201%2E%20Removes%20default%20vertical%20scrollbar%20in%20IE%208%2F9%2E%0A%20%2A%202%2E%20Improves%20readability%20and%20alignment%20in%20all%20browsers%2E%0A%20%2A%2F%0A%0Atextarea%20%7B%0A%20%20%20%20overflow%3A%20auto%3B%20%2F%2A%201%20%2A%2F%0A%20%20%20%20vertical%2Dalign%3A%20top%3B%20%2F%2A%202%20%2A%2F%0A%7D%0A%0A%2F%2A%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0A%20%20%20Tables%0A%20%20%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%20%2A%2F%0A%0A%2F%2A%0A%20%2A%20Remove%20most%20spacing%20between%20table%20cells%2E%0A%20%2A%2F%0A%0Atable%20%7B%0A%20%20%20%20border%2Dcollapse%3A%20collapse%3B%0A%20%20%20%20border%2Dspacing%3A%200%3B%0A%7D%0A" rel="stylesheet" type="text/css" />
+  <link href="data:text/css,body%20%7B%0A%20%20font%2Dfamily%3A%20%22Hoefler%20Text%22%2C%20%22Georgia%22%2C%20%27Times%27%2C%20%22Bitstream%20Vera%20Serif%22%2C%20serif%3B%0A%20%20width%3A%20900px%3B%0A%20%20margin%3A%200%20auto%3B%0A%20%20color%3A%20%23222222%3B%0A%20%20background%3A%20%23fefefe%3B%0A%7D%0A%0Ah1%20%7B%20text%2Dshadow%3A%20rgba%28128%2C%20128%2C%20128%2C%200%2E6%29%200px%201px%203px%3B%20%7D%0A%0Ah1%20a%3Ahover%2C%20h1%20a%3Alink%2C%20h1%20a%3Avisited%2C%20h1%20a%3Ahover%2C%20h1%20a%3Aactive%2C%20h1%20a%3Afocus%20%7B%20color%3A%20%23222222%3B%20text%2Ddecoration%3A%20none%3B%20%7D%0Ah2%20a%3Ahover%2C%20h2%20a%3Alink%2C%20h2%20a%3Avisited%2C%20h2%20a%3Ahover%2C%20h2%20a%3Aactive%2C%20h2%20a%3Afocus%20%7B%20color%3A%20%23222222%3B%20text%2Ddecoration%3A%20none%3B%20%7D%0Ah3%20a%3Ahover%2C%20h3%20a%3Alink%2C%20h3%20a%3Avisited%2C%20h3%20a%3Ahover%2C%20h3%20a%3Aactive%2C%20h3%20a%3Afocus%20%7B%20color%3A%20%23222222%3B%20text%2Ddecoration%3A%20none%3B%20%7D%0A%0Atable%20%7B%20margin%3A%200%2E5em%3B%20border%3A%201px%20solid%20gray%3B%20border%2Dcollapse%3A%20collapse%3B%20%7D%0Ath%20%7B%20border%2Dbottom%3A%201px%20solid%20black%3B%20border%2Dright%3A%201px%20solid%20black%3B%20padding%3A%200%2E5em%3B%20%7D%0Atd%20%7B%20border%2Dright%3A%201px%20solid%20gray%3B%20padding%3A%200%2E5em%3B%20%7D%0Atr%2Eodd%20%7B%20background%2Dcolor%3A%20%23F7F7F7%3B%20%7D%0Acaption%20%7B%20font%2Dweight%3A%20bold%3B%20%20margin%3A%201em%3B%20%7D%0A%0Acode%2C%0Apre%20%7B%0A%20%20padding%3A%200%203px%202px%3B%0A%20%20font%2Dfamily%3A%20Monaco%2C%20Menlo%2C%20Consolas%2C%20%22Courier%20New%22%2C%20monospace%3B%0A%20%20font%2Dsize%3A%2012px%3B%0A%20%20color%3A%20%23333333%3B%0A%20%20%2Dwebkit%2Dborder%2Dradius%3A%203px%3B%0A%20%20%20%20%20%2Dmoz%2Dborder%2Dradius%3A%203px%3B%0A%20%20%20%20%20%20%20%20%20%20border%2Dradius%3A%203px%3B%0A%7D%0A%0Acode%20%7B%0A%20%20padding%3A%202px%204px%3B%0A%20%20color%3A%20%23d14%3B%0A%20%20background%2Dcolor%3A%20%23f7f7f9%3B%0A%20%20border%3A%201px%20solid%20%23e1e1e8%3B%0A%7D%0A%0Apre%20%7B%0A%20%20display%3A%20block%3B%0A%20%20padding%3A%209%2E5px%3B%0A%20%20margin%3A%200%200%2010px%3B%0A%20%20font%2Dsize%3A%2013px%3B%0A%20%20line%2Dheight%3A%2020px%3B%0A%20%20word%2Dbreak%3A%20break%2Dall%3B%0A%20%20word%2Dwrap%3A%20break%2Dword%3B%0A%20%20white%2Dspace%3A%20pre%3B%0A%20%20white%2Dspace%3A%20pre%2Dwrap%3B%0A%20%20background%2Dcolor%3A%20%23f5f5f5%3B%0A%20%20border%3A%201px%20solid%20%23ccc%3B%0A%20%20border%3A%201px%20solid%20rgba%280%2C%200%2C%200%2C%200%2E15%29%3B%0A%20%20%2Dwebkit%2Dborder%2Dradius%3A%204px%3B%0A%20%20%20%20%20%2Dmoz%2Dborder%2Dradius%3A%204px%3B%0A%20%20%20%20%20%20%20%20%20%20border%2Dradius%3A%204px%3B%0A%7D%0A%0Apre%2Eprettyprint%20%7B%0A%20%20margin%2Dbottom%3A%2020px%3B%0A%7D%0A%0Apre%20code%20%7B%0A%20%20padding%3A%200%3B%0A%20%20color%3A%20inherit%3B%0A%20%20background%2Dcolor%3A%20transparent%3B%0A%20%20border%3A%200%3B%0A%7D%0A%0A%2Epre%2Dscrollable%20%7B%0A%20%20max%2Dheight%3A%20340px%3B%0A%20%20overflow%2Dy%3A%20scroll%3B%0A%7D%0A%0A" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Output from R code</h1>
+<h2 class="author">https://github.com/variani/cpca</h2>
+<h3 class="date">30/01/2014</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#include">Include</a></li>
+<li><a href="#demo">demo</a><ul>
+<li><a href="#iris.r">iris.R</a></li>
+</ul></li>
+<li><a href="#r-session-info">R session info</a></li>
+</ul>
+</div>
+<h1 id="include"><a href="#TOC">Include</a></h1>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cpca)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">packageVersion</span>(<span class="st">&quot;cpca&quot;</span>)</code></pre>
+<pre><code>## [1] '0.1.2'</code></pre>
+<h1 id="demo"><a href="#TOC">demo</a></h1>
+<h2 id="iris.r"><a href="#TOC">iris.R</a></h2>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(plyr)
+<span class="kw">library</span>(abind)
+
+<span class="kw">data</span>(iris)
+
+C &lt;-<span class="st"> </span><span class="kw">daply</span>(iris, <span class="st">&quot;Species&quot;</span>, function(x) <span class="kw">cov</span>(x[, -<span class="kw">ncol</span>(x)]))
+
+C &lt;-<span class="st"> </span><span class="kw">aperm</span>(C, <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>)) <span class="co"># put the 1st dimension to the end</span>
+<span class="kw">dim</span>(C)</code></pre>
+<pre><code>## [1] 4 4 3</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dimnames</span>(C)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;Sepal.Length&quot; &quot;Sepal.Width&quot;  &quot;Petal.Length&quot; &quot;Petal.Width&quot; 
+## 
+## [[2]]
+## [1] &quot;Sepal.Length&quot; &quot;Sepal.Width&quot;  &quot;Petal.Length&quot; &quot;Petal.Width&quot; 
+## 
+## $Species
+## [1] &quot;setosa&quot;     &quot;versicolor&quot; &quot;virginica&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">
+mod &lt;-<span class="st"> </span><span class="kw">cpc</span>(C)
+<span class="kw">str</span>(mod)</code></pre>
+<pre><code>## List of 3
+##  $ D    : num [1:4, 1:3] 0.1908 0.0787 0.0276 0.0121 0.4668 ...
+##  $ CPC  : num [1:4, 1:4] 0.7467 0.4423 0.4743 0.1476 0.0911 ...
+##  $ ncomp: int 4</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">
+<span class="kw">round</span>(mod$CPC, <span class="dv">2</span>)</code></pre>
+<pre><code>##      [,1]  [,2]  [,3]  [,4]
+## [1,] 0.75  0.09  0.63  0.20
+## [2,] 0.44 -0.79 -0.33 -0.26
+## [3,] 0.47  0.60 -0.54 -0.34
+## [4,] 0.15 -0.02 -0.45  0.88</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># See Trendafilov (2010). Stepwise estimation of common principal components. </span>
+<span class="co"># Computational Statistics &amp; Data Analysis, 54(12), 3446–3457. </span>
+<span class="co"># doi:10.1016/j.csda.2010.03.010</span>
+<span class="co"># p. 10, Example 2</span>
+<span class="co">#</span>
+<span class="co">#     [,1]  [,2]  [,3]  [,4]</span>
+<span class="co">#[1,] 0.75 -0.09  0.63  0.20</span>
+<span class="co">#[2,] 0.44  0.79 -0.33 -0.26</span>
+<span class="co">#[3,] 0.47 -0.60 -0.54 -0.34</span>
+<span class="co">#[4,] 0.15  0.02 -0.45  0.88</span>
+<span class="co">#</span>
+<span class="co"># The eigenvectors must be the same, as the default method in `cpc` function</span>
+<span class="co"># is the power algorithm proposed by Trendafilov.</span></code></pre>
+<h1 id="r-session-info"><a href="#TOC">R session info</a></h1>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre>
+<pre><code>## R version 3.0.1 (2013-05-16)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## 
+## locale:
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+##  [7] LC_PAPER=C                 LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] abind_1.4-0 plyr_1.8    cpca_0.1.2  knitr_1.3.3
+## 
+## loaded via a namespace (and not attached):
+## [1] digest_0.6.3   evaluate_0.4.4 formatR_0.8    stringr_0.6.2 
+## [5] tools_3.0.1</code></pre>
+</body>
+</html>
