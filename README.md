@@ -17,6 +17,7 @@ It is beneficial in practice when a data set has many variables.
 The `iris` demo shows an application of the `cpc` function to Fisher's iris data. 
 
 ```
+library(cpca)
 demo(iris, package = "cpca")
 ```
 
