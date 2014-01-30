@@ -45,6 +45,8 @@ library(cpca)
 citation(package = "cpca")
 ```
 
+The citation information is stored in the `CITATION` file in the `inst` directory.
+
 ## References
 
 List of publications where the `cpca` package was used:
