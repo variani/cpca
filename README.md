@@ -51,11 +51,8 @@ The citation information is stored in the `CITATION` file in the `inst` director
 
 List of publications where the `cpca` package was used:
 
-* Kanaan-Izquierdo, S., Ziyatdinov, A., Massanet, R., & Perera, A. (2012).  
-  Multiview approach to spectral clustering.  In 2012 Annual International Conference of
-  the IEEE Engineering in Medicine and Biology Society (pp. 1254–1257). IEEE. doi:10.1109/EMBC.2012.6346165
-* Fernandez-Albert, F. et al. (to be appeared). 
-  A Common Variance Compensation method for intensity drift removal in LC / MS metabolomics.
+* Kanaan-Izquierdo, S., Ziyatdinov, A., Massanet, R., & Perera, A. (2012). Multiview approach to spectral clustering.  In 2012 Annual International Conference of the IEEE Engineering in Medicine and Biology Society (pp. 1254–1257). IEEE. doi:10.1109/EMBC.2012.6346165
+* Fernandez-Albert, F. et al. (to be appeared). A Common Variance Compensation method for intensity drift removal in LC / MS metabolomics.
 
 Mathematical algorithms implemented in the `cpca` package:
 
