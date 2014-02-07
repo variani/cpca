@@ -18,16 +18,22 @@
 #'   This paramter is valid if the given method supports 
 #'   built-in ordering of the eigvenvectors.
 #'   The default value is \code{0}, that means computing of all the components.
+#' @param iter The maximum number of iterations.
+#'   The parameter is valid for the stepwise algorithm by Trendafilov,
+#'   that is applied in the power algorithm for estimation a single component.
+#'   The default value is 30.
 #' @param threshold The threshold value of the captured variance,
 #'   which is reserved for further extensions.
+#' @param ... Other parameters.
 #' @return A list several slots: \code{CPC} rotation matrix with eigenvectors in columns;
 #'   \code{ncomp} the number of components evaluated (equal to the number of columns in \code{CPC}).
-#' @example demo/iris.R
+#' @note This function adpats the original code in matlab written by Dr N. T. Trendafilov.
 #' @references Trendafilov (2010). Stepwise estimation of common principal components. 
-#'   Computational Statistics & Data Analysis, 54(12), 3446–3457. 
+#'   Computational Statistics & Data Analysis, 54(12), 3446-3457. 
 #'   doi:10.1016/j.csda.2010.03.010
+#' @example inst/examples/function-cpc.R
 #' @export
-cpc <- function(X, method = "stepwise", k = 0, threshold = 0, ...)
+cpc <- function(X, method = "stepwise", k = 0, iter = 30, threshold = 0, ...)
 {
   ### processing input argumets
   stopifnot(length(dim(X)) == 3)
@@ -35,11 +41,11 @@ cpc <- function(X, method = "stepwise", k = 0, threshold = 0, ...)
   method <- match.arg(method, c("stepwise"))
   
   switch(method,
-    stepwise = cpc_stepwise(X, apply(X, 3, nrow), k, ...),
+    stepwise = cpc_stepwise(X, apply(X, 3, nrow), k, iter, ...),
     stop("Error in swotch."))
 }
 
-cpc_stepwise <- function(X, n_g, k = 0, iter = 15, ...)
+cpc_stepwise <- function(X, n_g, k = 0, iter = 30, ...)
 {
   p <- dim(X)[1]
   mcas <- dim(X)[3]
@@ -108,6 +114,6 @@ cpc_stepwise <- function(X, n_g, k = 0, iter = 15, ...)
   # end of loop 'for ncomp=1:k'
   
   ### return
-  out <- list(D = D, CPC = CPC, ncomp = ncomp)
+  out <- list(D = D[1:ncomp, ], CPC = CPC[, 1:ncomp], ncomp = ncomp)
   return(out)
 }

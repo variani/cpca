@@ -2,7 +2,8 @@
 \alias{cpc}
 \title{Function cpc.}
 \usage{
-  cpc(X, method = "stepwise", k = 0, threshold = 0, ...)
+  cpc(X, method = "stepwise", k = 0, iter = 30,
+    threshold = 0, ...)
 }
 \arguments{
   \item{X}{An array of three dimensions: the 3rd dimension
@@ -19,8 +20,15 @@
   The default value is \code{0}, that means computing of
   all the components.}
 
+  \item{iter}{The maximum number of iterations.  The
+  parameter is valid for the stepwise algorithm by
+  Trendafilov, that is applied in the power algorithm for
+  estimation a single component.  The default value is 30.}
+
   \item{threshold}{The threshold value of the captured
   variance, which is reserved for further extensions.}
+
+  \item{...}{Other parameters.}
 }
 \value{
   A list several slots: \code{CPC} rotation matrix with
@@ -36,40 +44,32 @@
   Currently, the only the stepwise algorithm by Trendafilov
   is supported.
 }
+\note{
+  This function adpats the original code in matlab written
+  by Dr N. T. Trendafilov.
+}
 \examples{
-library(plyr)
-library(abind)
+require("plyr")
+require("abind")
 
 data(iris)
 
 C <- daply(iris, "Species", function(x) cov(x[, -ncol(x)]))
-
 C <- aperm(C, c(2, 3, 1)) # put the 1st dimension to the end
-dim(C)
-dimnames(C)
 
-mod <- cpc(C)
-str(mod)
+# default call
+mod1 <- cpc(C)
+round(mod1$CPC, 2)
 
-round(mod$CPC, 2)
-# See Trendafilov (2010). Stepwise estimation of common principal components. 
-# Computational Statistics & Data Analysis, 54(12), 3446–3457. 
-# doi:10.1016/j.csda.2010.03.010
-# p. 10, Example 2
-#
-#     [,1]  [,2]  [,3]  [,4]
-#[1,] 0.75 -0.09  0.63  0.20
-#[2,] 0.44  0.79 -0.33 -0.26
-#[3,] 0.47 -0.60 -0.54 -0.34
-#[4,] 0.15  0.02 -0.45  0.88
-#
-# The eigenvectors must be the same, as the default method in `cpc` function
-# is the power algorithm proposed by Trendafilov.
+# compute only first two CPCs
+mod2 <- cpc(C, k = 2)
+round(mod2$CPC, 2)
+
 }
 \references{
   Trendafilov (2010). Stepwise estimation of common
   principal components.  Computational Statistics & Data
-  Analysis, 54(12), 3446–3457.
+  Analysis, 54(12), 3446-3457.
   doi:10.1016/j.csda.2010.03.010
 }
 

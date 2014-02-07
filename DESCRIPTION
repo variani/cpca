@@ -2,17 +2,27 @@ Package: cpca
 Type: Package
 Title: Methods to perform Common Principal Component Analysis (CPCA)
 Version: 0.1.2
-Date: 2014-01-29
-Author: Andrey Ziyatdinov, Samir Kanaan and Alexandre Perera-Lluna
+Date: 2014-02-06
+Authors@R: c(person("Andrey", "Ziyatdinov",
+    email = "andrey.ziyatdinov@upc.edu", role = c("aut", "cre")),
+    person("Samir", "Kanaan-Izquierdo", role = "aut"),
+    person("Nickolay T.", "Trendafilov", role = "aut"),
+    person("Alexandre", "Perera-Lluna", role = "aut"))
 Maintainer: Andrey Ziyatdinov <andrey.ziyatdinov@upc.edu>
 Description: This package contains methods to perform Common Principal
-    Component Analysis (CPCA).
+    Component Analysis (CPCA). The stepwsite method by Trendafilov is published
+    in the current version. Please see Trendafilov (2010). Stepwise estimation
+    of common principal components. Computational Statistics & Data Analysis,
+    54(12), 3446-3457. doi:10.1016/j.csda.2010.03.010
 License: GPL (>= 3)
 URL: https://github.com/variani/cpca
 LazyData: yes
 LazyLoad: yes
 Depends:
     R (>= 3.0.1)
+Imports:
+    abind,
+    plyr
 Collate:
     'cpc.lib.R'
     'package.R'

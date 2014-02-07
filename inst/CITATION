@@ -1,16 +1,17 @@
 citHeader("To cite the 'cpca' package in publications use:")
 
 citEntry(
-  entry="inproceedings",
-  title = "Engineering in Medicine and Biology Society (EMBC), 2012 Annual International Conference of the IEEE",
+  entry="manual",
+  title = "cpca: Methods to perform Common Principal Component Analysis (CPCA)",
   author = personList(
-    as.person("Samir Kanaan-Izquierdo"),
     as.person("Andrey Ziyatdinov"),
-    as.person("Raimon Massanet"),
-    as.person("Alexandre Perera")),
-  booktitle = "Engineering in Medicine and Biology Society (EMBC), 2012 Annual International Conference of the IEEE",
-  year = "2012",
-  textVersion =  paste("S. Kanaan-Izquierdo et al.,",
-    "Multiview approach to spectral clustering,",
-    "EMBC, 2012")
+    as.person("Samir Kanaan-Izquierdo"),
+    as.person("Nickolay T. Trendafilov"),
+    as.person("Alexandre Perera-Lluna")),
+  year = "2014",
+  url = "https://github.com/variani/cpca",
+  note = "R package version 0.1.2",
+  textVersion =  paste("A. Ziyatdinov, S. Kanaan-Izquierdo, N. T. Trendafilov and A. Perera-Lluna (2014)",
+    "cpca: Methods to perform Common Principal Component Analysis (CPCA).",
+    "R package version 0.1.2. https://github.com/variani/cpca")  
 )
