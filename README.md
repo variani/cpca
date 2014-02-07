@@ -34,11 +34,9 @@ library(devtools)
 install_github("cpca", user = "variani")
 ```
 
-We are not going to submit the package to CRAN.
-
 ## Citation
 
-Currently, we don't have a specific publication for the `cpca` package. Please see the citation information by the following command in R.
+Currently, we don't have a specific publication for the `cpca` package. Please see the current citation information by the following command in R.
 
 ```
 library(cpca)
