@@ -10,7 +10,7 @@ Authors@R: c(person("Andrey", "Ziyatdinov",
     person("Alexandre", "Perera-Lluna", role = "aut"))
 Maintainer: Andrey Ziyatdinov <andrey.ziyatdinov@upc.edu>
 Description: This package contains methods to perform Common Principal
-    Component Analysis (CPCA). The stepwsite method by Trendafilov is published
+    Component Analysis (CPCA). The stepwise method by Trendafilov is published
     in the current version. Please see Trendafilov (2010). Stepwise estimation
     of common principal components. Computational Statistics & Data Analysis,
     54(12), 3446-3457. doi:10.1016/j.csda.2010.03.010
