@@ -5,5 +5,6 @@
 #' @rdname cpca-package
 #' @name cpca
 #' @docType package
+#' @example inst/examples/package-cpca.R
 {}
 
