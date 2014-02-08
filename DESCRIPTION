@@ -1,6 +1,6 @@
 Package: cpca
 Type: Package
-Title: Methods to perform Common Principal Component Analysis (CPCA) 
+Title: Methods to perform Common Principal Component Analysis (CPCA)
 Version: 0.1.2
 Date: 2014-02-06
 Authors@R: c(person("Andrey", "Ziyatdinov",
