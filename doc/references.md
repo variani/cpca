@@ -16,3 +16,4 @@ This documents contains a temporal list of references, that were encountered oca
   See Introduction for literature review.
 * [Boente et al., Robust tests for the common principal components model, 2009 (pdf)](http://www.researchgate.net/publication/222548516_Robust_tests_for_the_common_principal_components_model/file/9fcfd50df235394ee4.pdf):
   See Section 7 Final Comments for a good summary.
+* Diego et al., (2014) GAW19 contribution.
