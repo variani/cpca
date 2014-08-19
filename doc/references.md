@@ -4,6 +4,12 @@
 
 This documents contains a temporal list of references, that were encountered ocasionally and saved for further consideration.
 
+## PCA
+
+* [MetaPCA](https://github.com/donkang34/MetaPCA) Simultaneous dimension reduction using PCA when multiple studies are combined. ; available on [CRAN](http://cran.r-project.org/web/packages/MetaPCA/index.html)
+  * eigenvalue maximization approach and angle minimization approach
+  * extension for Robust PCA and Sparse PCA in the meta-analysis realm
+
 ## Multivariate Methods
 
 * [Zhang et al., Feature Transformation with Class Conditional Decorrelation, 2013 (pdf)](http://www.nlpr.ia.ac.cn/pal/xyz/Publication/XYZ2013-class_conditional_decorrelation-ICDM.pdf):
