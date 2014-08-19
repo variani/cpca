@@ -4,12 +4,18 @@
 
 This documents contains a temporal list of references, that were encountered ocasionally and saved for further consideration.
 
-## PCA
+## R packages
 
+* [multigroup](http://cran.r-project.org/web/packages/multigroup/) package: This package includes several methods 
+  to study multigroup data, where the same set of variables are measured on different groups of individuals.
+    * See function `FCPCA` (that means Flury's Common Principal Component Analysis), where FG algorithm 
+      proposed by Flury is implemented.
 * [MetaPCA](https://github.com/donkang34/MetaPCA) Simultaneous dimension reduction using PCA when multiple studies are combined. ; available on [CRAN](http://cran.r-project.org/web/packages/MetaPCA/index.html)
   * eigenvalue maximization approach and angle minimization approach
   * extension for Robust PCA and Sparse PCA in the meta-analysis realm
+  * [Dongwan Don Kang Google Scholar](http://scholar.google.es/citations?sortby=pubdate&hl=en&user=gU6J7wkAAAAJ&view_op=list_works)
 
+  
 ## Multivariate Methods
 
 * [Zhang et al., Feature Transformation with Class Conditional Decorrelation, 2013 (pdf)](http://www.nlpr.ia.ac.cn/pal/xyz/Publication/XYZ2013-class_conditional_decorrelation-ICDM.pdf):
