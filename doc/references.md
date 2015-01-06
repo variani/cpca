@@ -29,3 +29,13 @@ This documents contains a temporal list of references, that were encountered oca
 * [Boente et al., Robust tests for the common principal components model, 2009 (pdf)](http://www.researchgate.net/publication/222548516_Robust_tests_for_the_common_principal_components_model/file/9fcfd50df235394ee4.pdf):
   See Section 7 Final Comments for a good summary.
 * Diego et al., (2014) GAW19 contribution.
+
+PCA tests
+
+* Duscussion: http://stats.stackexchange.com/questions/33917/how-to-determine-significant-principal-components-using-bootstrapping-or-monte-c
+* R package for permutation tests: http://cran.r-project.org/web/packages/jackstraw/jackstraw.pdf
+* CCA tests (two groups needed): http://cran.r-project.org/web/packages/CCP/CCP.pdf
+  * Example of application: http://alstatr.blogspot.com.es/2015/01/canonical-correlation-analysis-on.html
+* Articles
+    * http://pbil.univ-lyon1.fr/JTHome/CD/articles/SD805.pdf
+    * Lassoed PC: http://projecteuclid.org/euclid.aoas/1223908049
