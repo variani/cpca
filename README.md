@@ -1,3 +1,5 @@
+[![Travis-CI Build Status](https://travis-ci.org/variani/cpca.svg?branch=master)](https://travis-ci.org/variani/cpca)
+
 # cpca
 
 `cpca` is an R package with methods to perform Common Principal Component Analysis (CPCA).
