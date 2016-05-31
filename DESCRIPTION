@@ -10,10 +10,10 @@ Authors@R: c(person("Andrey", "Ziyatdinov",
     person("Alexandre", "Perera-Lluna", role = "aut"))
 Maintainer: Andrey Ziyatdinov <andrey.ziyatdinov@upc.edu>
 Description: This package contains methods to perform Common Principal
-    Component Analysis (CPCA). The stepwise method by Trendafilov is published
-    in the current version. Please see Trendafilov (2010). Stepwise estimation
-    of common principal components. Computational Statistics & Data Analysis,
-    54(12), 3446-3457. doi:10.1016/j.csda.2010.03.010
+    Component Analysis (CPCA). The stepwise method by Trendafilov is implemented
+    in the current version. Please see Trendafilov (2010), Stepwise estimation
+    of common principal components, Computational Statistics & Data Analysis,
+    54(12), 3446-3457, doi:10.1016/j.csda.2010.03.010.
 License: GPL (>= 3)
 URL: https://github.com/variani/cpca
 LazyData: yes
@@ -21,8 +21,11 @@ LazyLoad: yes
 Depends:
     R (>= 3.0.1)
 Suggests:
+    Matrix,
     abind,
     plyr
 Collate:
     'cpc.lib.R'
+    'eigen.lib.R'
     'package.R'
+RoxygenNote: 5.0.1

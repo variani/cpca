@@ -59,11 +59,8 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
     v0 <- runif(ncol(A))
   }
   
-  ### vars
-  sparseMatrix <- any(sparse, sparseSymm)
-  
   ### convert into sparse matrices
-  if(sparseMatrix) {
+  if(any(sparse, sparseSymm)) {
     stopifnot(require(Matrix))
     
     if(sparse) {
@@ -76,7 +73,8 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
     }
   }
   
-  ### vars #2
+  ### vars
+  sparseMatrix <- FALSE
   cl <- attr(class(A), "package")
   if(!is.null(cl)) {
     if(cl == "Matrix") {
@@ -98,17 +96,11 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
     if(verbose > 1) {
       cat(" * it:", it, "/", maxit, "\n")
     }
-    
-    if(sparseMatrix) {
-      b <- as.numeric(tcrossprod(A, v))
-    } else {
-      b <- as.numeric(A %*% v)
-    }
 
-    v <- b / sqrt(b %*% b)
-  
-    lambda <- as.numeric(t(v) %*% b)
-    
+    b <- tcrossprod(A, t(v)) # A %*% v
+    v <- b / sqrt(as.numeric(crossprod(b)))
+    lambda <- as.numeric(crossprod(v, b)) # t(v) %*% b
+           
     delta <- abs((lambda - lambda0) / lambda)
     if(delta < tol) {
       break
@@ -128,6 +120,7 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
   
   out <- list(v0 = v0, tol = tol, maxit = maxit,
     it = it, delta = delta, converged = converged, 
+    sparseMatrix = sparseMatrix,
     timing = timing,
     lambda = lambda, v = v)
   
@@ -149,7 +142,12 @@ A <- matrix(c(-261, 209, -49,
 v0 <- c(1, 2, 3)
 
 out <- eigenPower(A, v0, maxit = 40, verbose = 2)
-out
+out[c("lambda", "v")]
+```
+
+```{r ex2, dependson = -2} 
+out <- eigenPower(A, v0, maxit = 40, verbose = 2, sparse = TRUE)
+out[c("lambda", "v")]
 ```
 
 ```{r eigen_A}

@@ -39,11 +39,8 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
     v0 <- runif(ncol(A))
   }
   
-  ### vars
-  sparseMatrix <- any(sparse, sparseSymm)
-  
   ### convert into sparse matrices
-  if(sparseMatrix) {
+  if(any(sparse, sparseSymm)) {
     stopifnot(require(Matrix))
     
     if(sparse) {
@@ -56,7 +53,8 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
     }
   }
   
-  ### vars #2
+  ### vars
+  sparseMatrix <- FALSE
   cl <- attr(class(A), "package")
   if(!is.null(cl)) {
     if(cl == "Matrix") {
@@ -78,17 +76,11 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
     if(verbose > 1) {
       cat(" * it:", it, "/", maxit, "\n")
     }
-    
-    if(sparseMatrix) {
-      b <- as.numeric(tcrossprod(A, v))
-    } else {
-      b <- as.numeric(A %*% v)
-    }
 
-    v <- b / sqrt(b %*% b)
-  
-    lambda <- as.numeric(t(v) %*% b)
-    
+    b <- tcrossprod(A, t(v)) # A %*% v
+    v <- b / sqrt(as.numeric(crossprod(b)))
+    lambda <- as.numeric(crossprod(v, b)) # t(v) %*% b
+           
     delta <- abs((lambda - lambda0) / lambda)
     if(delta < tol) {
       break
@@ -108,6 +100,7 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
   
   out <- list(v0 = v0, tol = tol, maxit = maxit,
     it = it, delta = delta, converged = converged, 
+    sparseMatrix = sparseMatrix,
     timing = timing,
     lambda = lambda, v = v)
   
@@ -138,53 +131,44 @@ out <- eigenPower(A, v0, maxit = 40, verbose = 2)
 ```
 
 ```r
-out
+out[c("lambda", "v")]
 ```
 
 ```
-$v0
-[1] 1 2 3
-
-$tol
-[1] 1e-06
-
-$maxit
-[1] 40
-
-$it
-[1] 2
-
-$delta
-[1] 2.557954e-14
-
-$converged
-[1] TRUE
-
-$timing
-$timing$args
-    user   system  elapsed 
- 186.670    6.698 7860.976 
-
-$timing$algo
-    user   system  elapsed 
- 186.670    6.698 7860.976 
-
-$timing$return
-    user   system  elapsed 
- 186.670    6.698 7860.976 
-
-$timing$targs
-[1] 0
-
-$timing$talgo
-[1] 0
-
-
 $lambda
 [1] 10
 
 $v
-[1] 0.2672612 0.5345225 0.8017837
+          [,1]
+[1,] 0.2672612
+[2,] 0.5345225
+[3,] 0.8017837
+```
+
+
+```r
+out <- eigenPower(A, v0, maxit = 40, verbose = 2, sparse = TRUE)
+```
+
+```
+ * it: 1 / 40 
+ * it: 2 / 40 
+```
+
+```r
+out[c("lambda", "v")]
+```
+
+```
+$lambda
+[1] 10
+
+$v
+3 x 1 Matrix of class "dgeMatrix"
+          [,1]
+[1,] 0.2672612
+[2,] 0.5345225
+[3,] 0.8017837
 ```
 
 

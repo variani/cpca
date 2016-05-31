@@ -2,4 +2,6 @@
 
 doc/
 inst/doc
+learn/
+
 ^\.travis\.yml$
