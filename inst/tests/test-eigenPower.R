@@ -1,6 +1,9 @@
 context("Power method for EVD")
 
 test_that("tiny exampe with 3x3 matrix", {
+  ### inc
+  library(Matrix)
+  
   ### simulate data for testing
   A <- matrix(c(-261, 209, -49, 
     -530, 422, -98,
@@ -25,8 +28,15 @@ test_that("tiny exampe with 3x3 matrix", {
 })
 
 test_that("30x30 sparse matrix", {
+  ### inc
+  library(Matrix)
+    
+  ### par
+  N <- 1250
+  prop <- 0.25
+  
   ### simulate data 
-  M2 <- rsparsematrix(1000, 1000, nnz = 5000, symmetric = T)
+  M2 <- rsparsematrix(N, N, nnz = ceiling(N * prop), symmetric = T)
   M1 <- as.matrix(M2)
   
   out1 <- eigenPower(M1)
