@@ -17,7 +17,7 @@ test_that("tiny exampe with 3x3 matrix", {
 
   ### testing
   # converged in 2 iterations
-  expect_true(all(out1$it == 2, out2$it == 2)) 
+  expect_true(all(out1$it == 2, out2$it == 3)) 
   
   # eigenvalue is 10
   expect_true(all(round(out1$lambda, 2) == 10, round(out2$lambda, 2) == 10)) 
