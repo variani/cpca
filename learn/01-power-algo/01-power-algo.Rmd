@@ -40,7 +40,10 @@ panderOptions('knitr.auto.asis', FALSE)
 
 ## References
 
+* [wiki/Power_iteration](https://en.wikipedia.org/wiki/Power_iteration)
+* [wiki/Eigendecomposition_of_a_matrix](https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix)
 * [Blog post](http://blogs.sas.com/content/iml/2012/05/09/the-power-method.html) with SAS code (inspired this post)
+
 
 # `eigenPower` function
 

@@ -2,14 +2,11 @@
 # EVD functions
 #-------------------------
 
-#' Function cpc. 
+#' Function eigenPower. 
 #'
-#' This function computes the CPCA from a given set of covariance matrices 
-#' (of different groups). 
+#' The function implements the power algorithm for EVD.
 #'
-#' Currently, the only the stepwise algorithm by Trendafilov is supported.
-#'
-#' @name cpc
+#' @name eigenPower
 #' @param A A two-dimensional square matrix, either of \code{matrix} or \code{Matrix} class.
 #' @param v0 A numeric vector; the initial guess for eignevector.
 #'   If it is missing, a random vector is generated.
@@ -22,7 +19,7 @@
 #' @param sparseSymm The boolean value, whether to convert the input \code{A} matrix to one of the \code{Matrix} classes,
 #'   while trying to convert to a symmetric matrix type.
 #'   The default value is \code{FALSE}.
-#' @param sparse The integer value indicating the verbose level.
+#' @param verbose The integer value indicating the verbose level.
 #'   The default value is \code{0}.
 #' @return A list several slots: \code{v} the first eigenvector; 
 #'   \code{lambda} the first eigenvalue; etc.
@@ -48,11 +45,11 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
     stopifnot(requireNamespace("Matrix"))
     
     if(sparse) {
-      A <- Matrix(A, sparse = T)
+      A <- Matrix::Matrix(A, sparse = T)
     }
     
     if(sparseSymm) {
-      A <- Matrix(A, sparse = T)
+      A <- Matrix::Matrix(A, sparse = T)
       A <- as(A, "symmetricMatrix")
     }
   }

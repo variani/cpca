@@ -6,5 +6,7 @@
 #' @name cpca
 #' @docType package
 #' @example inst/examples/package-cpca.R
+#' @importFrom methods as
+#' @importFrom stats runif
 {}
 

@@ -2,3 +2,5 @@
 
 export(cpc)
 export(eigenPower)
+importFrom(methods,as)
+importFrom(stats,runif)
