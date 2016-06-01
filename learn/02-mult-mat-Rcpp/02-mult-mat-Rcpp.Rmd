@@ -1,0 +1,303 @@
+---
+title: "Matrix multiplication using Rcpp"
+author: "Andrey Ziyatdinov"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: united
+    toc: true
+    keep_md: true
+---
+
+```{r options, echo = F}
+opts_chunk$set(fig.path = "figures/", comment = NA, results = 'markup', tidy = F, message = F, warning = F, echo = T, cache = T)
+```
+
+```{r inc, cache = F, echo = F}
+library(plyr)
+library(reshape2)
+
+library(ggplot2)
+library(gridExtra)
+
+library(pander)
+```
+
+```{r settings, cache = F, echo = F}
+theme_set(theme_light())
+panderOptions('table.split.table', Inf)
+panderOptions('knitr.auto.asis', FALSE)
+```
+
+# About 
+
+## References
+
+* [Post](http://stackoverflow.com/questions/24933290/elementwise-matrix-multiplication-r-versus-rcpp-how-to-speed-this-code-up) that inspired this post.
+
+# Include
+
+```{r incude}
+library(Rcpp)
+library(RcppArmadillo)
+```
+
+# Functions
+
+```{r A_matvec_mult}
+sourceCpp(code ='
+  #include <RcppArmadillo.h>
+  // [[Rcpp::depends(RcppArmadillo)]]
+
+  using namespace Rcpp;
+  using namespace arma;
+
+  // [[Rcpp::export]]
+  arma::vec A_matvec_mult(const arma::mat & X, const arma::vec & y){
+    arma::vec out = X * y;  
+    return out;
+  }'
+)
+```
+
+```{r eigenPower_Rcpp}
+sourceCpp(code ='
+  # include <RcppArmadillo.h>
+  // [[Rcpp::depends(RcppArmadillo)]]
+
+  using namespace Rcpp;
+  
+  // [[Rcpp::export()]]
+  List eigenPower_Rcpp(const arma::mat A, arma::vec v0,
+    const double tol = 1e-6, const int maxit = 1e3,
+    const int verbose = 0)
+  {
+    // inputs
+    const int N = A.n_rows;
+    const int K = A.n_cols;
+
+    // containers
+    arma::vec v = v0;
+    arma::vec b = v0;
+    arma::vec v_lambda(1);
+        
+    // algorithm
+    double lambda0 = 0;
+    double lambda = lambda0;
+    double delta = 0;
+    bool converged = false;
+    
+    int it = 1;
+    for ( ; it <= maxit ; it++) { 
+      if(verbose > 1) { 
+        Rcout << " * it " << it << std::endl;
+      }
+      
+      b = A * v;
+      v = normalise(b);
+      v_lambda = trans(v) * b;
+      lambda = v_lambda[0]; 
+      
+      if(verbose > 2) { 
+        Rcout << "  -- lambda " << lambda << std::endl;
+      }
+      
+      delta = fabs((lambda - lambda0) / lambda);
+      if(delta < tol) {
+        break;
+      }
+      
+      lambda0 = lambda;
+    }
+    
+    converged = (it < maxit);
+
+    // return
+    List ret;
+    ret["v0"] = v0;
+    ret["tol"] = tol;
+    ret["maxit"] = maxit;
+    ret["it"] = it;
+    ret["delta"] = delta;
+    ret["converged"] = converged;
+    
+    ret["lambda"] = lambda;
+    ret["v"] = v;
+    
+    return(ret) ;
+}')
+```
+
+```{r eigenPower_wrapper}
+eigenPower_wrapper <- function(A, v0, ...)
+{
+  stopifnot(!missing(A))
+  if(missing(v0)) {
+    v0 <- runif(ncol(A))
+  }
+  
+  eigenPower_Rcpp(A, v0, ...)
+}
+```
+
+```{r eigenPower, echo = FALSE}
+eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3, 
+  sparse = FALSE, sparseSymm = FALSE, 
+  verbose = 0)
+{
+  timing <- list()
+  timing$args <- proc.time()
+  
+  ### arguments
+  stopifnot(!missing(A))
+  
+  if(missing(v0)) {
+    v0 <- runif(ncol(A))
+  }
+  
+  ### convert into sparse matrices
+  if(any(sparse, sparseSymm)) {
+    stopifnot(require(Matrix))
+    
+    if(sparse) {
+      A <- Matrix(A, sparse = T)
+    }
+    
+    if(sparseSymm) {
+      A <- Matrix(A, sparse = T)
+      A <- as(A, "symmetricMatrix")
+    }
+  }
+  
+  ### vars
+  sparseMatrix <- FALSE
+  cl <- attr(class(A), "package")
+  if(!is.null(cl)) {
+    if(cl == "Matrix") {
+      sparseMatrix <- TRUE
+    }
+  }
+  
+  ### preparation before looping
+  timing$algo <- proc.time()
+  
+  v0 <- as.numeric(v0)
+  
+  v <- v0
+  v <- v / sqrt(v %*% v)
+
+  ### loop
+  lambda0 <- 0
+  for(it in 1:maxit) {
+    if(verbose > 1) {
+      cat(" * it:", it, "/", maxit, "\n")
+    }
+
+    b <- tcrossprod(A, t(v)) # A %*% v
+    v <- b / sqrt(as.numeric(crossprod(b)))
+    lambda <- as.numeric(crossprod(v, b)) # t(v) %*% b
+           
+    delta <- abs((lambda - lambda0) / lambda)
+    if(delta < tol) {
+      break
+    }
+    
+    lambda0 <- lambda
+  }
+  
+  ### post-process
+  converged <- (it < maxit)
+  
+  ### output
+  timing$return <- proc.time()
+  
+  timing$targs <- timing$algo[["elapsed"]] - timing$args[["elapsed"]]
+  timing$talgo <- timing$return[["elapsed"]] - timing$algo[["elapsed"]]
+  
+  out <- list(v0 = v0, tol = tol, maxit = maxit,
+    it = it, delta = delta, converged = converged, 
+    sparseMatrix = sparseMatrix,
+    timing = timing,
+    lambda = lambda, v = v)
+  
+  return(out)
+}
+```
+# A small example
+
+```{r data_A_v} 
+A <- matrix(c(-261, 209, -49, 
+  -530, 422, -98,
+  -800, 631, -144),
+  ncol = 3, nrow = 3, byrow = TRUE)
+  
+v <- c(1, 2, 3)
+```
+
+## Matrix-vector multiplication
+
+
+```{r mat_vec}
+A %*% v
+A_matvec_mult(A, v)
+```
+
+# Bigger examples
+
+```{r b_ex}
+n <- seq(250, 1500, by = 250)
+
+out <- lapply(n, function(ni) {
+  set.seed(1)
+  M <-  matrix(runif(ni * ni), ni, ni)
+  
+  lt <- lower.tri(M)
+  M[lt] <- t(M)[lt]
+  
+  list(n = ni,
+    t.eigenPower = system.time(eigenPower(M))[["elapsed"]],
+    t.eigenPower_Rcpp = system.time(eigenPower_wrapper(M))[["elapsed"]]
+  )
+})  
+```
+
+```{r b_ex_plot, dependson = -1}
+df <- ldply(out, function(x) data.frame(n = x$n,
+  t_eigenPower = x$t.eigenPower,
+  t_eigenPower_Rcpp = x$t.eigenPower_Rcpp))
+  
+pf <- melt(df, id.vars = "n")
+
+ggplot(pf, aes(n, value, color = variable)) + geom_point() + geom_line()
+```
+
+## Direct call of eigenPower_Rcpp
+
+```{r b_ex2}
+n <- seq(250, 1500, by = 250)
+
+out <- lapply(n, function(ni) {
+  set.seed(1)
+  M <-  matrix(runif(ni * ni), ni, ni)
+  
+  lt <- lower.tri(M)
+  M[lt] <- t(M)[lt]
+  
+  list(n = ni,
+    t.eigenPower = system.time(eigenPower(M))[["elapsed"]],
+    t.eigenPower_Rcpp_wrapper = system.time(eigenPower_wrapper(M))[["elapsed"]],    
+    t.eigenPower_Rcpp = system.time(eigenPower_Rcpp(M, runif(ncol(M))))[["elapsed"]]
+  )
+})  
+```
+
+```{r b_ex_plot2, dependson = -1}
+df <- ldply(out, function(x) data.frame(n = x$n,
+  t_eigenPower = x$t.eigenPower,
+  t_eigenPower_Rcpp_wrapper = x$t.eigenPower_Rcpp_wrapper,
+  t_eigenPower_Rcpp = x$t.eigenPower_Rcpp))
+  
+pf <- melt(df, id.vars = "n")
+
+ggplot(pf, aes(n, value, color = variable)) + geom_point() + geom_line()
+```

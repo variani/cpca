@@ -25,6 +25,9 @@
 #'   \code{lambda} the first eigenvalue; etc.
 #' @note This function is inspired by the post \url{http://blogs.sas.com/content/iml/2012/05/09/the-power-method.html}.
 #' @example inst/examples/function-eigenPower.R
+#' @importFrom Matrix tcrossprod
+#' @importFrom Matrix crossprod
+#' @importFrom Matrix t
 #' @export
 eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3, 
   sparse = FALSE, sparseSymm = FALSE, 
@@ -80,15 +83,9 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
       cat(" * it:", it, "/", maxit, "\n")
     }
     
-    if(sparseMatrix) {
-      b <- Matrix::tcrossprod(A, Matrix::t(v)) # A %*% v
-      v <- b / sqrt(as.numeric(Matrix::crossprod(b)))
-      lambda <- as.numeric(Matrix::crossprod(v, b)) # t(v) %*% b
-    } else {
-      b <- tcrossprod(A, t(v)) # A %*% v
-      v <- b / sqrt(as.numeric(crossprod(b)))
-      lambda <- as.numeric(crossprod(v, b)) # t(v) %*% b
-    }
+    b <- tcrossprod(A, t(v)) # A %*% v
+    v <- b / sqrt(as.numeric(crossprod(b)))
+    lambda <- as.numeric(crossprod(v, b)) # t(v) %*% b
     
     delta <- abs((lambda - lambda0) / lambda)
     if(delta < tol) {

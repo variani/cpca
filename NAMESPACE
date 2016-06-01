@@ -2,5 +2,8 @@
 
 export(cpc)
 export(eigenPower)
+importFrom(Matrix,crossprod)
+importFrom(Matrix,t)
+importFrom(Matrix,tcrossprod)
 importFrom(methods,as)
 importFrom(stats,runif)
