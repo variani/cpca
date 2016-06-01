@@ -1,0 +1,14 @@
+cpca 0.2.0
+==========
+
+* Aimed to provide three implementation of the power CPCA method:
+    * using functions in base R;
+    * using functions in Matrix R package;
+    * using Rcpp code.
+
+cpca 0.1.2
+==========
+
+* The first CRAN release.
+    * The implementation of the power CPCA method make use of only R base functions.
+      Room for optimization in cases of sparse and large-scale matrices.

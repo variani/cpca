@@ -1,6 +1,12 @@
-[![Travis-CI Build Status](https://travis-ci.org/variani/cpca.svg?branch=master)](https://travis-ci.org/variani/cpca)
 
 # cpca
+
+[![travis-ci build status](https://travis-ci.org/variani/cpca.svg?branch=master)](https://travis-ci.org/variani/cpca)
+[![cran version](http://www.r-pkg.org/badges/version/cpca)](https://cran.r-project.org/web/packages/cpca)
+[![downloads](http://cranlogs.r-pkg.org/badges/cpca)](http://cranlogs.r-pkg.org/badges/cpca)
+[![total downloads](http://cranlogs.r-pkg.org/badges/grand-total/cpca)](http://cranlogs.r-pkg.org/badges/grand-total/cpca)
+[![research software impact](http://depsy.org/api/package/cran/cpca/badge.svg)](http://depsy.org/package/r/cpca)
+
 
 `cpca` is an R package with methods to perform Common Principal Component Analysis (CPCA).
 
