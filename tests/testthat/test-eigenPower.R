@@ -17,7 +17,7 @@ test_that("tiny exampe with 3x3 matrix", {
 
   ### testing
   # converged in 2 iterations
-  expect_true(all(out1$it == 2, out2$it == 3)) 
+  expect_true(all(out1$it == 2, out2$it == 2)) 
   
   # eigenvalue is 10
   expect_true(all(round(out1$lambda, 2) == 10, round(out2$lambda, 2) == 10)) 
@@ -27,7 +27,7 @@ test_that("tiny exampe with 3x3 matrix", {
     all(as.numeric(round(out2$v, 2)) == c(0.27, 0.53, 0.80))))
 })
 
-test_that("30x30 sparse matrix", {
+test_that("CPU gain on a large sparse matrix", {
   ### inc
   library(Matrix)
     
