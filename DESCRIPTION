@@ -20,6 +20,9 @@ LazyData: yes
 LazyLoad: yes
 Depends:
     R (>= 3.0.1)
+Imports:     
+    methods, 
+    stats
 Suggests:
     Matrix,
     abind,

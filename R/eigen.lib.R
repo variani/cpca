@@ -25,8 +25,6 @@
 #'   \code{lambda} the first eigenvalue; etc.
 #' @note This function is inspired by the post \url{http://blogs.sas.com/content/iml/2012/05/09/the-power-method.html}.
 #' @example inst/examples/function-eigenPower.R
-# @importFrom methods as
-# @importFrom stats runif
 #' @export
 eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3, 
   sparse = FALSE, sparseSymm = FALSE, 
