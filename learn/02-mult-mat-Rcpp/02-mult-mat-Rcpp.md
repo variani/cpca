@@ -12,7 +12,7 @@ Andrey Ziyatdinov
 
 ## References
 
-* [Post](http://stackoverflow.com/questions/24933290/elementwise-matrix-multiplication-r-versus-rcpp-how-to-speed-this-code-up) that inspired this post.
+* [This question](http://stackoverflow.com/questions/24933290/elementwise-matrix-multiplication-r-versus-rcpp-how-to-speed-this-code-up) that inspired this post.
 
 # Include
 
@@ -20,9 +20,11 @@ Andrey Ziyatdinov
 ```r
 library(Rcpp)
 library(RcppArmadillo)
+
+library(microbenchmark)
 ```
 
-# Functions
+# Xy operation
 
 
 ```r
@@ -38,8 +40,65 @@ sourceCpp(code ='
     arma::vec out = X * y;  
     return out;
   }'
-)
+) 
 ```
+
+# Testing on a small example
+
+
+```r
+A <- matrix(c(-261, 209, -49, 
+  -530, 422, -98,
+  -800, 631, -144),
+  ncol = 3, nrow = 3, byrow = TRUE)
+  
+v <- c(1, 2, 3)
+```
+
+
+
+```r
+A %*% v
+```
+
+```
+     [,1]
+[1,]   10
+[2,]   20
+[3,]   30
+```
+
+```r
+A_matvec_mult(A, v)
+```
+
+```
+     [,1]
+[1,]   10
+[2,]   20
+[3,]   30
+```
+
+## microbenchmark
+
+
+```r
+n <- 50000
+k <- 50
+X <- matrix(rnorm(n*k), nrow = k)
+e <- rnorm(n)
+
+out <- microbenchmark(R = X %*% e, 
+  R_crossprod = tcrossprod(X, t(e)),  
+  RcppArmadillo = A_matvec_mult(X, e),
+  times = 10)
+
+autoplot(out)  
+```
+
+![](figures/A_v_microbenchmark-1.png) 
+
+# Power method
 
 
 ```r
@@ -124,45 +183,9 @@ eigenPower_wrapper <- function(A, v0, ...)
 ```
 
 
-# A small example
 
 
-```r
-A <- matrix(c(-261, 209, -49, 
-  -530, 422, -98,
-  -800, 631, -144),
-  ncol = 3, nrow = 3, byrow = TRUE)
-  
-v <- c(1, 2, 3)
-```
-
-## Matrix-vector multiplication
-
-
-
-```r
-A %*% v
-```
-
-```
-     [,1]
-[1,]   10
-[2,]   20
-[3,]   30
-```
-
-```r
-A_matvec_mult(A, v)
-```
-
-```
-     [,1]
-[1,]   10
-[2,]   20
-[3,]   30
-```
-
-# Bigger examples
+## Big examples
 
 
 ```r
@@ -229,3 +252,19 @@ ggplot(pf, aes(n, value, color = variable)) + geom_point() + geom_line()
 ```
 
 ![](figures/b_ex_plot2-1.png) 
+
+## microbenchmark
+
+
+```r
+n <- 1000
+M <- matrix(runif(n * n), n, n)
+
+out <- microbenchmark(eigenPower = eigenPower(M), 
+  eigenPower_Rcpp_wrapper = eigenPower_wrapper(M),  
+  times = 10)
+
+autoplot(out)  
+```
+
+![](figures/eigenPower_microbenchmark-1.png) 
