@@ -6,6 +6,10 @@
 #' @name cpca
 #' @docType package
 #' @example inst/examples/package-cpca.R
+#'
+#' @useDynLib cpca
+#' @importFrom Rcpp sourceCpp
+#'
 #' @importFrom methods as
 #' @importFrom stats runif
 {}

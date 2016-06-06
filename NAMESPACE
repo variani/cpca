@@ -2,8 +2,11 @@
 
 export(cpc)
 export(eigenPower)
+export(eigenPowerRcpp)
 importFrom(Matrix,crossprod)
 importFrom(Matrix,t)
 importFrom(Matrix,tcrossprod)
+importFrom(Rcpp,sourceCpp)
 importFrom(methods,as)
 importFrom(stats,runif)
+useDynLib(cpca)

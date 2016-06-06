@@ -23,13 +23,16 @@ Depends:
 Imports: 
     methods, 
     stats,
-    Matrix
-Suggests: 
+    Matrix,
+    Rcpp (>= 0.12.4)
+Suggests:
     abind,
     plyr,
     testthat
 Collate: 
+    'RcppExports.R'
     'cpc.lib.R'
     'eigen.lib.R'
     'package.R'
 RoxygenNote: 5.0.1
+LinkingTo: Rcpp, RcppArmadillo
