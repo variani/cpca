@@ -24,7 +24,8 @@ Imports:
     methods, 
     stats,
     Matrix,
-    Rcpp (>= 0.12.4)
+    Rcpp,
+    RcppParallel
 Suggests:
     abind,
     plyr,
@@ -36,4 +37,5 @@ Collate:
     'cpc.lib.R'
     'onUnload.R'
 RoxygenNote: 5.0.1
-LinkingTo: Rcpp, RcppArmadillo
+LinkingTo: Rcpp, RcppArmadillo, RcppParallel
+SystemRequirements: GNU make

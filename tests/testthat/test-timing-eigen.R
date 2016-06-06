@@ -1,6 +1,6 @@
 context("Timing for EVD")
 
-test_that("CPU gain on a large sparse matrix", {
+test_that("Speed up on a large sparse matrix", {
   ### inc
   library(Matrix)
     
@@ -16,6 +16,5 @@ test_that("CPU gain on a large sparse matrix", {
   out2 <- eigenPower(M2)
   
   expect_true(out1$timing$talgo > out2$timing$talgo)
-  expect_true(1 == 2)
 })
 

@@ -9,6 +9,7 @@
 #'
 #' @useDynLib cpca
 #' @importFrom Rcpp sourceCpp
+#' @importFrom RcppParallel RcppParallelLibs
 #'
 #' @importFrom methods as
 #' @importFrom stats runif

@@ -5,3 +5,19 @@ eigenPower_Rcpp <- function(A, v0, tol = 1e-6, maxit = 1e3L, verbose = 0L) {
     .Call('cpca_eigenPower_Rcpp', PACKAGE = 'cpca', A, v0, tol, maxit, verbose)
 }
 
+innerProductParallel <- function(x, y) {
+    .Call('cpca_innerProductParallel', PACKAGE = 'cpca', x, y)
+}
+
+innerNormParallel <- function(x) {
+    .Call('cpca_innerNormParallel', PACKAGE = 'cpca', x)
+}
+
+ProdMatVecParallel <- function(mat, vec) {
+    .Call('cpca_ProdMatVecParallel', PACKAGE = 'cpca', mat, vec)
+}
+
+eigenPower_Rcpp_Parallel <- function(A, v0, tol = 1e-6, maxit = 1e3L, verbose = 0L) {
+    .Call('cpca_eigenPower_Rcpp_Parallel', PACKAGE = 'cpca', A, v0, tol, maxit, verbose)
+}
+
