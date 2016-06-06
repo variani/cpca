@@ -17,4 +17,3 @@ test_that("Speed up on a large sparse matrix", {
   
   expect_true(out1$timing$talgo > out2$timing$talgo)
 })
-

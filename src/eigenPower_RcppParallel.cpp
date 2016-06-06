@@ -180,6 +180,8 @@ List eigenPower_Rcpp_Parallel(const NumericMatrix A, const NumericVector v0,
     }
       
     lambda0 = lambda;
+    
+    Rcpp::checkUserInterrupt();
   }
     
   converged = (it < maxit);
