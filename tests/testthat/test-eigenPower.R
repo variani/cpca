@@ -27,24 +27,5 @@ test_that("tiny exampe with 3x3 matrix", {
     all(as.numeric(round(out2$v, 2)) == c(0.27, 0.53, 0.80))))
 })
 
-test_that("CPU gain on a large sparse matrix", {
-  ### inc
-  library(Matrix)
-    
-  ### par
-  N <- 1250
-  prop <- 0.25
-  
-  ### simulate data 
-  M2 <- rsparsematrix(N, N, nnz = ceiling(N * prop), symmetric = T)
-  M1 <- as.matrix(M2)
-  
-  out1 <- eigenPower(M1)
-  out2 <- eigenPower(M2)
-  
-  expect_true(out1$timing$talgo > out2$timing$talgo)
-})
-
-
 
 

@@ -31,8 +31,9 @@ Suggests:
     testthat
 Collate: 
     'RcppExports.R'
-    'cpc.lib.R'
+    'package.R'    
     'eigen.lib.R'
-    'package.R'
+    'cpc.lib.R'
+    'onUnload.R'
 RoxygenNote: 5.0.1
 LinkingTo: Rcpp, RcppArmadillo
