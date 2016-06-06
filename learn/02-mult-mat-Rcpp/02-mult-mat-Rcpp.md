@@ -21,6 +21,8 @@ Andrey Ziyatdinov
 library(Rcpp)
 library(RcppArmadillo)
 
+library(Matrix)
+
 library(microbenchmark)
 ```
 
@@ -123,6 +125,19 @@ eigenPower_wrapper <- function(A, v0, ...)
 
 
 
+
+```r
+eigenPower_wrapper_Parallel <- function(A, v0, ...)
+{
+  stopifnot(!missing(A))
+  if(missing(v0)) {
+    v0 <- runif(ncol(A))
+  }
+  
+  eigenPower_Rcpp_Parallel(A, v0, ...)
+}
+```
+
 ## Big examples
 
 
@@ -193,17 +208,37 @@ ggplot(pf, aes(n, value, color = variable)) + geom_point() + geom_line()
 
 ## microbenchmark
 
+### Random matrix 
+
 
 ```r
-n <- 2000
+n <- 1000
 M <- matrix(runif(n * n), n, n)
 
 out <- microbenchmark(eigenPower = eigenPower(M), 
   eigenPower_Rcpp_wrapper = eigenPower_wrapper(M),
-  eigenPowerParallel = eigenPowerParallel(M),    
+  eigenPower_Rcpp_Parallel_wrapper = eigenPower_wrapper_Parallel(M),    
   times = 10)
 
 autoplot(out)  
 ```
 
 ![](figures/eigenPower_microbenchmark-1.png) 
+
+### 0.75 Sparse symmetric matrix
+
+
+```r
+n <- 1000
+#M <- matrix(runif(n * n), n, n)
+M <- as.matrix(rsparsematrix(n, n, 0.75, symmetric = TRUE))
+
+out <- microbenchmark(eigenPower = eigenPower(M), 
+  eigenPower_Rcpp_wrapper = eigenPower_wrapper(M),
+  eigenPower_Rcpp_Parallel_wrapper = eigenPower_wrapper_Parallel(M),    
+  times = 10)
+
+autoplot(out)  
+```
+
+![](figures/eigenPower_microbenchmark2-1.png) 

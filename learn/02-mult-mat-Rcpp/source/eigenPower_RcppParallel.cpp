@@ -144,3 +144,57 @@ NumericVector ProdMatVecParallel(NumericMatrix mat, NumericVector vec)
 
   return rvec;
 }
+
+// [[Rcpp::export()]]
+List eigenPower_Rcpp_Parallel(const NumericMatrix A, const NumericVector v0,
+  const double tol = 1e-6, const int maxit = 1e3,
+  const int verbose = 0)
+{
+  // containers
+  NumericVector v = v0;
+  NumericVector b = v0;
+        
+  // algorithm
+  double lambda0 = 0;
+  double lambda = lambda0;
+  double delta = 0;
+  bool converged = false;
+    
+  int it = 1;
+  for ( ; it <= maxit ; it++) { 
+    if(verbose > 1) { 
+      Rcout << " * it " << it << std::endl;
+    }
+    
+    b = ProdMatVecParallel(A, v);
+    v = b / innerNormParallel(b);
+    lambda = innerProductParallel(v, b);
+    
+    if(verbose > 2) { 
+      Rcout << "  -- lambda " << lambda << std::endl;
+    }
+      
+    delta = fabs((lambda - lambda0) / lambda);
+    if(delta < tol) {
+      break;
+    }
+      
+    lambda0 = lambda;
+  }
+    
+  converged = (it < maxit);
+
+  // return
+  List ret;
+  ret["v0"] = v0;
+  ret["tol"] = tol;
+  ret["maxit"] = maxit;
+  ret["it"] = it;
+  ret["delta"] = delta;
+  ret["converged"] = converged;
+    
+  ret["lambda"] = lambda;
+  ret["v"] = v;
+   
+  return(ret) ;
+}
