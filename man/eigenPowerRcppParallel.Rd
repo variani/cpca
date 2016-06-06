@@ -19,6 +19,9 @@ The default value is \code{1e-6}.}
 \item{maxit}{The maximum number of iterations.
 The default value is \code{1e4}.}
 
+\item{cores}{The number of cores.
+If it is specified, \code{RcppParallel::setThreadOptions(numThreads = cores)} is called.}
+
 \item{verbose}{The integer value indicating the verbose level.
 The default value is \code{0}.}
 }

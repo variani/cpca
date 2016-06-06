@@ -152,6 +152,8 @@ eigenPowerRcpp <- function(A, v0, tol = 1e-6, maxit = 1e3,
 #'   The default value is \code{1e-6}.
 #' @param maxit The maximum number of iterations.
 #'   The default value is \code{1e4}.
+#' @param cores The number of cores.
+#'   If it is specified, \code{RcppParallel::setThreadOptions(numThreads = cores)} is called.
 #' @param verbose The integer value indicating the verbose level.
 #'   The default value is \code{0}.
 #' @return A list several slots: \code{v} the first eigenvector; 
