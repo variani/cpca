@@ -299,7 +299,7 @@ List eigenPower_Arma_Parallel(arma::mat& A, arma::vec& v0,
     parallelFor(0, A.n_rows, eigenPowerArma, chunkSize);
 
     lambda = std::sqrt(eigenPowerArma.b2_sum);
-    v = b / lambda;
+    v = b * (1/lambda);
 
     if(verbose > 2) { 
       Rcout << "  -- lambda " << lambda << std::endl;
