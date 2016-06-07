@@ -10,7 +10,7 @@ test_that("Speed up on a large sparse matrix", {
   
   ### simulate data 
   Mat <- rsparsematrix(N, N, nnz = ceiling(N * prop), symmetric = T)
-  mat <- as.matrix(M2)
+  mat <- as.matrix(Mat)
   
   out1 <- eigenPower(mat)
   out2 <- eigenPower(Mat)

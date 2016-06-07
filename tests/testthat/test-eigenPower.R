@@ -17,8 +17,8 @@ test_that("tiny exampe with 3x3 matrix", {
   out3 <- eigenPower(A, v, maxit = 40)
   
   ### testing
-  # converged in 2 iterations
-  expect_true(all(out1$it == 2, out2$it == 2, out3$it == 2)) 
+  # converged in `< 5` iterations
+  expect_true(all(out1$it < 5, out2$it < 5, out3$it < 5)) 
   
   # eigenvalue is 10
   expect_true(all(round(out1$lambda, 2) == 10, round(out2$lambda, 2) == 10,
@@ -30,5 +30,28 @@ test_that("tiny exampe with 3x3 matrix", {
     all(as.numeric(round(out3$v, 2)) == c(0.27, 0.53, 0.80))))
 })
 
+test_that("Exampe with a matrix of a moderate size", {
+  ### par  
+  n <- 1000
+  
+  hilbert <- function(n) { 
+    i <- 1:n
+    1 / outer(i - 1, i, "+") 
+  }
 
+  mat <- hilbert(n)
+  v <- 1:n
+  
+  ### compute models
+  out1 <- eigenPower(mat, v)
+  out2 <- eigenPowerRcppParallel(mat, v)
+  out3 <- eigenPowerArmaParallel(mat, v)
 
+  ### testing
+  # converged in `< 20` iterations
+  expect_true(all(out1$it < 20, out2$it < 20, out3$it < 20)) 
+
+  # eigenvalue is 2.44
+  expect_true(all(round(out1$lambda, 2) == 2.44, round(out2$lambda, 2) == 2.44,
+    round(out3$lambda, 2) == 2.44))
+})
