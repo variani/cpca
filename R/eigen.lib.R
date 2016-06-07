@@ -101,6 +101,8 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
   
   timing$targs <- timing$algo[["elapsed"]] - timing$args[["elapsed"]]
   timing$talgo <- timing$return[["elapsed"]] - timing$algo[["elapsed"]]
+
+  timing$cputime.sec <- (timing$return - timing$args)[["elapsed"]]
   
   out <- list(v0 = v0, tol = tol, maxit = maxit,
     it = it, delta = delta, converged = converged, 
@@ -108,6 +110,8 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
     timing = timing,
     lambda = lambda, v = v)
   
+   oldClass(out) <- c("EigenPower")
+   
   return(out)
 }
 
@@ -131,13 +135,29 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
 eigenPowerRcpp <- function(A, v0, tol = 1e-6, maxit = 1e3, 
   verbose = 0)
 {
+  ### args
+  timing <- list()
+  timing$args <- proc.time()
+  
   stopifnot(!missing(A))
  
   if(missing(v0)) {
     v0 <- runif(ncol(A))
   }
   
-  eigenPower_Rcpp(A, v0, tol = tol, maxit = maxit, verbose = verbose)
+  ### run
+  out <- eigenPower_Rcpp(A, v0, tol = tol, maxit = maxit, verbose = verbose)
+
+  ### return
+  timing$return <- proc.time()
+  
+  timing$cputime.sec <- (timing$return - timing$args)[["elapsed"]]
+  
+  
+  out$timing <- timing
+  oldClass(out) <- c("EigenPowerRcpp", "EigenPower")
+  
+  return(out)
 }
 
 #' Function eigenPowerRcppParallel. 
@@ -160,9 +180,13 @@ eigenPowerRcpp <- function(A, v0, tol = 1e-6, maxit = 1e3,
 #'   \code{lambda} the first eigenvalue; etc.
 #' @export
 eigenPowerRcppParallel <- function(A, v0, tol = 1e-6, maxit = 1e3, 
-  cores,
+  cores = -1, chunkSize = 1,
   verbose = 0)
 {
+  ### args
+  timing <- list()
+  timing$args <- proc.time()
+ 
   stopifnot(!missing(A))
  
   if(missing(v0)) {
@@ -173,5 +197,17 @@ eigenPowerRcppParallel <- function(A, v0, tol = 1e-6, maxit = 1e3,
     RcppParallel::setThreadOptions(numThreads = cores)
   }
   
-  eigenPower_Rcpp_Parallel(A, v0, tol = tol, maxit = maxit, verbose = verbose)
+  ### run
+  out <- eigenPower_Rcpp_Parallel(A, v0, tol = tol, maxit = maxit, verbose = verbose)
+  
+  ### return
+  timing$return <- proc.time()
+  
+  timing$cputime.sec <- (timing$return - timing$args)[["elapsed"]]
+  
+  
+  out$timing <- timing
+  oldClass(out) <- c("EigenPowerRcppParallel", "EigenPower")
+  
+  return(out)
 }

@@ -5,19 +5,19 @@ eigenPower_Rcpp <- function(A, v0, tol = 1e-6, maxit = 1e3L, verbose = 0L) {
     .Call('cpca_eigenPower_Rcpp', PACKAGE = 'cpca', A, v0, tol, maxit, verbose)
 }
 
-innerProductParallel <- function(x, y) {
-    .Call('cpca_innerProductParallel', PACKAGE = 'cpca', x, y)
+innerProductParallel <- function(x, y, chunkSize = 1L) {
+    .Call('cpca_innerProductParallel', PACKAGE = 'cpca', x, y, chunkSize)
 }
 
-innerNormParallel <- function(x) {
-    .Call('cpca_innerNormParallel', PACKAGE = 'cpca', x)
+innerNormParallel <- function(x, chunkSize = 1L) {
+    .Call('cpca_innerNormParallel', PACKAGE = 'cpca', x, chunkSize)
 }
 
-ProdMatVecParallel <- function(mat, vec) {
-    .Call('cpca_ProdMatVecParallel', PACKAGE = 'cpca', mat, vec)
+ProdMatVecParallel <- function(mat, vec, chunkSize = 1L) {
+    .Call('cpca_ProdMatVecParallel', PACKAGE = 'cpca', mat, vec, chunkSize)
 }
 
-eigenPower_Rcpp_Parallel <- function(A, v0, tol = 1e-6, maxit = 1e3L, verbose = 0L) {
-    .Call('cpca_eigenPower_Rcpp_Parallel', PACKAGE = 'cpca', A, v0, tol, maxit, verbose)
+eigenPower_Rcpp_Parallel <- function(A, v0, tol = 1e-6, maxit = 1e3L, chunkSize = 1L, verbose = 0L) {
+    .Call('cpca_eigenPower_Rcpp_Parallel', PACKAGE = 'cpca', A, v0, tol, maxit, chunkSize, verbose)
 }
 

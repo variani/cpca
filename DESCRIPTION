@@ -32,7 +32,8 @@ Suggests:
     testthat
 Collate: 
     'RcppExports.R'
-    'package.R'    
+    'package.R'
+    'classEigenPower.R'
     'eigen.lib.R'
     'cpc.lib.R'
     'onUnload.R'

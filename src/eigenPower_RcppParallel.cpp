@@ -39,13 +39,13 @@ struct InnerProduct : public Worker
 };
 
 // [[Rcpp::export]]
-double innerProductParallel(NumericVector x, NumericVector y) 
+double innerProductParallel(NumericVector x, NumericVector y, unsigned int chunkSize = 1) 
 {
   // declare the InnerProduct instance that takes a pointer to the vector data
   InnerProduct innerProduct(x, y);
    
   // call paralleReduce to start the work
-  parallelReduce(0, x.length(), innerProduct);
+  parallelReduce(0, x.length(), innerProduct, chunkSize);
    
   // return the computed product
   return innerProduct.product;
@@ -84,13 +84,13 @@ struct InnerNorm : public Worker
 };
 
 // [[Rcpp::export]]
-double innerNormParallel(NumericVector x) 
+double innerNormParallel(NumericVector x, unsigned int chunkSize = 1) 
 {
   // declare the InnerProduct instance that takes a pointer to the vector data
   InnerNorm innerNorm(x);
    
   // call paralleReduce to start the work
-  parallelReduce(0, x.length(), innerNorm);
+  parallelReduce(0, x.length(), innerNorm, chunkSize);
    
   // return the computed product
   return std::sqrt(innerNorm.norm);
@@ -131,7 +131,7 @@ struct ProdMatVec : public Worker
 };
 
 // [[Rcpp::export]]
-NumericVector ProdMatVecParallel(NumericMatrix mat, NumericVector vec) 
+NumericVector ProdMatVecParallel(NumericMatrix mat, NumericVector vec, unsigned int chunkSize = 1) 
 {
   // allocate the matrix we will return
   NumericVector rvec(mat.nrow());
@@ -140,7 +140,7 @@ NumericVector ProdMatVecParallel(NumericMatrix mat, NumericVector vec)
   ProdMatVec prodMatVec(mat, vec, rvec);
      
   // call it with parallelFor
-  parallelFor(0, mat.nrow(), prodMatVec);
+  parallelFor(0, mat.nrow(), prodMatVec, chunkSize);
 
   return rvec;
 }
@@ -148,6 +148,7 @@ NumericVector ProdMatVecParallel(NumericMatrix mat, NumericVector vec)
 // [[Rcpp::export()]]
 List eigenPower_Rcpp_Parallel(const NumericMatrix A, const NumericVector v0,
   const double tol = 1e-6, const int maxit = 1e3,
+  unsigned int chunkSize = 1,
   const int verbose = 0)
 {
   // containers
@@ -166,9 +167,9 @@ List eigenPower_Rcpp_Parallel(const NumericMatrix A, const NumericVector v0,
       Rcout << " * it " << it << std::endl;
     }
     
-    b = ProdMatVecParallel(A, v);
-    v = b / innerNormParallel(b);
-    lambda = innerProductParallel(v, b);
+    b = ProdMatVecParallel(A, v, chunkSize);
+    v = b / innerNormParallel(b, chunkSize);
+    lambda = innerProductParallel(v, b, chunkSize);
     
     if(verbose > 2) { 
       Rcout << "  -- lambda " << lambda << std::endl;
