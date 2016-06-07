@@ -4,8 +4,8 @@
 \alias{eigenPowerRcppParallel}
 \title{Function eigenPowerRcppParallel.}
 \usage{
-eigenPowerRcppParallel(A, v0, tol = 1e-06, maxit = 1000, cores,
-  verbose = 0)
+eigenPowerRcppParallel(A, v0, tol = 1e-06, maxit = 1000, cores = -1,
+  chunkSize = 1, verbose = 0)
 }
 \arguments{
 \item{A}{A two-dimensional square matrix, either of \code{matrix} or \code{Matrix} class.}
@@ -20,7 +20,12 @@ The default value is \code{1e-6}.}
 The default value is \code{1e4}.}
 
 \item{cores}{The number of cores.
-If it is specified, \code{RcppParallel::setThreadOptions(numThreads = cores)} is called.}
+The default value is \code{-1}.
+This argument is passed next to \code{RcppParallel::setThreadOptions(numThreads = cores)}.}
+
+\item{chunkSize}{The minimal size of a chunk.
+The default value is \code{1}.
+This argument is passed next to a wrapper \code{eigenPower_Rcpp_Parallel}.}
 
 \item{verbose}{The integer value indicating the verbose level.
 The default value is \code{0}.}
