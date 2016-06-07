@@ -1,9 +1,14 @@
-#include <Rcpp.h>
-using namespace Rcpp;
+//#include <Rcpp.h>
+
+// [[Rcpp::depends(RcppArmadillo)]]
+#include <RcppArmadillo.h>
+using namespace arma;
 
 // [[Rcpp::depends(RcppParallel)]]
 #include <RcppParallel.h>
 using namespace RcppParallel;
+
+using namespace Rcpp;
 
 //-----------------------------
 // Inner Product in Parallel
@@ -199,5 +204,130 @@ List eigenPower_Rcpp_Parallel(const NumericMatrix A, const NumericVector v0,
   ret["lambda"] = lambda;
   ret["v"] = v;
    
-  return(ret) ;
+  return(ret);
+}
+
+//-----------------------------
+// EigenPowerArma in Parallel
+//-----------------------------
+
+struct EigenPowerArma : public Worker 
+{
+  // input to read from
+  const arma::mat& A;
+  const arma::vec& v;
+   
+  // output to write to
+  arma::vec& b;
+  double b2_sum;
+   
+  // initialize from Rcpp input and output matrixes (the RMatrix class
+  // can be automatically converted to from the Rcpp matrix type)
+  EigenPowerArma(const arma::mat& A, const arma::vec& v, arma::vec& b)
+    : A(A), v(v), b(b), b2_sum(0) {}
+    
+  // function call operator that work for the specified range (begin/end)
+  void operator()(std::size_t begin, std::size_t end) 
+  {
+    arma::mat A_i = A.rows(begin, end - 1);
+        
+    arma::vec b_i = A_i * v;
+    
+    // assign
+    double b2_sum_i = 0;
+    for(std::size_t k = begin; k < end; k++) {
+      std::size_t ki = k - begin;
+
+      double val = b_i[ki];
+      
+      b[k] = val;
+      b2_sum_i += val*val;
+    }
+    b2_sum += b2_sum_i;
+  }
+};
+
+// [[Rcpp::export]]
+List eigenPowerIt_Arma_Parallel(arma::mat& A, arma::vec& v, unsigned int chunkSize = 1) 
+{
+  // allocate the vector to be returned
+  arma::vec b(A.n_rows);
+    
+  // create the worker
+  EigenPowerArma eigenPowerArma(A, v, b);
+     
+  // call it with parallelFor
+  parallelFor(0, A.n_rows, eigenPowerArma, chunkSize);
+
+  double lambda = std::sqrt(eigenPowerArma.b2_sum);
+  b = b / lambda;
+  
+  // return
+  List ret;
+    
+  ret["lambda"] = lambda;
+  ret["v"] = b;
+   
+  return(ret);
+  
+}
+
+// [[Rcpp::export()]]
+List eigenPower_Arma_Parallel(arma::mat& A, arma::vec& v0,
+  const double tol = 1e-6, const int maxit = 1e3,
+  unsigned int chunkSize = 1,
+  const int verbose = 0)
+{
+  // containers
+  arma::vec v = v0;
+  arma::vec b = v0;
+        
+  // algorithm
+  double lambda0 = 0;
+  double lambda = lambda0;
+  double delta = 0;
+  bool converged = false;
+    
+  int it = 1;
+  for ( ; it <= maxit ; it++) { 
+    if(verbose > 1) { 
+      Rcout << " * it " << it << std::endl;
+    }
+    
+    // compute in parallel
+    EigenPowerArma eigenPowerArma(A, v, b);
+    parallelFor(0, A.n_rows, eigenPowerArma, chunkSize);
+
+    lambda = std::sqrt(eigenPowerArma.b2_sum);
+    v = b / lambda;
+
+    if(verbose > 2) { 
+      Rcout << "  -- lambda " << lambda << std::endl;
+    }
+      
+    delta = fabs((lambda - lambda0) / lambda);
+    if(delta < tol) {
+      break;
+    }
+      
+    lambda0 = lambda;
+    
+    Rcpp::checkUserInterrupt();
+  }
+    
+  converged = (it < maxit);
+
+  // return
+  List ret;
+  ret["v0"] = v0;
+  ret["tol"] = tol;
+  ret["maxit"] = maxit;
+  ret["it"] = it;
+  ret["delta"] = delta;
+  ret["converged"] = converged;
+    
+  ret["lambda"] = lambda;
+  ret["v"] = v;
+   
+  return(ret);
 }

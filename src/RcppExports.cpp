@@ -75,3 +75,32 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// eigenPowerIt_Arma_Parallel
+List eigenPowerIt_Arma_Parallel(arma::mat& A, arma::vec& v, unsigned int chunkSize);
+RcppExport SEXP cpca_eigenPowerIt_Arma_Parallel(SEXP ASEXP, SEXP vSEXP, SEXP chunkSizeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< arma::mat& >::type A(ASEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type v(vSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type chunkSize(chunkSizeSEXP);
+    __result = Rcpp::wrap(eigenPowerIt_Arma_Parallel(A, v, chunkSize));
+    return __result;
+END_RCPP
+}
+// eigenPower_Arma_Parallel
+List eigenPower_Arma_Parallel(arma::mat& A, arma::vec& v0, const double tol, const int maxit, unsigned int chunkSize, const int verbose);
+RcppExport SEXP cpca_eigenPower_Arma_Parallel(SEXP ASEXP, SEXP v0SEXP, SEXP tolSEXP, SEXP maxitSEXP, SEXP chunkSizeSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< arma::mat& >::type A(ASEXP);
+    Rcpp::traits::input_parameter< arma::vec& >::type v0(v0SEXP);
+    Rcpp::traits::input_parameter< const double >::type tol(tolSEXP);
+    Rcpp::traits::input_parameter< const int >::type maxit(maxitSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type chunkSize(chunkSizeSEXP);
+    Rcpp::traits::input_parameter< const int >::type verbose(verboseSEXP);
+    __result = Rcpp::wrap(eigenPower_Arma_Parallel(A, v0, tol, maxit, chunkSize, verbose));
+    return __result;
+END_RCPP
+}

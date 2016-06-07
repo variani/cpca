@@ -9,12 +9,12 @@ test_that("tiny exampe with 3x3 matrix", {
     -530, 422, -98,
     -800, 631, -144),
     ncol = 3, nrow = 3, byrow = TRUE)
-  v0 <- c(1, 2, 3)  
+  v <- c(1, 2, 3)  
 
   ### compute models
-  out1 <- eigenPower(A, v0, maxit = 40)
-  out2 <- eigenPower(A, v0, maxit = 40, sparse = TRUE)
-  out3 <- eigenPower(A, v0, maxit = 40)
+  out1 <- eigenPower(A, v, maxit = 40)
+  out2 <- eigenPower(A, v, maxit = 40, sparse = TRUE)
+  out3 <- eigenPower(A, v, maxit = 40)
   
   ### testing
   # converged in 2 iterations

@@ -21,3 +21,11 @@ eigenPower_Rcpp_Parallel <- function(A, v0, tol = 1e-6, maxit = 1e3L, chunkSize 
     .Call('cpca_eigenPower_Rcpp_Parallel', PACKAGE = 'cpca', A, v0, tol, maxit, chunkSize, verbose)
 }
 
+eigenPowerIt_Arma_Parallel <- function(A, v, chunkSize = 1L) {
+    .Call('cpca_eigenPowerIt_Arma_Parallel', PACKAGE = 'cpca', A, v, chunkSize)
+}
+
+eigenPower_Arma_Parallel <- function(A, v0, tol = 1e-6, maxit = 1e3L, chunkSize = 1L, verbose = 0L) {
+    .Call('cpca_eigenPower_Arma_Parallel', PACKAGE = 'cpca', A, v0, tol, maxit, chunkSize, verbose)
+}
+
