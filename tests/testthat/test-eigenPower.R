@@ -44,12 +44,12 @@ test_that("Exampe with a matrix of a moderate size", {
   
   ### compute models
   out1 <- eigenPower(mat, v)
-  out2 <- eigenPowerRcppParallel(mat, v)
-  out3 <- eigenPowerArmaParallel(mat, v)
+  out2 <- eigenPowerRcpp(mat, v)
+  out3 <- eigenPowerRcppEigen(mat, v)
 
   ### testing
-  # converged in `< 20` iterations
-  expect_true(all(out1$it < 20, out2$it < 20, out3$it < 20)) 
+  # converged in `< 15` iterations
+  expect_true(all(out1$it < 15, out2$it < 15, out3$it < 15)) 
 
   # eigenvalue is 2.44
   expect_true(all(round(out1$lambda, 2) == 2.44, round(out2$lambda, 2) == 2.44,

@@ -108,7 +108,7 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
     it = it, delta = delta, converged = converged, 
     sparseMatrix = sparseMatrix,
     timing = timing,
-    lambda = lambda, v = v)
+    lambda = lambda, v = as.numeric(v))
   
    oldClass(out) <- c("EigenPower")
    
@@ -159,6 +159,55 @@ eigenPowerRcpp <- function(A, v0, tol = 1e-6, maxit = 1e3,
   
   return(out)
 }
+
+#' Function eigenPowerRcppEigen. 
+#'
+#' The function implements the power algorithm for EVD using RcppEigen.
+#'
+#' @name eigenPowerRcppEigen
+#' @param A A two-dimensional square matrix, either of \code{matrix} or \code{Matrix} class.
+#' @param v0 A numeric vector; the initial guess for eignevector.
+#'   If it is missing, a random vector is generated.
+#' @param tol The tolerance threshold used to stop when reaching no improvement if estmiation of eigenvalue.
+#'   The default value is \code{1e-6}.
+#' @param maxit The maximum number of iterations.
+#'   The default value is \code{1e4}.
+#' @param verbose The integer value indicating the verbose level.
+#'   The default value is \code{0}.
+#' @return A list several slots: \code{v} the first eigenvector; 
+#'   \code{lambda} the first eigenvalue; etc.
+#' @export
+eigenPowerRcppEigen <- function(A, v0, tol = 1e-6, maxit = 1e3, 
+  verbose = 0)
+{
+  ### args
+  timing <- list()
+  timing$args <- proc.time()
+  
+  stopifnot(!missing(A))
+ 
+  if(missing(v0)) {
+    v0 <- runif(ncol(A))
+  }
+  
+  ### run
+  out <- eigenPower_RcppEigen(A, v0, tol = tol, maxit = maxit, verbose = verbose)
+
+  ### return
+  timing$return <- proc.time()
+  
+  timing$cputime.sec <- (timing$return - timing$args)[["elapsed"]]
+  
+  
+  out$timing <- timing
+  oldClass(out) <- c("EigenPowerRcppEigen", "EigenPower")
+  
+  return(out)
+}
+
+#-------------------------
+# EVD parallelized functions
+#-------------------------
 
 #' Function eigenPowerRcppParallel. 
 #'
@@ -276,4 +325,60 @@ eigenPowerArmaParallel <- function(A, v0, tol = 1e-6, maxit = 1e3,
   return(out)
 }
 
-
+#' Function eigenPowerEigenParallel. 
+#'
+#' The function implements the power algorithm for EVD using RcppEigen and RcppParallel.
+#'
+#' @name eigenPowerEigenParallel
+#' @param A A two-dimensional square matrix, either of \code{matrix} or \code{Matrix} class.
+#' @param v0 A numeric vector; the initial guess for eignevector.
+#'   If it is missing, a random vector is generated.
+#' @param tol The tolerance threshold used to stop when reaching no improvement if estmiation of eigenvalue.
+#'   The default value is \code{1e-6}.
+#' @param maxit The maximum number of iterations.
+#'   The default value is \code{1e4}.
+#' @param cores The number of cores.
+#'   The default value is \code{-1}.
+#'   This argument is passed next to \code{RcppParallel::setThreadOptions(numThreads = cores)}.
+#' @param chunkSize The minimal size of a chunk.
+#'   The default value is \code{1}.
+#'   This argument is passed next to a wrapper \code{eigenPower_RcppEigen_Parallel}.
+#' @param verbose The integer value indicating the verbose level.
+#'   The default value is \code{0}.
+#' @return A list several slots: \code{v} the first eigenvector; 
+#'   \code{lambda} the first eigenvalue; etc.
+#' @export
+eigenPowerEigenParallel <- function(A, v0, tol = 1e-6, maxit = 1e3, 
+  cores = -1, chunkSize = 1,
+  verbose = 0)
+{
+  ### args
+  timing <- list()
+  timing$args <- proc.time()
+ 
+  stopifnot(!missing(A))
+ 
+  if(missing(v0)) {
+    v0 <- runif(ncol(A))
+  }
+  
+  if(!missing(cores)) { 
+    RcppParallel::setThreadOptions(numThreads = cores)
+  }
+  
+  ### run
+  out <- eigenPower_RcppEigen_Parallel(A, v0, tol = tol, maxit = maxit, chunkSize = chunkSize, verbose = verbose)
+  
+  out$v <- as.numeric(out$v)
+  
+  ### return
+  timing$return <- proc.time()
+  
+  timing$cputime.sec <- (timing$return - timing$args)[["elapsed"]]
+  
+  
+  out$timing <- timing
+  oldClass(out) <- c("EigenPowerEigenParallel", "EigenPower")
+  
+  return(out)
+}

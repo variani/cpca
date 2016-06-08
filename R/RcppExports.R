@@ -5,6 +5,18 @@ eigenPower_Rcpp <- function(A, v0, tol = 1e-6, maxit = 1e3L, verbose = 0L) {
     .Call('cpca_eigenPower_Rcpp', PACKAGE = 'cpca', A, v0, tol, maxit, verbose)
 }
 
+eigenPower_RcppEigen <- function(A, v0, tol = 1e-6, maxit = 1e3L, verbose = 0L) {
+    .Call('cpca_eigenPower_RcppEigen', PACKAGE = 'cpca', A, v0, tol, maxit, verbose)
+}
+
+eigenPowerIt_Eigen_Parallel <- function(A, v, chunkSize = 1L) {
+    .Call('cpca_eigenPowerIt_Eigen_Parallel', PACKAGE = 'cpca', A, v, chunkSize)
+}
+
+eigenPower_RcppEigen_Parallel <- function(A, v0, tol = 1e-6, maxit = 1e3L, chunkSize = 1L, verbose = 0L) {
+    .Call('cpca_eigenPower_RcppEigen_Parallel', PACKAGE = 'cpca', A, v0, tol, maxit, chunkSize, verbose)
+}
+
 innerProductParallel <- function(x, y, chunkSize = 1L) {
     .Call('cpca_innerProductParallel', PACKAGE = 'cpca', x, y, chunkSize)
 }

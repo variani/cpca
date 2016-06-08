@@ -1,0 +1,150 @@
+// [[Rcpp::depends(RcppEigen)]]
+#include <RcppEigen.h>
+
+// [[Rcpp::depends(RcppParallel)]]
+#include <RcppParallel.h>
+
+using namespace RcppParallel;
+
+using namespace Rcpp;
+
+struct EigenPowerEigen : public Worker 
+{
+  // input to read from
+  const Eigen::MatrixXd & A;
+  const Eigen::VectorXd & v;   
+
+  // output to write to
+  Eigen::VectorXd & b;
+  double b2_sum;
+   
+  unsigned int nchunks; 
+   
+  // initialize from Rcpp input and output matrixes (the RMatrix class
+  // can be automatically converted to from the Rcpp matrix type)
+  EigenPowerEigen(const Eigen::MatrixXd & A, const Eigen::VectorXd & v, Eigen::VectorXd & b)
+    : A(A), v(v), b(b), b2_sum(0), nchunks(0) {}
+    
+  // function call operator that work for the specified range (begin/end)
+  void operator()(std::size_t begin, std::size_t end) 
+  {
+    std::size_t size = end - begin;
+    std::size_t ncols = A.cols();
+        
+    Eigen::VectorXd b_i(size);
+    
+    b_i.noalias() = A.block(begin, 0, size, ncols) * v;
+    
+    // assign
+    double b2_sum_i = 0;
+    for(std::size_t k = begin; k < end; k++) {
+      std::size_t ki = k - begin;
+
+      double val = b_i[ki];
+      
+      b[k] = val;
+      b2_sum_i += val*val;
+    }
+    b2_sum += b2_sum_i;
+    
+    ++nchunks;
+  }
+};
+
+// [[Rcpp::export]]
+List eigenPowerIt_Eigen_Parallel(const Eigen::MatrixXd & A, const Eigen::VectorXd & v, unsigned int chunkSize = 1) 
+{
+  // allocate the vector to be returned
+  Eigen::VectorXd b(A.rows());
+    
+  // create the worker
+  EigenPowerEigen eigenPowerEigen(A, v, b);
+     
+  // call it with parallelFor
+  parallelFor(0, A.rows(), eigenPowerEigen, chunkSize);
+
+  double lambda = std::sqrt(eigenPowerEigen.b2_sum);
+  b = b / lambda;
+  
+  // return
+  List ret;
+    
+  ret["lambda"] = lambda;
+  ret["v"] = b;
+   
+  return(ret);
+  
+}
+  
+// [[Rcpp::export()]]
+List eigenPower_RcppEigen_Parallel(const Eigen::MatrixXd & A, const Eigen::VectorXd v0,
+  const double tol = 1e-6, const int maxit = 1e3,
+  unsigned int chunkSize = 1,
+  const int verbose = 0)
+{
+  // containers
+  Eigen::VectorXd v = v0;
+  Eigen::VectorXd b = v0;
+ 
+  // algorithm
+  double lambda0 = 0;
+  double lambda = lambda0;
+  double delta = 0;
+  bool converged = false;
+
+  double nchunks = 0;  
+  double csize = 0;
+      
+  // loop
+  int it = 1;
+  int nchunks_sum = 0;
+  for(; it <= maxit ; it++) { 
+    if(verbose > 1) { 
+      Rcout << " * it " << it << std::endl;
+    }
+      
+    // compute in parallel
+    EigenPowerEigen eigenPowerEigen(A, v, b);
+    parallelFor(0, A.rows(), eigenPowerEigen, chunkSize);
+
+    lambda = lambda = std::sqrt(eigenPowerEigen.b2_sum);
+    v = b * (1/lambda);
+    
+    nchunks_sum += eigenPowerEigen.nchunks;
+
+    if(verbose > 2) { 
+      Rcout << "  -- lambda " << lambda << std::endl;
+    }
+      
+    delta = fabs((lambda - lambda0) / lambda);
+    if(delta < tol) {
+      break;
+    }
+      
+    lambda0 = lambda;
+    
+    Rcpp::checkUserInterrupt();
+  }
+
+  converged = (it < maxit);
+  
+  nchunks = nchunks_sum / it;
+  csize = (double)(A.rows()) / nchunks;
+    
+  // return
+  List ret;
+  ret["v0"] = v0;
+  ret["tol"] = tol;
+  ret["maxit"] = maxit;
+  ret["it"] = it;
+  ret["delta"] = delta;
+  ret["converged"] = converged;
+
+  ret["nchunks"] = nchunks;
+  ret["csize"] = csize;
+    
+  ret["lambda"] = lambda;
+  ret["v"] = v;
+   
+  return(ret) ;
+}
