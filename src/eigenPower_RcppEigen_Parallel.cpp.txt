@@ -1,8 +1,8 @@
-// [[Rcpp::depends(RcppEigen)]]
-#include <RcppEigen.h>
-
 // [[Rcpp::depends(RcppParallel)]]
 #include <RcppParallel.h>
+
+// [[Rcpp::depends(RcppEigen)]]
+#include <RcppEigen.h>
 
 using namespace RcppParallel;
 

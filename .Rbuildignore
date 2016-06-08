@@ -4,4 +4,6 @@ doc/
 inst/doc
 learn/
 
+src/*.txt$
+
 ^\.travis\.yml$
