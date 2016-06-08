@@ -13,5 +13,6 @@
 #'
 #' @importFrom methods as
 #' @importFrom stats runif
+#' @importFrom utils head
 {}
 
