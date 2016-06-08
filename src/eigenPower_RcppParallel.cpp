@@ -221,10 +221,12 @@ struct EigenPowerArma : public Worker
   arma::vec& b;
   double b2_sum;
    
+  unsigned int nchunks; 
+   
   // initialize from Rcpp input and output matrixes (the RMatrix class
   // can be automatically converted to from the Rcpp matrix type)
   EigenPowerArma(const arma::mat& A, const arma::vec& v, arma::vec& b)
-    : A(A), v(v), b(b), b2_sum(0) {}
+    : A(A), v(v), b(b), b2_sum(0), nchunks(0) {}
     
   // function call operator that work for the specified range (begin/end)
   void operator()(std::size_t begin, std::size_t end) 
@@ -244,11 +246,13 @@ struct EigenPowerArma : public Worker
       b2_sum_i += val*val;
     }
     b2_sum += b2_sum_i;
+    
+    ++nchunks;
   }
 };
 
 // [[Rcpp::export]]
-List eigenPowerIt_Arma_Parallel(arma::mat& A, arma::vec& v, unsigned int chunkSize = 1) 
+List eigenPowerIt_Arma_Parallel(const arma::mat& A, const arma::vec& v, unsigned int chunkSize = 1) 
 {
   // allocate the vector to be returned
   arma::vec b(A.n_rows);
@@ -287,8 +291,11 @@ List eigenPower_Arma_Parallel(arma::mat& A, arma::vec& v0,
   double lambda = lambda0;
   double delta = 0;
   bool converged = false;
+  double nchunks = 0;  
+  double csize = 0;
     
   int it = 1;
+  int nchunks_sum = 0;
   for ( ; it <= maxit ; it++) { 
     if(verbose > 1) { 
       Rcout << " * it " << it << std::endl;
@@ -300,7 +307,9 @@ List eigenPower_Arma_Parallel(arma::mat& A, arma::vec& v0,
 
     lambda = std::sqrt(eigenPowerArma.b2_sum);
     v = b * (1/lambda);
-
+    
+    nchunks_sum += eigenPowerArma.nchunks;
+    
     if(verbose > 2) { 
       Rcout << "  -- lambda " << lambda << std::endl;
     }
@@ -316,7 +325,9 @@ List eigenPower_Arma_Parallel(arma::mat& A, arma::vec& v0,
   }
     
   converged = (it < maxit);
-
+  nchunks = nchunks_sum / it;
+  csize = (double)(A.n_rows) / nchunks;
+  
   // return
   List ret;
   ret["v0"] = v0;
@@ -325,6 +336,8 @@ List eigenPower_Arma_Parallel(arma::mat& A, arma::vec& v0,
   ret["it"] = it;
   ret["delta"] = delta;
   ret["converged"] = converged;
+  ret["nchunks"] = nchunks;
+  ret["csize"] = csize;
     
   ret["lambda"] = lambda;
   ret["v"] = v;

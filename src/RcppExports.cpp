@@ -76,13 +76,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // eigenPowerIt_Arma_Parallel
-List eigenPowerIt_Arma_Parallel(arma::mat& A, arma::vec& v, unsigned int chunkSize);
+List eigenPowerIt_Arma_Parallel(const arma::mat& A, const arma::vec& v, unsigned int chunkSize);
 RcppExport SEXP cpca_eigenPowerIt_Arma_Parallel(SEXP ASEXP, SEXP vSEXP, SEXP chunkSizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< arma::mat& >::type A(ASEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type v(vSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type A(ASEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type v(vSEXP);
     Rcpp::traits::input_parameter< unsigned int >::type chunkSize(chunkSizeSEXP);
     __result = Rcpp::wrap(eigenPowerIt_Arma_Parallel(A, v, chunkSize));
     return __result;

@@ -260,7 +260,7 @@ eigenPowerArmaParallel <- function(A, v0, tol = 1e-6, maxit = 1e3,
   }
   
   ### run
-  out <- eigenPower_Arma_Parallel(A, v0, tol = tol, maxit = maxit, verbose = verbose)
+  out <- eigenPower_Arma_Parallel(A, v0, tol = tol, maxit = maxit, chunkSize = chunkSize, verbose = verbose)
   
   out$v <- as.numeric(out$v)
   
