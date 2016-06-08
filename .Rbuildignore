@@ -1,5 +1,7 @@
 \.git
 
+README\.Rmd
+
 doc/
 inst/doc
 learn/
