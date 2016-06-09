@@ -8,13 +8,13 @@
 using namespace Rcpp;
 
 // eigenPower_RcppArmadillo
-List eigenPower_RcppArmadillo(const arma::mat A, arma::vec v0, const double tol, const int maxit, const int verbose);
+List eigenPower_RcppArmadillo(const arma::mat& A, const arma::vec& v0, const double tol, const int maxit, const int verbose);
 RcppExport SEXP cpca_eigenPower_RcppArmadillo(SEXP ASEXP, SEXP v0SEXP, SEXP tolSEXP, SEXP maxitSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< const arma::mat >::type A(ASEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type v0(v0SEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type A(ASEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type v0(v0SEXP);
     Rcpp::traits::input_parameter< const double >::type tol(tolSEXP);
     Rcpp::traits::input_parameter< const int >::type maxit(maxitSEXP);
     Rcpp::traits::input_parameter< const int >::type verbose(verboseSEXP);

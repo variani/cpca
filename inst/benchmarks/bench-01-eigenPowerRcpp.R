@@ -9,7 +9,7 @@ hilbert <- function(n) {
 }
 
 
-nseq <- seq(1000, 3000, length = 5)
+nseq <- seq(500, 1500, length = 5)
 df <- ldply(nseq, function(n) {
   n <- ceiling(n)
   v <- runif(n)
@@ -19,8 +19,8 @@ df <- ldply(nseq, function(n) {
   
   out <- microbenchmark(
     eigenPower(M, v), 
-    eigenPowerRcpp(M, v, mode = 1),
-    eigenPowerRcpp(M, v, mode = 2),  
+    eigenPowerRcpp(M, v),
+     eigenPowerRcppArmadillo(M, v),
     #eigenPowerRcppEigen(M, v), 
     times = 10)
   

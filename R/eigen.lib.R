@@ -160,6 +160,52 @@ eigenPowerRcpp <- function(A, v0, tol = 1e-6, maxit = 1e3, mode = 1,
   return(out)
 }
 
+#' Function eigenPowerRcppArmadillo. 
+#'
+#' The function implements the power algorithm for EVD using RcppArmadillo.
+#'
+#' @name eigenPowerRcppArmadillo
+#' @param A A two-dimensional square matrix, either of \code{matrix} or \code{Matrix} class.
+#' @param v0 A numeric vector; the initial guess for eignevector.
+#'   If it is missing, a random vector is generated.
+#' @param tol The tolerance threshold used to stop when reaching no improvement if estmiation of eigenvalue.
+#'   The default value is \code{1e-6}.
+#' @param maxit The maximum number of iterations.
+#'   The default value is \code{1e4}.
+#' @param verbose The integer value indicating the verbose level.
+#'   The default value is \code{0}.
+#' @return A list several slots: \code{v} the first eigenvector; 
+#'   \code{lambda} the first eigenvalue; etc.
+#' @export
+eigenPowerRcppArmadillo <- function(A, v0, tol = 1e-6, maxit = 1e3, 
+  verbose = 0)
+{
+  ### args
+  timing <- list()
+  timing$args <- proc.time()
+  
+  stopifnot(!missing(A))
+ 
+  if(missing(v0)) {
+    v0 <- runif(ncol(A))
+  }
+  
+  ### run
+  out <- eigenPower_RcppArmadillo(A, v0, tol = tol, maxit = maxit, verbose = verbose)
+
+  ### return
+  timing$return <- proc.time()
+  
+  timing$cputime.sec <- (timing$return - timing$args)[["elapsed"]]
+  
+  
+  out$timing <- timing
+  oldClass(out) <- c("EigenPowerRcppArmadillo", "EigenPower")
+  
+  return(out)
+}
+
+
 #' Function eigenPowerRcppEigen. 
 #'
 #' The function implements the power algorithm for EVD using RcppEigen.

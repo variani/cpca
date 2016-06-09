@@ -4,7 +4,7 @@
 using namespace Rcpp;
   
 // [[Rcpp::export()]]
-List eigenPower_RcppArmadillo(const arma::mat A, arma::vec v0,
+List eigenPower_RcppArmadillo(const arma::mat & A, const arma::vec & v0,
   const double tol = 1e-6, const int maxit = 1e3,
   const int verbose = 0)
 {
