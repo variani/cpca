@@ -237,14 +237,12 @@ eigenPowerRcppEigen <- function(A, v0, tol = 1e-6, maxit = 1e3,
   }
   
   ### run
-  stop()
-  #out <- eigenPower_RcppEigen(A, v0, tol = tol, maxit = maxit, verbose = verbose)
+  out <- eigenPower_RcppEigen(A, v0, tol = tol, maxit = maxit, verbose = verbose)
 
   ### return
   timing$return <- proc.time()
   
   timing$cputime.sec <- (timing$return - timing$args)[["elapsed"]]
-  
   
   out$timing <- timing
   oldClass(out) <- c("EigenPowerRcppEigen", "EigenPower")

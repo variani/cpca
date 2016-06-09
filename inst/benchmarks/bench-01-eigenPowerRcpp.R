@@ -9,7 +9,8 @@ hilbert <- function(n) {
 }
 
 
-nseq <- seq(500, 1500, length = 5)
+#nseq <- seq(500, 1500, length = 5)
+nseq <- c(500, 1500, 3000)
 df <- ldply(nseq, function(n) {
   n <- ceiling(n)
   v <- runif(n)
@@ -19,9 +20,9 @@ df <- ldply(nseq, function(n) {
   
   out <- microbenchmark(
     eigenPower(M, v), 
-    eigenPowerRcpp(M, v),
-     eigenPowerRcppArmadillo(M, v),
-    #eigenPowerRcppEigen(M, v), 
+    #eigenPowerRcpp(M, v),
+    eigenPowerRcppArmadillo(M, v),
+    eigenPowerRcppEigen(M, v), 
     times = 10)
   
   df <- subset(as.data.frame(summary(out)), select = c("expr", "median"))
@@ -30,6 +31,8 @@ df <- ldply(nseq, function(n) {
   return(df)
 })  
 
-p <- ggplot(df, aes(n, median, color = expr)) + geom_point() + geom_line()
+p1 <- ggplot(df, aes(n, median, color = expr)) + geom_point() + geom_line()
+p1
 
-p
+p2 <- ggplot(subset(df, expr != "eigenPowerRcpp(M, v)"), aes(n, median, color = expr)) + geom_point() + geom_line()
+p2

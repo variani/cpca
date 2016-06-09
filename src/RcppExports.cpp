@@ -38,6 +38,21 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// eigenPower_RcppEigen
+List eigenPower_RcppEigen(const Eigen::Map<Eigen::MatrixXd>& A, const Eigen::Map<Eigen::VectorXd>& v0, double tol, int maxit, int verbose);
+RcppExport SEXP cpca_eigenPower_RcppEigen(SEXP ASEXP, SEXP v0SEXP, SEXP tolSEXP, SEXP maxitSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type A(ASEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::VectorXd>& >::type v0(v0SEXP);
+    Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
+    Rcpp::traits::input_parameter< int >::type maxit(maxitSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    __result = Rcpp::wrap(eigenPower_RcppEigen(A, v0, tol, maxit, verbose));
+    return __result;
+END_RCPP
+}
 // innerProductParallel
 double innerProductParallel(NumericVector x, NumericVector y, unsigned int chunkSize);
 RcppExport SEXP cpca_innerProductParallel(SEXP xSEXP, SEXP ySEXP, SEXP chunkSizeSEXP) {
