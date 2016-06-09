@@ -4,65 +4,36 @@
 using namespace Rcpp;
   
 // [[Rcpp::export()]]
-List eigenPower_Rcpp(const NumericMatrix & A, const NumericVector & v0,
+List eigenPower_RcppArmadillo(const arma::mat A, arma::vec v0,
   const double tol = 1e-6, const int maxit = 1e3,
   const int verbose = 0)
 {
   // inputs
-  int N = A.nrow();
-  int K = A.ncol();
-  
+  const int N = A.n_rows;
+  const int K = A.n_cols;
+
   // containers
-  NumericVector v(K);
-  NumericVector b(K);
-  double bnorm = 0;
+  arma::vec v = v0;
+  arma::vec b = v0;
+  arma::vec v_lambda(1);
         
   // algorithm
   double lambda0 = 0;
   double lambda = lambda0;
   double delta = 0;
   bool converged = false;
-  
-  // initialize & normalize `v`
-  v = v0;
-  double vnorm = std::inner_product(v.begin(), v.end(), v.begin(), 0);
-  vnorm = sqrt(vnorm);
-  
-  for(int i = 0; i < K; i++) {
-    v(i) = v(i) / vnorm;
-  }
-  
-  // loop  
+    
   int it = 1;
   for ( ; it <= maxit ; it++) { 
     if(verbose > 1) { 
       Rcout << " * it " << it << std::endl;
     }
-    
-    // step 1: 
-    // - product of `A` & `v` (to be stored in `b`)
-    // - norm of the resulted product (`bnorm`)
-    double sum = 0;
-    for(int i = 0; i < N; i++) {
-      double elem = 0;
-      for(int j = 0; j < K; j++) {
-        double val = A(i, j) * v(j);
-        elem += val;
-      }
-      b(i) = elem;
-      sum += elem * elem;
-    }
-    bnorm = sqrt(sum);
-    
-    // step 2: computed a new vector `v`
-    for(int i = 0; i < N; i++) {
-      v(i) = b(i) / bnorm;
-    }
-    
-    // step 3: assigned `bnorm` to `lambda`
-    lambda = bnorm;
-    
-    
+      
+    b = A * v;
+    v = normalise(b);
+    v_lambda = trans(v) * b;
+    lambda = v_lambda[0]; 
+      
     if(verbose > 2) { 
       Rcout << "  -- lambda " << lambda << std::endl;
     }
