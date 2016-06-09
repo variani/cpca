@@ -132,7 +132,7 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
 #' @return A list several slots: \code{v} the first eigenvector; 
 #'   \code{lambda} the first eigenvalue; etc.
 #' @export
-eigenPowerRcpp <- function(A, v0, tol = 1e-6, maxit = 1e3, 
+eigenPowerRcpp <- function(A, v0, tol = 1e-6, maxit = 1e3, mode = 1,
   verbose = 0)
 {
   ### args
@@ -146,7 +146,7 @@ eigenPowerRcpp <- function(A, v0, tol = 1e-6, maxit = 1e3,
   }
   
   ### run
-  out <- eigenPower_Rcpp(A, v0, tol = tol, maxit = maxit, verbose = verbose)
+  out <- eigenPower_Rcpp(A, v0, tol = tol, maxit = maxit, mode = mode, verbose = verbose)
 
   ### return
   timing$return <- proc.time()

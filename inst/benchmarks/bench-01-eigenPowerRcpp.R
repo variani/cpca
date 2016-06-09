@@ -19,7 +19,8 @@ df <- ldply(nseq, function(n) {
   
   out <- microbenchmark(
     eigenPower(M, v), 
-    eigenPowerRcpp(M, v), 
+    eigenPowerRcpp(M, v, mode = 1),
+    eigenPowerRcpp(M, v, mode = 2),  
     #eigenPowerRcppEigen(M, v), 
     times = 10)
   

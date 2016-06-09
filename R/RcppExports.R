@@ -5,8 +5,8 @@ eigenPower_RcppArmadillo <- function(A, v0, tol = 1e-6, maxit = 1e3L, verbose = 
     .Call('cpca_eigenPower_RcppArmadillo', PACKAGE = 'cpca', A, v0, tol, maxit, verbose)
 }
 
-eigenPower_Rcpp <- function(A, v0, tol = 1e-6, maxit = 1e3L, verbose = 0L) {
-    .Call('cpca_eigenPower_Rcpp', PACKAGE = 'cpca', A, v0, tol, maxit, verbose)
+eigenPower_Rcpp <- function(A, v0, tol = 1e-6, maxit = 1e3L, mode = 1L, verbose = 0L) {
+    .Call('cpca_eigenPower_Rcpp', PACKAGE = 'cpca', A, v0, tol, maxit, mode, verbose)
 }
 
 innerProductParallel <- function(x, y, chunkSize = 1L) {

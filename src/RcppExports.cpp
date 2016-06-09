@@ -23,17 +23,18 @@ BEGIN_RCPP
 END_RCPP
 }
 // eigenPower_Rcpp
-List eigenPower_Rcpp(const NumericMatrix& A, const NumericVector& v0, const double tol, const int maxit, const int verbose);
-RcppExport SEXP cpca_eigenPower_Rcpp(SEXP ASEXP, SEXP v0SEXP, SEXP tolSEXP, SEXP maxitSEXP, SEXP verboseSEXP) {
+List eigenPower_Rcpp(const NumericMatrix& A, const NumericVector& v0, double tol, int maxit, int mode, int verbose);
+RcppExport SEXP cpca_eigenPower_Rcpp(SEXP ASEXP, SEXP v0SEXP, SEXP tolSEXP, SEXP maxitSEXP, SEXP modeSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< const NumericMatrix& >::type A(ASEXP);
     Rcpp::traits::input_parameter< const NumericVector& >::type v0(v0SEXP);
-    Rcpp::traits::input_parameter< const double >::type tol(tolSEXP);
-    Rcpp::traits::input_parameter< const int >::type maxit(maxitSEXP);
-    Rcpp::traits::input_parameter< const int >::type verbose(verboseSEXP);
-    __result = Rcpp::wrap(eigenPower_Rcpp(A, v0, tol, maxit, verbose));
+    Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
+    Rcpp::traits::input_parameter< int >::type maxit(maxitSEXP);
+    Rcpp::traits::input_parameter< int >::type mode(modeSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    __result = Rcpp::wrap(eigenPower_Rcpp(A, v0, tol, maxit, mode, verbose));
     return __result;
 END_RCPP
 }

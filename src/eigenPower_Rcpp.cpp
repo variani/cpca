@@ -8,8 +8,8 @@ NumericVector numericMultVec(const NumericVector & x, double a);
 
 // [[Rcpp::export()]]
 List eigenPower_Rcpp(const NumericMatrix & A, const NumericVector & v0,
-  const double tol = 1e-6, const int maxit = 1e3,
-  const int verbose = 0)
+  double tol = 1e-6, int maxit = 1e3, int mode = 1,
+  int verbose = 0)
 {
   // inputs
   int N = A.nrow();
@@ -37,37 +37,39 @@ List eigenPower_Rcpp(const NumericMatrix & A, const NumericVector & v0,
       Rcout << " * it " << it << std::endl;
     }
     
-    b = numericProdMatVec(A, v);
-    bnorm = numericNorm(b);
-    v = numericMultVec(b, 1.0 / bnorm);
-    
-    lambda = bnorm;
-        
-    /*    
-    // step 1: 
-    // - product of `A` & `v` (to be stored in `b`)
-    // - norm of the resulted product (`bnorm`)
-    double sum = 0;
-    for(int i = 0; i < N; i++) {
-      double elem = 0;
-      for(int j = 0; j < K; j++) {
-        double val = A(i, j) * v(j);
-        elem += val;
+    // mode 1: low-level code with loops
+    if(mode == 1) {
+      // step 1: 
+      // - product of `A` & `v` (to be stored in `b`)
+      // - norm of the resulted product (`bnorm`)
+      double sum = 0;
+      for(int i = 0; i < N; i++) {
+        double elem = 0;
+        for(int j = 0; j < K; j++) {
+          double val = A(i, j) * v(j);
+          elem += val;
+        }
+        b(i) = elem;
+        sum += elem * elem;
       }
-      b(i) = elem;
-      sum += elem * elem;
-    }
-    bnorm = sqrt(sum);
+      bnorm = sqrt(sum);
     
-    // step 2: computed a new vector `v`
-    for(int i = 0; i < N; i++) {
-      v(i) = b(i) / bnorm;
-    }
+      // step 2: computed a new vector `v`
+      for(int i = 0; i < N; i++) {
+        v(i) = b(i) / bnorm;
+      }
     
-    // step 3: assigned `bnorm` to `lambda`
-    lambda = bnorm;
-    */
+      // step 3: assigned `bnorm` to `lambda`
+      lambda = bnorm;
+    // mode 2: use functions for matrix/vector operations
+    } else if(mode == 2) {  
+      b = numericProdMatVec(A, v);
+      bnorm = numericNorm(b);
+      v = numericMultVec(b, 1.0 / bnorm);
     
+      lambda = bnorm;
+    } 
+          
     if(verbose > 2) { 
       Rcout << "  -- lambda " << lambda << std::endl;
     }
