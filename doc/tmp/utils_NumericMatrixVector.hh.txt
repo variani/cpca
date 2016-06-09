@@ -1,0 +1,6 @@
+NumericVector numericProdMatVec(const NumericMatrix & mat, const NumericVector & vec);
+double numericInnerProduct(const NumericVector & x, const NumericVector & y);
+double numericNorm(const NumericVector & x);
+NumericVector numericMultVec(const NumericVector & x, double a);
+void numericUpdateMultVec(NumericVector & x, double a);
+

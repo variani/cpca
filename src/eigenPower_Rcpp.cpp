@@ -1,8 +1,11 @@
-# include <RcppArmadillo.h>
-// [[Rcpp::depends(RcppArmadillo)]]
+# include <Rcpp.h>
 
 using namespace Rcpp;
-  
+
+NumericVector numericProdMatVec(const NumericMatrix & mat, const NumericVector & vec);
+double numericNorm(const NumericVector & x);
+NumericVector numericMultVec(const NumericVector & x, double a);
+
 // [[Rcpp::export()]]
 List eigenPower_Rcpp(const NumericMatrix & A, const NumericVector & v0,
   const double tol = 1e-6, const int maxit = 1e3,
@@ -24,21 +27,23 @@ List eigenPower_Rcpp(const NumericMatrix & A, const NumericVector & v0,
   bool converged = false;
   
   // initialize & normalize `v`
-  v = v0;
-  double vnorm = std::inner_product(v.begin(), v.end(), v.begin(), 0);
-  vnorm = sqrt(vnorm);
-  
-  for(int i = 0; i < K; i++) {
-    v(i) = v(i) / vnorm;
-  }
+  double v0norm = numericNorm(v0);
+  v = numericMultVec(v0, 1.0 / v0norm);
   
   // loop  
   int it = 1;
-  for ( ; it <= maxit ; it++) { 
+  for(; it <= maxit ; it++) { 
     if(verbose > 1) { 
       Rcout << " * it " << it << std::endl;
     }
     
+    b = numericProdMatVec(A, v);
+    bnorm = numericNorm(b);
+    v = numericMultVec(b, 1.0 / bnorm);
+    
+    lambda = bnorm;
+        
+    /*    
     // step 1: 
     // - product of `A` & `v` (to be stored in `b`)
     // - norm of the resulted product (`bnorm`)
@@ -61,7 +66,7 @@ List eigenPower_Rcpp(const NumericMatrix & A, const NumericVector & v0,
     
     // step 3: assigned `bnorm` to `lambda`
     lambda = bnorm;
-    
+    */
     
     if(verbose > 2) { 
       Rcout << "  -- lambda " << lambda << std::endl;

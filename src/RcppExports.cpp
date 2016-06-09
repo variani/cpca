@@ -7,14 +7,29 @@
 
 using namespace Rcpp;
 
-// eigenPower_Rcpp
-List eigenPower_Rcpp(const arma::mat A, arma::vec v0, const double tol, const int maxit, const int verbose);
-RcppExport SEXP cpca_eigenPower_Rcpp(SEXP ASEXP, SEXP v0SEXP, SEXP tolSEXP, SEXP maxitSEXP, SEXP verboseSEXP) {
+// eigenPower_RcppArmadillo
+List eigenPower_RcppArmadillo(const arma::mat A, arma::vec v0, const double tol, const int maxit, const int verbose);
+RcppExport SEXP cpca_eigenPower_RcppArmadillo(SEXP ASEXP, SEXP v0SEXP, SEXP tolSEXP, SEXP maxitSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< const arma::mat >::type A(ASEXP);
     Rcpp::traits::input_parameter< arma::vec >::type v0(v0SEXP);
+    Rcpp::traits::input_parameter< const double >::type tol(tolSEXP);
+    Rcpp::traits::input_parameter< const int >::type maxit(maxitSEXP);
+    Rcpp::traits::input_parameter< const int >::type verbose(verboseSEXP);
+    __result = Rcpp::wrap(eigenPower_RcppArmadillo(A, v0, tol, maxit, verbose));
+    return __result;
+END_RCPP
+}
+// eigenPower_Rcpp
+List eigenPower_Rcpp(const NumericMatrix& A, const NumericVector& v0, const double tol, const int maxit, const int verbose);
+RcppExport SEXP cpca_eigenPower_Rcpp(SEXP ASEXP, SEXP v0SEXP, SEXP tolSEXP, SEXP maxitSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type A(ASEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type v0(v0SEXP);
     Rcpp::traits::input_parameter< const double >::type tol(tolSEXP);
     Rcpp::traits::input_parameter< const int >::type maxit(maxitSEXP);
     Rcpp::traits::input_parameter< const int >::type verbose(verboseSEXP);
@@ -102,6 +117,41 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< unsigned int >::type chunkSize(chunkSizeSEXP);
     Rcpp::traits::input_parameter< const int >::type verbose(verboseSEXP);
     __result = Rcpp::wrap(eigenPower_Arma_Parallel(A, v0, tol, maxit, chunkSize, verbose));
+    return __result;
+END_RCPP
+}
+// numericNorm
+double numericNorm(const NumericVector& x);
+RcppExport SEXP cpca_numericNorm(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
+    __result = Rcpp::wrap(numericNorm(x));
+    return __result;
+END_RCPP
+}
+// numericProdMatVec
+NumericVector numericProdMatVec(const NumericMatrix& mat, const NumericVector& vec);
+RcppExport SEXP cpca_numericProdMatVec(SEXP matSEXP, SEXP vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type mat(matSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type vec(vecSEXP);
+    __result = Rcpp::wrap(numericProdMatVec(mat, vec));
+    return __result;
+END_RCPP
+}
+// numericMultVec
+NumericVector numericMultVec(const NumericVector& x, double a);
+RcppExport SEXP cpca_numericMultVec(SEXP xSEXP, SEXP aSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type a(aSEXP);
+    __result = Rcpp::wrap(numericMultVec(x, a));
     return __result;
 END_RCPP
 }
