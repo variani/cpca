@@ -9,6 +9,7 @@ opts_chunk$set(fig.path = "inst/figures/", comment = NA, tidy = F, message = F, 
 ```
 
 ```{r inc1}
+library(ggplot2)
 library(pander)
 ```
 

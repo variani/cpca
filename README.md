@@ -71,4 +71,4 @@ source(f)
 print(p)
 ```
 
-![](inst/figures/becnh1-1.png)
+![](inst/figures/becnh1-1.png)<!-- -->
