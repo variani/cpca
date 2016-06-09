@@ -102,7 +102,7 @@ The cpca package is licensed under the GPLv3. See COPYING file in the `inst` dir
 ### Speed up of eigenPower by using Rcpp
 
 ```{r becnh1, echo = T, results = "hide"}
-f <- system.file("benchmarks/01-eigenPowerRcpp.R", package = "cpca")
+f <- system.file("benchmarks/bench-01-eigenPowerRcpp.R", package = "cpca")
 source(f)
 print(p)
 ```

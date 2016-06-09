@@ -66,7 +66,7 @@ Benchmarks
 ### Speed up of eigenPower by using Rcpp
 
 ``` r
-f <- system.file("benchmarks/01-eigenPowerRcpp.R", package = "cpca")
+f <- system.file("benchmarks/bench-01-eigenPowerRcpp.R", package = "cpca")
 source(f)
 print(p)
 ```
