@@ -20,7 +20,6 @@ df <- ldply(nseq, function(n) {
   out <- microbenchmark(
     eigenPower(M, v), 
     eigenPowerRcpp(M, v),
-    eigenPowerRcppArmadillo(M, v),
     eigenPowerRcppEigen(M, v), 
     times = 10)
   
@@ -30,8 +29,5 @@ df <- ldply(nseq, function(n) {
   return(df)
 })  
 
-p1 <- ggplot(df, aes(n, median, color = expr)) + geom_point() + geom_line()
-p1
-
-p2 <- ggplot(subset(df, expr != "eigenPowerRcpp(M, v)"), aes(n, median, color = expr)) + geom_point() + geom_line()
-p2
+p <- ggplot(df, aes(n, median, color = expr)) + geom_point() + geom_line()
+p

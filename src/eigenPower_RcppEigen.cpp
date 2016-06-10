@@ -17,19 +17,6 @@ using Eigen::VectorXd;      // variable size vector, double precision
 
 // [[Rcpp::export()]]
 List eigenPower_RcppEigen(
-  Eigen::MatrixXd A,
-  double tol = 1e-6, int maxit = 1e3,
-  int verbose = 0)
-{
-  // return
-  List ret;
-
-  return(ret);
-}
-
-/*
-// [[Rcpp::export()]]
-List eigenPower_RcppEigen(
   const Eigen::Map<Eigen::MatrixXd> & A, const Eigen::Map<Eigen::VectorXd> & v0,
   double tol = 1e-6, int maxit = 1e3,
   int verbose = 0)
@@ -94,4 +81,3 @@ List eigenPower_RcppEigen(
    
   return(ret) ;
 }
-*/

@@ -194,8 +194,7 @@ eigenPowerRcppEigen <- function(A, v0, tol = 1e-6, maxit = 1e3,
   }
   
   ### run
-  #out <- eigenPower_RcppEigen(A, v0, tol = tol, maxit = maxit, verbose = verbose)
-  out <- eigenPower(A, v0, tol = tol, maxit = maxit, verbose = verbose)
+  out <- eigenPower_RcppEigen(A, v0, tol = tol, maxit = maxit, verbose = verbose)
 
   ### return
   timing$return <- proc.time()
@@ -254,8 +253,8 @@ eigenPowerRcppParallel <- function(A, v0, tol = 1e-6, maxit = 1e3,
   }
   
   ### run
-  #out <- eigenPower_Rcpp_Parallel(A, v0, tol = tol, maxit = maxit, verbose = verbose)
-  out <- eigenPower(A, v0, tol = tol, maxit = maxit, verbose = verbose)
+  stop()
+  out <- eigenPower_Rcpp_Parallel(A, v0, tol = tol, maxit = maxit, verbose = verbose)
   
   out$v <- as.numeric(out$v)
   

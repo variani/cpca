@@ -5,8 +5,8 @@ eigenPower_Rcpp <- function(A, v0, tol = 1e-6, maxit = 1e3L, mode = 1L, verbose 
     .Call('cpca_eigenPower_Rcpp', PACKAGE = 'cpca', A, v0, tol, maxit, mode, verbose)
 }
 
-eigenPower_RcppEigen <- function(A, tol = 1e-6, maxit = 1e3L, verbose = 0L) {
-    .Call('cpca_eigenPower_RcppEigen', PACKAGE = 'cpca', A, tol, maxit, verbose)
+eigenPower_RcppEigen <- function(A, v0, tol = 1e-6, maxit = 1e3L, verbose = 0L) {
+    .Call('cpca_eigenPower_RcppEigen', PACKAGE = 'cpca', A, v0, tol, maxit, verbose)
 }
 
 numericNorm <- function(x) {
