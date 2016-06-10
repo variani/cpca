@@ -63,7 +63,7 @@ The cpca package is licensed under the GPLv3. See COPYING file in the `inst` dir
 Benchmarks
 ----------
 
-### Speed up of eigenPower by using Rcpp
+### Speed up of eigenPower by using Rcpp & RcppEigen
 
 ``` r
 f <- system.file("benchmarks/bench-01-eigenPowerRcpp.R", package = "cpca")
@@ -73,6 +73,16 @@ print(p)
 
 ![](doc/figures/becnh1-1.png)<!-- -->
 
-The same figure from the previous version of `cpca`, where both RcppEigen and RcppArmadillo version of `eigenPower` function were implemented.
+The same figure from a previous version of `cpca`, where both RcppEigen and RcppArmadillo version of `eigenPower` function were implemented.
 
 ![](doc/images/becnh1-1-v1.png)
+
+### Speed up of eigenPower by using RcppEigen on larger matrices
+
+``` r
+f <- system.file("benchmarks/bench-02-eigenPower.R", package = "cpca")
+source(f)
+print(p)
+```
+
+![](doc/figures/becnh2-1.png)<!-- -->
