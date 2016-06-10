@@ -127,6 +127,9 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
 #'   The default value is \code{1e-6}.
 #' @param maxit The maximum number of iterations.
 #'   The default value is \code{1e4}.
+#' @param mode The integer number encoding the mode of computation in `eigenPower_Rcpp` C++ function.
+#'   \code{1} means doing matrix operations in loops (doing some calculus sync.).
+#'   \code{2} means dogig matrix operations using functions like computing the vector norm, etc.
 #' @param verbose The integer value indicating the verbose level.
 #'   The default value is \code{0}.
 #' @return A list several slots: \code{v} the first eigenvector; 

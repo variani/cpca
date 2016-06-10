@@ -18,6 +18,10 @@ The default value is \code{1e-6}.}
 \item{maxit}{The maximum number of iterations.
 The default value is \code{1e4}.}
 
+\item{mode}{The integer number encoding the mode of computation in `eigenPower_Rcpp` C++ function.
+\code{1} means doing matrix operations in loops (doing some calculus sync.).
+\code{2} means dogig matrix operations using functions like computing the vector norm, etc.}
+
 \item{verbose}{The integer value indicating the verbose level.
 The default value is \code{0}.}
 }
