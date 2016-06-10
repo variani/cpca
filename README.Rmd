@@ -5,7 +5,7 @@ output:
 ---
 
 ```{r options, echo = F}
-opts_chunk$set(fig.path = "inst/figures/", comment = NA, tidy = F, message = F, warning = F, echo = F, results = 'verbatim')
+opts_chunk$set(fig.path = "doc/figures/", comment = NA, tidy = F, message = F, warning = F, echo = F, results = 'verbatim')
 ```
 
 ```{r inc1}
@@ -106,3 +106,8 @@ f <- system.file("benchmarks/bench-01-eigenPowerRcpp.R", package = "cpca")
 source(f)
 print(p)
 ```
+
+The same figure from the previous version of `cpca`, where both RcppEigen and RcppArmadillo
+version of `eigenPower` function were implemented.
+
+![](doc/images/becnh1-1-v1.png)

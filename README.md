@@ -71,4 +71,8 @@ source(f)
 print(p)
 ```
 
-![](inst/figures/becnh1-1.png)<!-- -->
+![](doc/figures/becnh1-1.png)<!-- -->
+
+The same figure from the previous version of `cpca`, where both RcppEigen and RcppArmadillo version of `eigenPower` function were implemented.
+
+![](doc/images/becnh1-1-v1.png)
