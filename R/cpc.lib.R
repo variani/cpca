@@ -45,7 +45,104 @@ cpc <- function(X, method = "stepwise", k = 0, iter = 30, threshold = 0, ...)
     stop("Error in swotch."))
 }
 
+#-------------------------------------------------------------------------------
+# `cpc_stepwise` function was the first version of the power algorithm for CPCA.
+# The code was adopted from the Matlab version written by Dr. Trendafilov.
+# 
+# In the versions of `cpca` earlier than 0.2.0, this code was the only 
+# implementation available. The missing parts of the algorithms iclude:
+#  - the cost function is missing;
+#  - as a consequence, the number of iterations is fixed by the user;
+#  - `%*%` operator is used instead of a more efficient ones, i.e. `crossprod`.
+#-------------------------------------------------------------------------------
+
 cpc_stepwise <- function(X, n_g, k = 0, iter = 30, ...)
+{
+  p <- dim(X)[1]
+  mcas <- dim(X)[3]
+
+  # If k = 0 retrieve all components
+  if(k == 0) {
+    k <- p
+  }
+  
+  # parameters: number of interations
+  iter <- 15
+  n <- n_g / sum(n_g)
+  
+  # output variables
+  D <- array(0, dim=c(p, mcas))
+  CPC <- array(0, dim=c(p, p))
+  Qw <- diag(1, p)
+  
+  # components `s`
+  s <- array(0, dim = c(p, p))
+  for(m in 1:mcas) {
+    s <- s + n[m]*X[, , m]
+  }
+  
+  # variables
+  res <- eigen(s)
+  q0 <- res$vectors
+  d0 <- diag(res$values, p)
+  if(d0[1, 1] < d0[p, p]) {
+    q0 <- q0[, ncol(q0):1]
+  }
+  
+  # loop 'for ncomp=1:p'
+  # Replaced by k so that only the first k components are retrieved
+  for(ncomp in 1:k) {
+   q <- q0[, ncomp]
+   d <- array(0, dim=c(1, mcas))
+   for(m in 1:mcas) {
+    d[, m] <- t(q) %*% X[, , m] %*% q
+   }
+   
+   # loop 'for i=1:iter'
+   for(i in 1:iter) {
+    s <- array(0, dim=c(p, p))
+    for(m in 1:mcas) {
+      s <- s + n_g[m] * X[, , m] / d[, m]
+    }
+           
+    w <- s %*% q
+    if( ncomp != 1) {
+      w <- Qw %*% w
+    }
+
+    q <- w / as.numeric(sqrt((t(w) %*% w)))
+    for(m in 1:mcas) {
+      d[, m]  <- t(q) %*% X[, , m] %*% q
+    }
+    
+   }
+   # end of loop 'for i=1:iter'
+   
+   D[ncomp, ] <- d
+   CPC[, ncomp] <- q
+   Qw <- Qw - q %*% t(q)
+  }
+  # end of loop 'for ncomp=1:k'
+  
+  ### return
+  out <- list(D = D[1:ncomp, ], CPC = CPC[, 1:ncomp], ncomp = ncomp)
+  return(out)
+}
+
+#-------------------------------------------------------------------------------
+# `cpc_stepwise_base` is an updated version of `cpc_stepwise`.
+# - the cost function is introduced;
+# - new arguments `maxit`, `tol` are added;
+# - the input covariance matrices are passed in a list.
+# 
+# Note:
+# - `%*%` operator is still used.
+# 
+# This function is mainly needed for comparison with more efficient
+# implementations, e.g. `cpc_stepwise_Matrix`.
+#-------------------------------------------------------------------------------
+
+cpc_stepwise_base <- function(cov, ngr, k = 0, iter = 30, ...)
 {
   p <- dim(X)[1]
   mcas <- dim(X)[3]
