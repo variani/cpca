@@ -30,6 +30,7 @@ Suggests:
     plyr,
     testthat
 Collate: 
+    'utils.lib.R'
     'RcppExports.R'
     'package.R'
     'classEigenPower.R'

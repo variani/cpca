@@ -254,7 +254,7 @@ eigenPowerRcppParallel <- function(A, v0, tol = 1e-6, maxit = 1e3,
   
   ### run
   stop()
-  out <- eigenPower_Rcpp_Parallel(A, v0, tol = tol, maxit = maxit, verbose = verbose)
+  #out <- eigenPower_Rcpp_Parallel(A, v0, tol = tol, maxit = maxit, verbose = verbose)
   
   out$v <- as.numeric(out$v)
   
