@@ -66,3 +66,23 @@ test_that("cpca_stepwise_base: start = random", {
 
   expect_true(all(abs(round(out$CPC, 2)) == abs(EV)))
 })
+
+#-----------------------------------------
+# Function `cpca_stepwise_eigen`
+#-----------------------------------------
+
+test_that("cpca_stepwise_eigen: ncomp = 1", {
+  library(plyr)
+  library(Matrix)
+  
+  # data
+  data(iris)
+
+  cov <- dlply(iris, "Species", function(x) Matrix(cov(x[, -ncol(x)])))
+  ng <- daply(iris, "Species", function(x) nrow(x))
+  
+  out <- cpca_stepwise_eigen(cov, ng, maxit = 20, ncomp = 1)
+
+  ### tests  
+  expect_true(out$converged)
+})
