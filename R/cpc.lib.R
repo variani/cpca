@@ -142,75 +142,115 @@ cpc_stepwise <- function(X, n_g, k = 0, iter = 30, ...)
 # implementations, e.g. `cpc_stepwise_Matrix`.
 #-------------------------------------------------------------------------------
 
-cpc_stepwise_base <- function(cov, ngr, k = 0, iter = 30, ...)
+cpc_stepwise_base <- function(cov, ng, ncomp = 0, 
+  tol = 1e-6, maxit = 1e3,
+  start = c("eigen", "random"), 
+  verbose = 0, ...)
 {
-  p <- dim(X)[1]
-  mcas <- dim(X)[3]
-
-  # If k = 0 retrieve all components
-  if(k == 0) {
-    k <- p
+  ### par
+  stopifnot(length(cov) == length(ng))
+  
+  start <- match.arg(start)
+  
+  ng <- as.numeric(ng)
+  
+  ### var
+  k <- length(cov) # number of groups `k`
+  p <- nrow(cov[[1]]) # number of variables `p` (the covariance matrices p x p)
+  n <- sum(ng) # the number of samples
+  
+  # If ncomp = 0 retrieve all components
+  if(ncomp == 0) {
+    ncomp <- p
   }
+
+  S <- matrix(0, nrow = p, ncol = p)  
   
-  # parameters: number of interations
-  iter <- 15
-  n <- n_g / sum(n_g)
-  
-  # output variables
-  D <- array(0, dim=c(p, mcas))
-  CPC <- array(0, dim=c(p, p))
+  ### output variables
+  D <- matrix(0, nrow = ncomp, ncol = k)
+  CPC <- matrix(0, nrow = p, ncol = ncomp)
   Qw <- diag(1, p)
   
-  # components `s`
-  s <- array(0, dim = c(p, p))
-  for(m in 1:mcas) {
-    s <- s + n[m]*X[, , m]
+  convergedComp <- rep(FALSE, ncomp)
+  itComp <- rep(0, ncomp)
+  
+  ### step 1: compute the staring estimation
+  if(start == "eigen") {
+    for(i in 1:k) {
+      S <- S + (ng[i] / n) * cov[[i]]
+      
+      res <- eigen(S) # `?eigen`: a vector containing the p eigenvalues of ‘x’, sorted in _decreasing_ order
+      all(order(res$values[1:ncomp], decreasing = TRUE) == seq(1, ncomp))
+      
+      q0 <- res$vectors[, 1:ncomp, drop = FALSE]
+    }
+  } else {
+    q0 <- matrix(runif(p * ncomp), nrow = p, ncol = ncomp)  
   }
   
-  # variables
-  res <- eigen(s)
-  q0 <- res$vectors
-  d0 <- diag(res$values, p)
-  if(d0[1, 1] < d0[p, p]) {
-    q0 <- q0[, ncol(q0):1]
-  }
-  
-  # loop 'for ncomp=1:p'
-  # Replaced by k so that only the first k components are retrieved
-  for(ncomp in 1:k) {
-   q <- q0[, ncomp]
-   d <- array(0, dim=c(1, mcas))
-   for(m in 1:mcas) {
-    d[, m] <- t(q) %*% X[, , m] %*% q
-   }
-   
-   # loop 'for i=1:iter'
-   for(i in 1:iter) {
-    s <- array(0, dim=c(p, p))
-    for(m in 1:mcas) {
-      s <- s + n_g[m] * X[, , m] / d[, m]
-    }
-           
-    w <- s %*% q
-    if( ncomp != 1) {
-      w <- Qw %*% w
-    }
-
-    q <- w / as.numeric(sqrt((t(w) %*% w)))
-    for(m in 1:mcas) {
-      d[, m]  <- t(q) %*% X[, , m] %*% q
+  #### step 2: estimation of `p` components in a loop
+  for(comp in 1:ncomp) {
+    if(verbose > 1) {
+      cat(" * component:", comp, "/", ncomp, "\n")
     }
     
-   }
-   # end of loop 'for i=1:iter'
+    q <- q0[, comp]
+  
+    d <- rep(0, k) 
+    for(i in 1:k) {
+      d[i] <- as.numeric(t(q) %*% cov[[k]] %*% q)
+    }
    
-   D[ncomp, ] <- d
-   CPC[, ncomp] <- q
-   Qw <- Qw - q %*% t(q)
+    # loop along `it`
+    cost0 <- 0
+    for(it in 1:maxit) {
+      if(verbose > 1) {
+        cat(" * it:", it, "/", maxit, "\n")
+      }
+    
+      S <- matrix(0, nrow = p, ncol = p)
+      for(i in 1:k) {
+        S <- S + (ng[i] / d[i]) * cov[[i]]
+      }
+      
+      w <- S %*% q
+      if(comp != 1) { 
+        w <- Qw %*% w
+      }
+
+      q <- w / sqrt(as.numeric(t(w) %*% w)) # normalize 
+      
+      # compute `cost` & `d`
+      for(i in 1:k) {
+        d[i] <- as.numeric(t(q) %*% cov[[i]] %*% q)
+      }
+      
+      cost <- sum(log(d) * ng)
+      
+      delta <- abs((cost - cost0) / cost)
+      if(verbose > 1) {
+        cat("  --  delta:", delta, "\n")
+      }
+      if(delta < tol) {
+        break
+      }
+    
+      cost0 <- cost
+    }
+    # end of loop along `it`
+    itComp[comp] <- it
+    convergedComp[comp] <- (it < maxit)
+   
+    D[comp, ] <- d
+    CPC[, comp] <- q
+    Qw <- Qw - q %*% t(q)
   }
-  # end of loop 'for ncomp=1:k'
+  # end of loop along `comp`
   
   ### return
-  out <- list(D = D[1:ncomp, ], CPC = CPC[, 1:ncomp], ncomp = ncomp)
+  out <- list(D = D, CPC = CPC, ncomp = ncomp,
+    convergedComp = convergedComp, converged = all(convergedComp),
+    itComp = itComp, maxit = maxit)
+  
   return(out)
 }
