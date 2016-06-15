@@ -10,7 +10,7 @@
 #' @param x 
 #'    An object of class \code{EigenPower}.
 #' @param digits
-#'   The numbe of digits to be printed.
+#'   The number of digits to be printed.
 #' @param ...
 #'    Additional arguments.
 #'

@@ -130,7 +130,7 @@ cpc_stepwise <- function(X, n_g, k = 0, iter = 30, ...)
 }
 
 #-------------------------------------------------------------------------------
-# `cpc_stepwise_base` is an updated version of `cpc_stepwise`.
+# `cpca_stepwise_base` is an updated version of `cpc_stepwise`.
 # - the cost function is introduced;
 # - new arguments `maxit`, `tol` are added;
 # - the input covariance matrices are passed in a list.
@@ -142,7 +142,7 @@ cpc_stepwise <- function(X, n_g, k = 0, iter = 30, ...)
 # implementations, e.g. `cpc_stepwise_Matrix`.
 #-------------------------------------------------------------------------------
 
-cpc_stepwise_base <- function(cov, ng, ncomp = 0, 
+cpca_stepwise_base <- function(cov, ng, ncomp = 0, 
   tol = 1e-6, maxit = 1e3,
   start = c("eigen", "random"), 
   verbose = 0, ...)
@@ -251,6 +251,8 @@ cpc_stepwise_base <- function(cov, ng, ncomp = 0,
   out <- list(D = D, CPC = CPC, ncomp = ncomp,
     convergedComp = convergedComp, converged = all(convergedComp),
     itComp = itComp, maxit = maxit)
+  
+  oldClass(out) <- c("CPCAPower")
   
   return(out)
 }

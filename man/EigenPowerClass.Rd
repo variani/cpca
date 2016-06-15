@@ -10,7 +10,7 @@
 \arguments{
 \item{x}{An object of class \code{EigenPower}.}
 
-\item{digits}{The numbe of digits to be printed.}
+\item{digits}{The number of digits to be printed.}
 
 \item{...}{Additional arguments.}
 }

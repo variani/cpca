@@ -33,9 +33,10 @@ Collate:
     'utils.lib.R'
     'RcppExports.R'
     'package.R'
-    'classEigenPower.R'
     'eigen.lib.R'
     'cpc.lib.R'
+    'classEigenPower.R'
+    'classCPCAPower.R'
     'onUnload.R'
 RoxygenNote: 5.0.1
 LinkingTo: Rcpp, RcppEigen, RcppParallel
