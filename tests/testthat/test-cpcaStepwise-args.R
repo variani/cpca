@@ -5,6 +5,8 @@
 context("`cpca_stepwise_base` and its arguments")
 
 test_that("`start` argument", {
+  library(plyr)
+  
   # data
   data(iris)
   ncomp <- ncol(iris) - 1
