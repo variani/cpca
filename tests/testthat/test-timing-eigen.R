@@ -1,6 +1,8 @@
 context("Timing for EVD")
 
 test_that("Speed up on a large sparse matrix", {
+  skip("better benchmarks are needed")
+  
   ### inc
   library(Matrix)
     

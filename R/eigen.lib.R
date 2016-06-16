@@ -29,6 +29,7 @@
 #' @export
 eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3, 
   sparse = FALSE, sparseSymm = FALSE, 
+  ncomp = 1,
   verbose = 0)
 {
   timing <- list()
@@ -36,9 +37,21 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
   
   ### arguments
   stopifnot(!missing(A))
+  stopifnot(nrow(A) == ncol(A))
+  
+  p <- ncol(A)
+
+  if(ncomp != 1) {
+    stopifnot(missing(v0))
+  }
   
   if(missing(v0)) {
-    v0 <- runif(ncol(A))
+    v0 <- runif(p)
+  }
+  v0 <- as.numeric(v0)
+  
+  if(ncomp == 0) {
+    ncomp <- p
   }
   
   ### convert into sparse matrices
@@ -65,36 +78,61 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
       stopifnot(requireNamespace("Matrix"))
     }
   }
-  
-  ### preparation before looping
-  timing$algo <- proc.time()
-  
-  v0 <- as.numeric(v0)
-  
-  v <- v0
-  v <- v / sqrt(v %*% v)
 
-  ### loop
-  lambda0 <- 0
-  for(it in 1:maxit) {
-    if(verbose > 1) {
-      cat(" * it:", it, "/", maxit, "\n")
-    }
-    
-    b <- tcrossprod(A, t(v)) # A %*% v
-    v <- b / sqrt(as.numeric(crossprod(b)))
-    lambda <- as.numeric(crossprod(v, b)) # t(v) %*% b
-    
-    delta <- abs((lambda - lambda0) / lambda)
-    if(delta < tol) {
-      break
-    }
-    
-    lambda0 <- lambda
-  }
+  # output variables
+  convergedComp <- rep(FALSE, ncomp)
+  itComp <- rep(0, ncomp)
   
-  ### post-process
-  converged <- (it < maxit)
+  D <- rep(0, ncomp)
+  CPC <- matrix(0, nrow = p, ncol = ncomp)
+  Qw <- diag(1, p)
+  if(sparseMatrix) {
+    Qw <- Matrix::Matrix(Qw, sparse = sparseMatrix)
+  }
+   
+  ### computation
+  timing$algo <- proc.time()
+
+  for(comp in 1:ncomp) {
+    if(verbose > 1) {
+      cat(" * component:", comp, "/", ncomp, "\n")
+    }
+    
+    ### preparation before looping
+    v <- v0
+    v <- v / sqrt(as.numeric(crossprod(v)))
+
+    ### loop
+    lambda0 <- 0
+    for(it in 1:maxit) {
+      if(verbose > 1) {
+        cat(" * it:", it, "/", maxit, "\n")
+      }
+    
+      b <- tcrossprod(A, t(v)) # A %*% v
+      if(comp != 1) { 
+        b <- crossprod(Qw, b)
+      }
+      v <- b / sqrt(as.numeric(crossprod(b)))
+      lambda <- as.numeric(crossprod(v, b)) # t(v) %*% b
+    
+      delta <- abs((lambda - lambda0) / lambda)
+      if(delta < tol) {
+        break
+      }
+    
+      lambda0 <- lambda
+    }
+  
+    ### post-process
+    itComp[comp] <- it
+    convergedComp[comp] <- (it < maxit)
+    
+     D[comp] <- lambda
+     CPC[, comp] <- as.numeric(v)
+     
+     Qw <- Qw - tcrossprod(v)
+  }
   
   ### output
   timing$return <- proc.time()
@@ -105,12 +143,15 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
   timing$cputime.sec <- (timing$return - timing$args)[["elapsed"]]
   
   out <- list(v0 = v0, tol = tol, maxit = maxit,
-    it = it, delta = delta, converged = converged, 
+    itComp = itComp, convergedComp = convergedComp,
+    it = mean(it), converged = all(convergedComp), 
     sparseMatrix = sparseMatrix,
     timing = timing,
-    lambda = lambda, v = as.numeric(v))
-  
-   oldClass(out) <- c("EigenPower")
+    ncomp = ncomp,
+    values = D, vectors = CPC,
+    lambda = D[1], v = CPC[, 1])
+    
+  oldClass(out) <- c("EigenPower")
    
   return(out)
 }
