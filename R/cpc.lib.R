@@ -145,7 +145,7 @@ cpc_stepwise <- function(X, n_g, k = 0, iter = 30, ...)
 #' @importFrom plyr laply
 cpca_stepwise_base <- function(cov, ng, ncomp = 0, 
   tol = 1e-6, maxit = 1e3,
-  start = c("eigenPower", "eigen", "random"), symmetric = TRUE,
+  start = c("eigen", "eigenPower", "random"), symmetric = TRUE,
   useCrossprod = TRUE,
   verbose = 0, ...)
 {

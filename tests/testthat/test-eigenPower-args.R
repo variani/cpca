@@ -1,12 +1,17 @@
-context("Power method for EVD (many comp.)")
+#------------------------------------------------------------
+# Testing arguments of `eigenPower` function
+#------------------------------------------------------------
 
-test_that("iris example", {
+context("`eigenPower` and its arguments")
+
+test_that("`ncomp` argument", {
   # data
   data(iris)
   ncomp <- ncol(iris) - 1
   
   cov <- cov(iris[, -ncol(iris)])
   
+  # run
   out1 <- eigen(cov)
   out2 <- eigenPower(cov, ncomp = 0)
   
