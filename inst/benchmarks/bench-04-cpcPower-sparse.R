@@ -23,17 +23,17 @@ df <- ldply(pseq, function(p) {
     mat <- matrix(runif(n * p), nrow = n, ncol = p)
     cov <- cov(mat)
     
+    cov[cov < 0.01] <- 0
+    
     out1[[i]] <- cov
-    out2[[i]] <- Matrix(cov)
+    out2[[i]] <- Matrix(cov, sparse = TRUE)
   }
 
   ng <- rep(100, K)
   
   out <- microbenchmark(
     cpca_stepwise_base(out1, ng, ncomp = ncomp, start = "random"),
-    cpca_stepwise_base(out1, ng, ncomp = ncomp, start = "eigen"),
-    cpca_stepwise_base(out1, ng, ncomp = ncomp, start = "random", useCrossprod = FALSE),
-    cpca_stepwise_base(out1, ng, ncomp = ncomp, start = "eigen", useCrossprod = FALSE),
+    cpca_stepwise_eigen(out2, ng, ncomp = ncomp, start = "random"),
     times = 10)
   
   df <- subset(as.data.frame(summary(out)), select = c("expr", "median"))

@@ -145,6 +145,7 @@ cpc_stepwise <- function(X, n_g, k = 0, iter = 30, ...)
 cpca_stepwise_base <- function(cov, ng, ncomp = 0, 
   tol = 1e-6, maxit = 1e3,
   start = c("eigen", "random"), symmetric = TRUE,
+  useCrossprod = TRUE,
   verbose = 0, ...)
 {
   ### par
@@ -179,7 +180,7 @@ cpca_stepwise_base <- function(cov, ng, ncomp = 0,
   if(start == "eigen") {
     S <- matrix(0, nrow = p, ncol = p)  
     for(i in 1:k) {
-      S <- S + (ng[i] / n) * cov[[i]]
+        S <- S + (ng[i] / n) * cov[[i]]
     }
     
     res <- eigen(S, symmetric = symmetric) # `?eigen`: a vector containing the p eigenvalues of ‘x’, sorted in _decreasing_ order
@@ -200,7 +201,8 @@ cpca_stepwise_base <- function(cov, ng, ncomp = 0,
   
     d <- rep(0, k) 
     for(i in 1:k) {
-      d[i] <- as.numeric(t(q) %*% cov[[i]] %*% q)
+      if(useCrossprod) d[i] <- as.numeric(crossprod(q, crossprod(cov[[i]], q)))
+      else             d[i] <- as.numeric(t(q) %*% cov[[i]] %*% q)
     }
    
     # loop along `it`
@@ -215,16 +217,21 @@ cpca_stepwise_base <- function(cov, ng, ncomp = 0,
         S <- S + (ng[i] / d[i]) * cov[[i]]
       }
       
-      w <- S %*% q
+      if(useCrossprod) w <- crossprod(S, q) # (1) S %*% q; (2) tcrossprod(S, t(q)), as S is symmetric
+      else             w <- S %*% q
+
       if(comp != 1) { 
-        w <- Qw %*% w
+        if(useCrossprod) w <- Qw %*% w
+        else             w <- crossprod(Qw, w) # (1) Qw %*% w; (2) tcrossprod(Qw, t(w)), as Qw is symmetric
       }
 
-      q <- w / sqrt(as.numeric(t(w) %*% w)) # normalize 
+      if(useCrossprod) q <- w / sqrt(as.numeric(t(w) %*% w)) # normalize 
+      else             q <- as.numeric(w) / sqrt(as.numeric(crossprod(w))) # normalize 
       
       # compute `cost` & `d`
       for(i in 1:k) {
-        d[i] <- as.numeric(t(q) %*% cov[[i]] %*% q)
+        if(useCrossprod) d[i] <- as.numeric(crossprod(q, crossprod(cov[[i]], q)))
+        else             d[i] <- as.numeric(t(q) %*% cov[[i]] %*% q)
       }
       
       cost <- sum(log(d) * ng)
@@ -245,7 +252,10 @@ cpca_stepwise_base <- function(cov, ng, ncomp = 0,
    
     D[comp, ] <- d
     CPC[, comp] <- q
-    Qw <- Qw - q %*% t(q)
+
+    if(useCrossprod) Qw <- Qw - q %*% t(q)
+    else             Qw <- Qw - tcrossprod(q)
+    
   }
   # end of loop along `comp`
   
@@ -334,7 +344,7 @@ cpca_stepwise_eigen <- function(cov, ng, ncomp = 0,
   
     d <- rep(0, k) 
     for(i in 1:k) {
-      d[i] <- as.numeric(crossprod(q, crossprod(cov[[i]], q)))
+      d[i] <- as.numeric(Matrix::crossprod(q, Matrix::crossprod(cov[[i]], q)))
     }
    
     # loop along `it`
@@ -358,7 +368,7 @@ cpca_stepwise_eigen <- function(cov, ng, ncomp = 0,
       
       # compute `cost` & `d`
       for(i in 1:k) {
-        d[i] <- as.numeric(crossprod(q, crossprod(cov[[i]], q)))
+        d[i] <- as.numeric(Matrix::crossprod(q, Matrix::crossprod(cov[[i]], q)))
       }
       
       cost <- sum(log(d) * ng)
