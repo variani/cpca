@@ -144,7 +144,7 @@ cpc_stepwise <- function(X, n_g, k = 0, iter = 30, ...)
 
 cpca_stepwise_base <- function(cov, ng, ncomp = 0, 
   tol = 1e-6, maxit = 1e3,
-  start = c("eigen", "random"), symmetric = TRUE,
+  start = c("eigenPower", "eigen", "random"), symmetric = TRUE,
   useCrossprod = TRUE,
   verbose = 0, ...)
 {
@@ -177,7 +177,18 @@ cpca_stepwise_base <- function(cov, ng, ncomp = 0,
   itComp <- rep(0, ncomp)
   
   ### step 1: compute the staring estimation
-  if(start == "eigen") {
+  if(start == "eigenPower") {
+    S <- matrix(0, nrow = p, ncol = p)  
+    for(i in 1:k) {
+        S <- S + (ng[i] / n) * cov[[i]]
+    }
+    
+    res <- eigenPower(S, ncomp = ncomp)
+    all(order(res$values[1:ncomp], decreasing = TRUE) == seq(1, ncomp))
+      
+    q0 <- res$vectors[, 1:ncomp, drop = FALSE]
+  }
+  else if(start == "eigen") {
     S <- matrix(0, nrow = p, ncol = p)  
     for(i in 1:k) {
         S <- S + (ng[i] / n) * cov[[i]]
