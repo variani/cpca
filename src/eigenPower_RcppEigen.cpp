@@ -79,5 +79,5 @@ List eigenPower_RcppEigen(
   ret["lambda"] = lambda;
   ret["v"] = v;
    
-  return(ret) ;
+  return(ret);
 }

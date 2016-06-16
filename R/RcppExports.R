@@ -21,3 +21,11 @@ numericMultVec <- function(x, a) {
     .Call('cpca_numericMultVec', PACKAGE = 'cpca', x, a)
 }
 
+eigen_RcppEigen <- function(mat) {
+    .Call('cpca_eigen_RcppEigen', PACKAGE = 'cpca', mat)
+}
+
+eigenSelfAdjoint_RcppEigen <- function(mat) {
+    .Call('cpca_eigenSelfAdjoint_RcppEigen', PACKAGE = 'cpca', mat)
+}
+

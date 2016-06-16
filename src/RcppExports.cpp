@@ -72,3 +72,25 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// eigen_RcppEigen
+List eigen_RcppEigen(const Eigen::Map<Eigen::MatrixXd>& mat);
+RcppExport SEXP cpca_eigen_RcppEigen(SEXP matSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type mat(matSEXP);
+    __result = Rcpp::wrap(eigen_RcppEigen(mat));
+    return __result;
+END_RCPP
+}
+// eigenSelfAdjoint_RcppEigen
+List eigenSelfAdjoint_RcppEigen(const Eigen::Map<Eigen::MatrixXd>& mat);
+RcppExport SEXP cpca_eigenSelfAdjoint_RcppEigen(SEXP matSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type mat(matSEXP);
+    __result = Rcpp::wrap(eigenSelfAdjoint_RcppEigen(mat));
+    return __result;
+END_RCPP
+}
