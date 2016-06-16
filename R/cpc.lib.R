@@ -142,6 +142,7 @@ cpc_stepwise <- function(X, n_g, k = 0, iter = 30, ...)
 # implementations, e.g. `cpc_stepwise_eigen`.
 #-------------------------------------------------------------------------------
 
+#' @importFrom plyr laply
 cpca_stepwise_base <- function(cov, ng, ncomp = 0, 
   tol = 1e-6, maxit = 1e3,
   start = c("eigenPower", "eigen", "random"), symmetric = TRUE,
@@ -150,7 +151,7 @@ cpca_stepwise_base <- function(cov, ng, ncomp = 0,
 {
   ### par
   stopifnot(length(cov) == length(ng))
-  stopifnot(all(laply(cov, class) == "matrix"))
+  stopifnot(all(plyr::laply(cov, class) == "matrix"))
   
   stopifnot(symmetric)
   
@@ -290,6 +291,7 @@ cpca_stepwise_base <- function(cov, ng, ncomp = 0,
 #-------------------------------------------------------------------------------
 
 #' @importFrom Matrix Matrix isSymmetric crossprod tcrossprod
+#' @importFrom plyr laply
 cpca_stepwise_eigen <- function(cov, ng, ncomp = 0, 
   tol = 1e-6, maxit = 1e3,
   start = c("eigen", "random"), symmetric = TRUE,
@@ -298,11 +300,11 @@ cpca_stepwise_eigen <- function(cov, ng, ncomp = 0,
   ### par
   stopifnot(length(cov) == length(ng))
   
-  cl <- laply(cov, function(x) as.character(class(x)))
+  cl <- plyr::laply(cov, function(x) as.character(class(x)))
   stopifnot(all(grepl("*Matrix$", cl)))
 
   stopifnot(symmetric)
-  covSymm <- laply(cov, Matrix::isSymmetric)
+  covSymm <- plyr::laply(cov, Matrix::isSymmetric)
   stopifnot(all(covSymm))
   
   start <- match.arg(start)

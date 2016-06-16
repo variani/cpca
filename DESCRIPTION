@@ -23,11 +23,11 @@ Depends:
 Imports: 
     methods, 
     Matrix,
+    plyr,
     Rcpp,
     RcppParallel
 Suggests:
     abind,
-    plyr,
     testthat
 Collate: 
     'utils.lib.R'

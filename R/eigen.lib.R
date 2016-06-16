@@ -19,6 +19,9 @@
 #' @param sparseSymm The boolean value, whether to convert the input \code{A} matrix to one of the \code{Matrix} classes,
 #'   while trying to convert to a symmetric matrix type.
 #'   The default value is \code{FALSE}.
+#' @param ncomp The number of eigenvectors to be extracted.
+#'   The default value is \code{1}.
+#'   The value of \code{0} means extract all eigenvectors.
 #' @param verbose The integer value indicating the verbose level.
 #'   The default value is \code{0}.
 #' @return A list several slots: \code{v} the first eigenvector; 

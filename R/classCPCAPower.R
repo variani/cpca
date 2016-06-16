@@ -28,7 +28,7 @@ print.CPCAPower <- function(x, digits = 2, ...)
   }  
 
   cat("\n Input data:\n")
-  cat(" - covariance matrices of size:", nrow(out$CPC), "\n")
+  cat(" - covariance matrices of size:", nrow(x$CPC), "\n")
   
   cat("\n Output parameters:\n")
   #cat(" - eigen value (lambda):", round(x$lambda, digits), "\n")

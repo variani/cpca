@@ -5,7 +5,7 @@
 \title{Function eigenPower.}
 \usage{
 eigenPower(A, v0, tol = 1e-06, maxit = 1000, sparse = FALSE,
-  sparseSymm = FALSE, verbose = 0)
+  sparseSymm = FALSE, ncomp = 1, verbose = 0)
 }
 \arguments{
 \item{A}{A two-dimensional square matrix, either of \code{matrix} or \code{Matrix} class.}
@@ -25,6 +25,10 @@ The default value is \code{FALSE}.}
 \item{sparseSymm}{The boolean value, whether to convert the input \code{A} matrix to one of the \code{Matrix} classes,
 while trying to convert to a symmetric matrix type.
 The default value is \code{FALSE}.}
+
+\item{ncomp}{The number of eigenvectors to be extracted.
+The default value is \code{1}.
+The value of \code{0} means extract all eigenvectors.}
 
 \item{verbose}{The integer value indicating the verbose level.
 The default value is \code{0}.}

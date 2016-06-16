@@ -10,7 +10,8 @@ test_that("iris example", {
   out1 <- eigen(cov)
   out2 <- eigenPower(cov, ncomp = 0)
   
-  expect_true(out$ncomp == ncomp)
+  expect_true(out2$ncomp == ncomp)
+  
   expect_true(all(round(out1$values, 2) == round(out2$values, 2)))
   expect_true(all(round(abs(out1$vectors), 2) == round(abs(out2$vectors), 2)))
 })
