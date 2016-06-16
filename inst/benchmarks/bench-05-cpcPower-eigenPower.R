@@ -23,7 +23,7 @@ df <- ldply(pseq, function(p) {
   out <- list()
   
   for(i in 1:K) {
-    mat <- matrix(runif(n * p), nrow = n, ncol = p)
+    mat <- matrix(runif(N * p), nrow = N, ncol = p)
     cov <- cov(mat)
     
     out[[i]] <- cov
