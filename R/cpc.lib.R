@@ -184,7 +184,7 @@ cpca_stepwise_base <- function(cov, ng, ncomp = 0,
         S <- S + (ng[i] / n) * cov[[i]]
     }
     
-    res <- eigenPower(S, ncomp = ncomp)
+    res <- eigenPowerRcppEigen(S, ncomp = ncomp)
     all(order(res$values[1:ncomp], decreasing = TRUE) == seq(1, ncomp))
       
     q0 <- res$vectors[, 1:ncomp, drop = FALSE]
