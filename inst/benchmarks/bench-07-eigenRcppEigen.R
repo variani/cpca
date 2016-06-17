@@ -12,17 +12,18 @@ hilbert <- function(n) {
 nseq <- seq(50, 500, length = 5)
 df <- ldply(nseq, function(n) {
   n <- ceiling(n)
-  v <- runif(n)
-  M <- hilbert(n)
-  
+  #M <- hilbert(n)
+  M <- matrix(runif(n*n), n, n)
+  M <- M + t(M)
+    
   cat(" * n:", n, "\n")
   
   out <- microbenchmark(
     eigen(M),
     eigen(M, symmetric = TRUE),
-    eigenPowerRcppEigen(M),
     eigen_RcppEigen(M),
     eigenSelfAdjoint_RcppEigen(M),
+    eigenPowerRcppEigen(M),
     times = 10)
   
   df <- subset(as.data.frame(summary(out)), select = c("expr", "median"))

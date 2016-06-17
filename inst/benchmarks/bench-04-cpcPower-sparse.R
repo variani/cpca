@@ -9,6 +9,8 @@ N <- 1000
 K <- 3
 density <- 0.5
 
+n <- 1000
+
 ncomp <- 5
 
 pseq <- seq(10, 150, length = 5)
