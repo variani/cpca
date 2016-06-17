@@ -21,7 +21,8 @@ df <- ldply(nseq, function(n) {
     eigen(M),
     eigenPower(M), 
     eigenPower(M, ncomp = 5),
-    eigenPowerRcppEigen(M), 
+    eigenPowerRcppEigen(M),
+    eigenPowerRcppEigen(M, ncomp = 5),  
     times = 10)
   
   df <- subset(as.data.frame(summary(out)), select = c("expr", "median"))

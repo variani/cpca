@@ -131,10 +131,10 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
     itComp[comp] <- it
     convergedComp[comp] <- (it < maxit)
     
-     D[comp] <- lambda
-     CPC[, comp] <- as.numeric(v)
+    D[comp] <- lambda
+    CPC[, comp] <- as.numeric(v)
      
-     Qw <- Qw - tcrossprod(v)
+    Qw <- Qw - tcrossprod(v)
   }
   
   ### output
@@ -225,6 +225,7 @@ eigenPowerRcpp <- function(A, v0, tol = 1e-6, maxit = 1e3, mode = 1,
 #'   \code{lambda} the first eigenvalue; etc.
 #' @export
 eigenPowerRcppEigen <- function(A, v0, tol = 1e-6, maxit = 1e3, 
+  ncomp = 1, symmetric = FALSE,
   verbose = 0)
 {
   ### args
@@ -238,7 +239,7 @@ eigenPowerRcppEigen <- function(A, v0, tol = 1e-6, maxit = 1e3,
   }
   
   ### run
-  out <- eigenPower_RcppEigen(A, v0, tol = tol, maxit = maxit, verbose = verbose)
+  out <- eigenPower_RcppEigen(A, v0, tol = tol, maxit = maxit,   ncomp = ncomp, symmetric = symmetric, verbose = verbose)
 
   ### return
   timing$return <- proc.time()
