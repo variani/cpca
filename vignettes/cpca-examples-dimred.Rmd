@@ -1,0 +1,106 @@
+---
+title: "Vignette Title"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r options, echo = F}
+opts_chunk$set(fig.path = "figures-dimred/", comment = NA, results = 'markup', tidy = F, message = T, warning = T, echo = T, cache = T)
+```
+
+# About
+
+## Include cpca package
+
+```{r inc_cpca, cache = FALSE}
+load_all()
+```
+
+## Include other packages
+
+```{r inc, cache = FALSE}
+library(plyr)
+library(ggplot2)
+library(gridExtra)
+
+library(pander)
+```
+
+```{r settings, cache = FALSE, echo = F}
+theme_set(theme_light())
+panderOptions('table.split.table', Inf)
+panderOptions('knitr.auto.asis', FALSE)
+```
+
+# Examples
+
+## Dataset iris
+
+Loading the dataset:
+
+```{r load_iris}
+data(iris)
+```
+
+Preparing inputs to the CPCA model:
+
+```{r prepare_iris}
+X <- as.matrix(iris[, -5])
+Y <- iris[, 5]
+```
+
+Running the CPCA model:
+
+```{r iris_model}
+m1 <- comprcomp(X, Y) 
+```
+
+Plotting scores:
+
+```{r iris_varplot, fig.width = 9, fig.height = 3}
+varplot(m1, X, Y)
+```
+
+```{r iris_scoreplot, fig.width = 6, fig.height = 4}
+scoreplot(m1, X, Y)
+```
+
+## Bank notes dataset
+
+Loading the dataset:
+
+```{r load_banknote}
+library(mclust)
+data(banknote)
+```
+
+Preparing inputs to the CPCA model:
+
+```{r prepare_banknote}
+X <- as.matrix(subset(banknote, select = c("Left", "Right", "Bottom", "Top")))
+Y <- banknote$Status
+```
+
+Running the CPCA model:
+
+```{r banknote_model}
+m2 <- comprcomp(X, Y) 
+```
+
+Plotting scores:
+
+```{r banknote_varplot, fig.width = 6, fig.height = 3}
+varplot(m2, X, Y)
+```
+
+```{r banknote_scoreplot, fig.width = 6, fig.height = 4}
+scoreplot(m2, X, Y)
+```
+
+
+

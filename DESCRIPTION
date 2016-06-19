@@ -24,20 +24,26 @@ Imports:
     methods, 
     Matrix,
     plyr,
+    ggplot2,
+    pls,
     Rcpp,
     RcppParallel
-Suggests:
+Suggests: 
     abind,
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
 Collate: 
     'utils.lib.R'
     'RcppExports.R'
     'package.R'
     'eigen.lib.R'
     'cpc.lib.R'
+    'comprcomp.lib.R'
     'classEigenPower.R'
     'classCPCAPower.R'
     'onUnload.R'
 RoxygenNote: 5.0.1
 LinkingTo: Rcpp, RcppEigen, RcppParallel
 SystemRequirements: GNU make
+VignetteBuilder: knitr

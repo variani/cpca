@@ -1,0 +1,4 @@
+vignettes/*_cache/
+vignettes/figures*
+vignettes/*.html
+
