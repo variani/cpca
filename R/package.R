@@ -14,5 +14,11 @@
 #' @importFrom methods as
 #' @importFrom stats runif
 #' @importFrom utils head
+#'
+#' @importFrom plyr laply llply
+#'
+#' @import ggplot2
+#'
+#' @importFrom pls scores scoreplot
 {}
 

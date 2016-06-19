@@ -129,6 +129,24 @@ cpc_stepwise <- function(X, n_g, k = 0, iter = 30, ...)
   return(out)
 }
 
+#-------------------------
+# Main function `cpca`
+#-------------------------
+
+#' @export
+cpca <- function(cov, ng, ncomp = 2, method = "base", ...)
+{
+  ### arg
+  stopifnot(class(cov) == "list")
+  stopifnot(length(cov) == length(ng))
+  
+  method <- match.arg(method)
+  
+  switch(method,
+    base = cpca_stepwise_base(cov, ng, ncomp, ...),
+    stop("Error in switch."))
+}
+
 #-------------------------------------------------------------------------------
 # `cpca_stepwise_base` is an updated version of `cpc_stepwise`.
 # - the cost function is introduced;
@@ -142,7 +160,6 @@ cpc_stepwise <- function(X, n_g, k = 0, iter = 30, ...)
 # implementations, e.g. `cpc_stepwise_eigen`.
 #-------------------------------------------------------------------------------
 
-#' @importFrom plyr laply
 cpca_stepwise_base <- function(cov, ng, ncomp = 0, 
   tol = 1e-6, maxit = 1e3,
   start = c("eigen", "eigenPower", "random"), symmetric = TRUE,
