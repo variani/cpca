@@ -25,7 +25,6 @@ Imports:
     Matrix,
     plyr,
     ggplot2,
-    pls,
     Rcpp,
     RcppParallel
 Suggests: 

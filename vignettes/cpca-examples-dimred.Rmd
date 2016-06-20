@@ -1,6 +1,6 @@
 ---
-title: "Vignette Title"
-author: "Vignette Author"
+title: "CPCA as a dimensionality reduction technique"
+author: "Andrey Ziyatdinov"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -10,7 +10,7 @@ vignette: >
 ---
 
 ```{r options, echo = F}
-opts_chunk$set(fig.path = "figures-dimred/", comment = NA, results = 'markup', tidy = F, message = T, warning = T, echo = T, cache = T)
+opts_chunk$set(fig.path = "figures-dimred/", comment = NA, results = 'markup', tidy = F, message = T, warning = T, echo = T, cache = F)
 ```
 
 # About
@@ -29,10 +29,15 @@ library(ggplot2)
 library(gridExtra)
 
 library(pander)
+
+library(pls)
+library(MASS)
 ```
 
-```{r settings, cache = FALSE, echo = F}
-theme_set(theme_light())
+Settings:
+
+```{r settings, cache = FALSE, echo = T}
+theme_set(theme_linedraw())
 panderOptions('table.split.table', Inf)
 panderOptions('knitr.auto.asis', FALSE)
 ```
@@ -50,57 +55,93 @@ data(iris)
 Preparing inputs to the CPCA model:
 
 ```{r prepare_iris}
-X <- as.matrix(iris[, -5])
-Y <- iris[, 5]
+X1 <- as.matrix(iris[, -5])
+Y1 <- iris[, 5]
 ```
 
 Running the CPCA model:
 
 ```{r iris_model}
-m1 <- comprcomp(X, Y) 
+m1 <- comprcomp(X1, Y1) 
 ```
 
 Plotting scores:
 
 ```{r iris_varplot, fig.width = 9, fig.height = 3}
-varplot(m1, X, Y)
+varplot(m1, X1, Y1)
 ```
 
 ```{r iris_scoreplot, fig.width = 6, fig.height = 4}
-scoreplot(m1, X, Y)
+scoreplot(m1, X1, Y1)
 ```
 
 ## Bank notes dataset
 
+Flury studied an interesting dataset known as the Swiss banknotes dataset,
+which is available from an R package `mclust`.
+The dataset consists of six measurements made on 200 banknotes,
+where 100 are genuine and 100 are forged. 
+The variables are: 
+
+* width of the banknote; 
+* height of the left-hand side of the banknote; 
+* height of the right-hand side of the banknote; 
+* distance between the top of the inner box to the upper border; 
+* distance between the bottom of the inner box to the lower border; 
+* diagonal of the inner box.
+
+
 Loading the dataset:
 
 ```{r load_banknote}
-library(mclust)
-data(banknote)
+data(banknote, package = "mclust")
 ```
+
+```{r head_banknote, results = "asis"}
+pander(head(banknote))
+```
+
+### Using all 6 variables
 
 Preparing inputs to the CPCA model:
 
 ```{r prepare_banknote}
-X <- as.matrix(subset(banknote, select = c("Left", "Right", "Bottom", "Top")))
-Y <- banknote$Status
+X2 <- as.matrix(banknote[, -1])
+Y2 <- banknote[, 1]
 ```
 
 Running the CPCA model:
 
 ```{r banknote_model}
-m2 <- comprcomp(X, Y) 
+m2 <- comprcomp(X2, Y2) 
 ```
 
 Plotting scores:
 
 ```{r banknote_varplot, fig.width = 6, fig.height = 3}
-varplot(m2, X, Y)
+varplot(m2, X2, Y2)
 ```
 
 ```{r banknote_scoreplot, fig.width = 6, fig.height = 4}
-scoreplot(m2, X, Y)
+scoreplot(m2, X2, Y2)
 ```
 
+#### Looking a higher-order components
+
+```{r banknote_scoreplot_23, fig.width = 6, fig.height = 4}
+scoreplot(m2, X2, Y2, comp = c(2, 3))
+```
+
+```{r banknote_scoreplot_34, fig.width = 6, fig.height = 4}
+scoreplot(m2, X2, Y2, comp = c(3, 4))
+```
+
+#### PCA
+
+```{r bankbote_pca, fig.width = 4, fig.height = 4}
+m21 <- prcomp(X2)
+
+pls::scoreplot(m21, col = as.numeric(Y2) + 1)
+```
 
 
