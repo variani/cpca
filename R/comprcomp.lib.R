@@ -260,6 +260,10 @@ varcomp.comprcomp <- function(object, X, Y, comp,
         varcomp[, i] <- varcomp[, i] / vartoti
       }
     }
+    
+    rownames(varcomp) <- paste0("CPC", comp)
+    colnames(varcomp) <- levels(Y)
+    
   } else {
     varcomp <- rep(as.numeric(NA), length(comp))
     
@@ -312,16 +316,16 @@ varplot.comprcomp <- function(object, X, Y, comp = 1:2, facet = TRUE, ...)
   df <- as.data.frame(S)
   colnames(df) <- paste0("comp", 1:2)
 
-  df$lab <- Y
+  df$group <- Y
   
   ### plot
-  p <- ggplot(df, aes(comp1, comp2, color = lab)) + geom_point()
+  p <- ggplot(df, aes(comp1, comp2, color = group)) + geom_point()
 
   p <- p + labs(x = paste0("CPC", comp[1], " ", vars.perc[1]), 
     y = paste0("CPC", comp[2], " ", vars.perc[2]))
    
   if(facet) {
-    p <- p + facet_wrap(~ lab)
+    p <- p + facet_wrap(~ group)
   }
   
   return(p)
@@ -348,14 +352,46 @@ scoreplot.comprcomp <- function(object, X, Y, comp = 1:2, ...)
   df <- as.data.frame(S)
   colnames(df) <- paste0("comp", 1:2)
 
-  df$lab <- Y
+  df$group <- Y
   
   ### plot
-  p <- ggplot(df, aes(comp1, comp2, color = lab)) + geom_point()
+  p <- ggplot(df, aes(comp1, comp2, color = group)) + geom_point()
   
   # labs
   p <- p + labs(x = paste0("CPC", comp[1], " ", vars.perc[1]), 
     y = paste0("CPC", comp[2], " ", vars.perc[2]))
+  
+  return(p)
+}
+
+#' @rdname comprcompClass
+#' @export
+scoreplot.prcomp <- function(object, X, Y, comp = 1:2, ...)
+{
+  ### args
+  stopifnot(length(comp) == 2)
+  
+  ### get scores
+  S <- object$x[, comp]
+  
+  values <- (object$sdev)^2
+  vars <- values[comp] / sum(values)
+
+  vars.perc <- round(100 * vars, 1)
+  vars.perc <- paste0("(", vars.perc, "%)")
+  
+  ### prepare data.frame `df` for plotting
+  df <- as.data.frame(S)
+  colnames(df) <- paste0("comp", 1:2)
+
+  df$group <- Y
+  
+  ### plot
+  p <- ggplot(df, aes(comp1, comp2, color = group)) + geom_point()
+  
+  # labs
+  p <- p + labs(x = paste0("PC", comp[1], " ", vars.perc[1]), 
+    y = paste0("PC", comp[2], " ", vars.perc[2]))
   
   return(p)
 }

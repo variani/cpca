@@ -1,10 +1,10 @@
 ---
-title: "Examples of using CPCA as a dimensionality reduction technique"
+title: "Examples on using CPCA as a dimensionality reduction technique"
 author: "Andrey Ziyatdinov"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Examples of using CPCA as a dimensionality reduction technique}
+  %\VignetteIndexEntry{Examples on using CPCA as a dimensionality reduction technique}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -123,10 +123,14 @@ scoreplot(m2, X2, Y2)
 ```
 
 The second component (CPC2, y-axis) on `scoreplot` captures little variance (5.7\%).
-Let us see on the proportions of captured variance among CPCs (expressed in percentage).
+Let us see on the proportions of captured variance across all CPCs (expressed in percentage).
 
 ```{r banknote_com_var, results = "asis"}
 pander(varcomp(m2, X2, Y2, perc = TRUE))
+```
+
+```{r banknote_com_var_gr, results = "asis"}
+pander(varcomp(m2, X2, Y2, grouping = TRUE, perc = TRUE))
 ```
 
 #### Looking a higher-order components
@@ -141,10 +145,10 @@ scoreplot(m2, X2, Y2, comp = c(3, 4))
 
 #### PCA
 
-```{r bankbote_pca, fig.width = 4, fig.height = 4}
+```{r bankbote_pca, fig.width = 6, fig.height = 4}
 m21 <- prcomp(X2)
 
-scoreplot(m21, col = as.numeric(Y2) + 1)
+scoreplot(m21, Y = Y2)
 ```
 
 
