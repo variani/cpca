@@ -1,24 +1,20 @@
 ---
-title: "CPCA as a dimensionality reduction technique"
+title: "Examples of using CPCA as a dimensionality reduction technique"
 author: "Andrey Ziyatdinov"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Examples of using CPCA as a dimensionality reduction technique}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
-```{r options, echo = F}
-opts_chunk$set(fig.path = "figures-dimred/", comment = NA, results = 'markup', tidy = F, message = T, warning = T, echo = T, cache = F)
-```
 
 # About
 
 ## Include cpca package
 
 ```{r inc_cpca, cache = FALSE}
-load_all()
+library(cpca)
 ```
 
 ## Include other packages
@@ -141,7 +137,7 @@ scoreplot(m2, X2, Y2, comp = c(3, 4))
 ```{r bankbote_pca, fig.width = 4, fig.height = 4}
 m21 <- prcomp(X2)
 
-pls::scoreplot(m21, col = as.numeric(Y2) + 1)
+scoreplot(m21, col = as.numeric(Y2) + 1)
 ```
 
 

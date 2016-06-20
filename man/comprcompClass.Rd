@@ -3,9 +3,7 @@
 \name{comprcompClass}
 \alias{comprcompClass}
 \alias{print.comprcomp}
-\alias{scoreplot}
 \alias{scoreplot.comprcomp}
-\alias{scores}
 \alias{scores.comprcomp}
 \alias{varcomp}
 \alias{varcomp.comprcomp}
@@ -15,21 +13,17 @@
 \usage{
 \method{print}{comprcomp}(x, ...)
 
-scores(object, ...)
-
 \method{scores}{comprcomp}(object, X, Y, comp = 1:2, center, scale,
   grouping = FALSE, ...)
 
 varcomp(object, ...)
 
 \method{varcomp}{comprcomp}(object, X, Y, comp, center, scale,
-  grouping = FALSE, ...)
+  grouping = FALSE, prop = FALSE, perc = FALSE, ...)
 
 varplot(object, ...)
 
 \method{varplot}{comprcomp}(object, X, Y, comp = 1:2, facet = TRUE, ...)
-
-scoreplot(object, ...)
 
 \method{scoreplot}{comprcomp}(object, X, Y, comp = 1:2, ...)
 }
@@ -37,6 +31,18 @@ scoreplot(object, ...)
 \item{...}{Additional arguments.}
 
 \item{object}{An object of class \code{comprcomp}.}
+
+\item{X}{A matrix of data points (raw data).}
+
+\item{Y}{A vector of classes (factor).}
+
+\item{comp}{A vector of components (indcices).}
+
+\item{center}{A logical value indicating centering (per variable/per column).}
+
+\item{scale}{A logical value indicating scaling to unit variance (per variable/per column).}
+
+\item{grouping}{A logical value indicating doing PCA or CPCA (PCA per group).}
 }
 \description{
 S3 class comprcomp.

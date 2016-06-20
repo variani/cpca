@@ -6,6 +6,6 @@ doc/
 inst/doc
 learn/
 
-src/*\.txt$
+vignettes/*.html
 
 ^\.travis\.yml$

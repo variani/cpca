@@ -1,4 +1,31 @@
 
+#' Function comprcomp. 
+#'
+#' This function is inspired by the base function \code{prcomp} for PCA and 
+#' shares similarities in arguments (\code{center} and \code{scale} arguments),
+#' and methods (e.g. \code{scores}).
+#'
+#' The difference is that \code{comprcomp} computes CPCA by calling \code{cpca} function.
+#'
+#' The advantage of using \code{comprcomp} instead of \code{cpca} function 
+#' is that the input data are given the format observaions vs. variables,
+#' and construction of covariance matrices, as well as pre-procesing routines,
+#' are implemented inside of \code{comprcomp} function.
+#' Consequently, projection of new data, plotting, etc are easier
+#' (as easy as using \code{prcomp} function).
+#'
+#' \code{comprcomp} function is a constructor for \code{comprcomp} class.
+#' 
+#' @param X A matrix of data points (raw data).
+#' @param Y A vector of classes (factor). 
+#' @param center A logical value indicating centering (per variable/per column).
+#' @param scale A logical value indicating scaling to unit variance (per variable/per column).
+#' @param comp The numberof components.
+#'    The default value is \code{0}, that means computing of all components.
+#'
+#' @return A object of class \code{comprcomp}.
+#' 
+#' @export
 comprcomp <- function(X, Y, center = TRUE, scale = FALSE, ncomp = 0)
 {
   ### arg
@@ -64,10 +91,16 @@ comprcomp <- function(X, Y, center = TRUE, scale = FALSE, ncomp = 0)
 #'
 #' @param object 
 #'    An object of class \code{comprcomp}.
-#' @param ...
-#'    Additional arguments.
+#' @param X A matrix of data points (raw data).
+#' @param Y A vector of classes (factor). 
+#' @param comp A vector of components (indcices).
+#' @param center A logical value indicating centering (per variable/per column).
+#' @param scale A logical value indicating scaling to unit variance (per variable/per column).
+#' @param grouping A logical value indicating doing PCA or CPCA (PCA per group).
+#' @param ... Additional arguments.
 #'
 #' @exportClass comprcomp
+
 
 
 #' @rdname comprcompClass
@@ -81,9 +114,9 @@ print.comprcomp <- function(x, ...)
 # Methods for `comprcomp` class
 #--------------------------------
 
-#' @rdname comprcompClass
-#' @export scoreplot
-scores <- function(object, ...) UseMethod("scores")
+# @rdname comprcompClass
+# @export scoreplot
+#scores <- function(object, ...) UseMethod("scores")
 
 #' @rdname comprcompClass
 #' @export
@@ -147,7 +180,8 @@ varcomp <- function(object, ...) UseMethod("varcomp")
 #' @rdname comprcompClass
 #' @export
 varcomp.comprcomp <- function(object, X, Y, comp, 
-  center, scale, grouping = FALSE, prop = FALSE, ...) 
+  center, scale, grouping = FALSE, 
+  prop = FALSE, perc = FALSE, ...) 
 {
   ### args
   stopifnot(!missing(X))
@@ -170,6 +204,10 @@ varcomp.comprcomp <- function(object, X, Y, comp,
   
   if(missing(scale)) {
     scale <- object$scale
+  }
+
+  if(perc) {
+    prop <- TRUE
   }
 
   ### pre-process data in `X`
@@ -206,12 +244,14 @@ varcomp.comprcomp <- function(object, X, Y, comp,
       
       Xi <- X[ind, ]
       
-      for(j in comp) { 
+      for(k in seq(1, length(comp))) {
+        j <- comp[k]
+
         vec <- object$cpca$CPC[, j]
          
         proj <- as.numeric(tcrossprod(vec, Xi))
         
-        varcomp[j, i] <- var(proj)
+        varcomp[k, i] <- var(proj)
       }
       
       if(prop) {
@@ -223,12 +263,14 @@ varcomp.comprcomp <- function(object, X, Y, comp,
   } else {
     varcomp <- rep(as.numeric(NA), length(comp))
     
-    for(i in comp) {
+    for(k in seq(1, length(comp))) {
+      i <- comp[k]
+      
       vec <- object$cpca$CPC[, i]
     
       proj <- as.numeric(tcrossprod(vec, X)) # tcrossprod(vec, X) is a fast version of computing a projection `X * vec`
   
-      varcomp[i] <- var(proj) 
+      varcomp[k] <- var(proj) 
     }    
     
     if(prop) {
@@ -239,6 +281,10 @@ varcomp.comprcomp <- function(object, X, Y, comp,
   }
 
   ### return
+  if(perc) {
+    varcomp <- round(100 * varcomp, 1)
+  }
+  
   return(varcomp)
 }
 
@@ -255,7 +301,11 @@ varplot <- function(object, ...) UseMethod("varplot")
 varplot.comprcomp <- function(object, X, Y, comp = 1:2, facet = TRUE, ...)
 {
   S <- scores(object, X, Y, comp = comp, grouping = TRUE)
-  
+
+  vars <- varcomp(object, X, Y, comp = comp, grouping = TRUE, perc = TRUE, ...)
+  vars.perc <- c(paste0("(", paste(vars[1, ], collapse = ", "), "%)"),
+    paste0("(", paste(vars[2, ], collapse = ", "), " %)"))
+    
   ### prepare data.frame `df` for plotting
   df <- as.data.frame(S)
   colnames(df) <- paste0("comp", 1:2)
@@ -264,7 +314,10 @@ varplot.comprcomp <- function(object, X, Y, comp = 1:2, facet = TRUE, ...)
   
   ### plot
   p <- ggplot(df, aes(comp1, comp2, color = lab)) + geom_point()
-  
+
+  p <- p + labs(x = paste0("CPC", comp[1], " ", vars.perc[1]), 
+    y = paste0("CPC", comp[2], " ", vars.perc[2]))
+   
   if(facet) {
     p <- p + facet_wrap(~ lab)
   }
@@ -272,9 +325,9 @@ varplot.comprcomp <- function(object, X, Y, comp = 1:2, facet = TRUE, ...)
   return(p)
 }
 
-#' @rdname comprcompClass
-#' @export scoreplot
-scoreplot <- function(object, ...) UseMethod("scoreplot")
+# @rdname comprcompClass
+# @export scoreplot
+#scoreplot <- function(object, ...) UseMethod("scoreplot")
 
 #' @rdname comprcompClass
 #' @export
@@ -284,7 +337,10 @@ scoreplot.comprcomp <- function(object, X, Y, comp = 1:2, ...)
   stopifnot(length(comp) == 2)
   
   ### get scores
-  S <- scores(object, X, Y, comp = comp)
+  S <- scores(object, X, Y, comp = comp, ...)
+  
+  vars <- varcomp(object, X, Y, comp = comp, perc = TRUE, ...)
+  vars.perc <- paste0("(", vars, "%)")
   
   ### prepare data.frame `df` for plotting
   df <- as.data.frame(S)
@@ -296,7 +352,8 @@ scoreplot.comprcomp <- function(object, X, Y, comp = 1:2, ...)
   p <- ggplot(df, aes(comp1, comp2, color = lab)) + geom_point()
   
   # labs
-  p <- p + labs(x = paste0("CPC", comp[1]), y = paste0("CPC", comp[2]))
+  p <- p + labs(x = paste0("CPC", comp[1], " ", vars.perc[1]), 
+    y = paste0("CPC", comp[2], " ", vars.perc[2]))
   
   return(p)
 }

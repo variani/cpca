@@ -17,6 +17,8 @@
 #'
 #' @importFrom plyr laply llply
 #'
+#' @importFrom pls scores scoreplot
+#'
 #' @import ggplot2
 {}
 

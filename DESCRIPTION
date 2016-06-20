@@ -23,6 +23,7 @@ Depends:
 Imports: 
     methods, 
     Matrix,
+    pls,
     plyr,
     ggplot2,
     Rcpp,
