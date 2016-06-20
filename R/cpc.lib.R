@@ -133,6 +133,17 @@ cpc_stepwise <- function(X, n_g, k = 0, iter = 30, ...)
 # Main function `cpca`
 #-------------------------
 
+#' Function cpca.
+#'
+#' @param cov A list of covariance matrices for groups under study.
+#' @param ng A vector with the number of samples per group.
+#' @param ncomp The number of components.
+#'    The default value is \code{2}.
+#' @param method A character with the name of method to be used.
+#'    The default and the only value is \code{"base"}.
+#' @param ... Additional arguments.
+#' @return An object of class \code{CPCAPower}.
+#'
 #' @export
 cpca <- function(cov, ng, ncomp = 2, method = "base", ...)
 {

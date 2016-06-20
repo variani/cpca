@@ -32,7 +32,10 @@ Suggests:
     abind,
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    gridExtra,
+    pander,
+    MASS
 Collate: 
     'utils.lib.R'
     'RcppExports.R'
