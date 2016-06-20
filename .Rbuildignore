@@ -2,8 +2,8 @@
 
 README\.Rmd
 
-doc/
-inst/doc
+docs/
+inst/pages
 learn/
 
 vignettes/*.html
