@@ -278,6 +278,8 @@ varcomp.comprcomp <- function(object, X, Y, comp,
       
       varcomp <- varcomp / vartot
     }
+    
+    names(varcomp) <- paste0("CPC", comp)
   }
 
   ### return

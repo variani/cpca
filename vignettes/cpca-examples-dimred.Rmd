@@ -122,6 +122,13 @@ varplot(m2, X2, Y2)
 scoreplot(m2, X2, Y2)
 ```
 
+The second component (CPC2, y-axis) on `scoreplot` captures little variance (5.7\%).
+Let us see on the proportions of captured variance among CPCs (expressed in percentage).
+
+```{r banknote_com_var, results = "asis"}
+pander(varcomp(m2, X2, Y2, perc = TRUE))
+```
+
 #### Looking a higher-order components
 
 ```{r banknote_scoreplot_23, fig.width = 6, fig.height = 4}
