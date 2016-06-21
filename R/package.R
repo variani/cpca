@@ -12,7 +12,7 @@
 #' @importFrom RcppParallel RcppParallelLibs
 #'
 #' @importFrom methods as
-#' @importFrom stats var sd runif
+#' @importFrom stats var sd cov runif
 #' @importFrom utils head
 #'
 #' @importFrom plyr laply llply

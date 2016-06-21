@@ -26,6 +26,8 @@
 #'   The value of \code{0} means extract all eigenvectors.
 #' @param symmetric A logical which value says explicetly if the input matrix \code{A} is symmetric.
 #'    The default value is \code{FALSE}.
+#' @param mode An integer indicating the mode of implementation (for \code{eigenPowerRcpp} function).
+#'    The default value is \code{1}.
 #' @param cores The number of cores (for parallel versions).
 #'   The default value is \code{-1}.
 #'   This argument is passed next to \code{RcppParallel::setThreadOptions(numThreads = cores)}.

@@ -60,6 +60,8 @@ compscore(object, ...)
 \item{perc}{A logical indicating whether the data are to be reported in percentage.}
 
 \item{facet}{A logical indicating whether faceting is to applied in \code{varplot} method.}
+
+\item{varcomp}{A logical indicating wether to sort results or not.}
 }
 \description{
 S3 class comprcomp.

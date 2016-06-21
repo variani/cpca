@@ -48,6 +48,9 @@ The value of \code{0} means extract all eigenvectors.}
 \item{verbose}{The integer value indicating the verbose level.
 The default value is \code{0}.}
 
+\item{mode}{An integer indicating the mode of implementation (for \code{eigenPowerRcpp} function).
+The default value is \code{1}.}
+
 \item{symmetric}{A logical which value says explicetly if the input matrix \code{A} is symmetric.
 The default value is \code{FALSE}.}
 

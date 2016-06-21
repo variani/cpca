@@ -99,6 +99,7 @@ comprcomp <- function(X, Y, center = TRUE, scale = FALSE, ncomp = 0)
 #' @param grouping A logical value indicating doing PCA or CPCA (PCA per group).
 #' @param prop A logical indicating whether the data are to be reported in proportions.
 #' @param perc A logical indicating whether the data are to be reported in percentage.
+#' @param varcomp A logical indicating wether to sort results or not.
 #' @param facet A logical indicating whether faceting is to applied in \code{varplot} method.
 #' @param ... Additional arguments.
 #'
