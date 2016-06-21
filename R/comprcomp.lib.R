@@ -390,6 +390,8 @@ scoreplot.comprcomp <- function(object, X, Y, comp = 1:2, ...)
   df$group <- Y
   
   ### plot
+  comp1 <- comp2 <- group <- NULL # no visible binding for global variable
+  
   p <- ggplot(df, aes(comp1, comp2, color = group)) + geom_point()
   
   # labs
@@ -422,6 +424,8 @@ scoreplot.prcomp <- function(object, X, Y, comp = 1:2, ...)
   df$group <- Y
   
   ### plot
+  comp1 <- comp2 <- group <- NULL # no visible binding for global variable
+  
   p <- ggplot(df, aes(comp1, comp2, color = group)) + geom_point()
   
   # labs

@@ -19,7 +19,7 @@ library(cpca)
 
 ## Include other packages
 
-```{r inc, cache = FALSE}
+```{r inc, cache = FALSE, message = FALSE}
 library(plyr)
 library(ggplot2)
 library(gridExtra)
@@ -28,6 +28,8 @@ library(pander)
 
 library(pls)
 library(MASS)
+
+library(mclust)
 ```
 
 Settings:
@@ -123,7 +125,7 @@ scoreplot(m2, X2, Y2)
 ```
 
 The second component (CPC2, y-axis) on `scoreplot` captures little variance (5.7\%).
-Let us see on the proportions of captured variance across all CPCs (expressed in percentage).
+Let us see proportions of captured variance across all CPCs (expressed in percentage).
 
 ```{r banknote_com_var, results = "asis"}
 pander(compvar(m2, X2, Y2, perc = TRUE, sorted = TRUE))
