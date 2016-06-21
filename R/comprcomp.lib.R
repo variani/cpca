@@ -357,6 +357,8 @@ varplot.comprcomp <- function(object, X, Y, comp = 1:2, facet = TRUE, ...)
   df$group <- Y
   
   ### plot
+  comp1 <- comp2 <- group <- NULL # no visible binding for global variable
+  
   p <- ggplot(df, aes(comp1, comp2, color = group)) + geom_point()
 
   p <- p + labs(x = paste0("CPC", comp[1], " ", vars.perc[1]), 

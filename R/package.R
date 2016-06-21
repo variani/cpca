@@ -2,8 +2,8 @@
 #'
 #' Methods to perform Common Principal Component Analysis (CPCA).
 #'
-#' @rdname cpca-package
-#' @name cpca
+#' @rdname cpcaPackage
+#' @name cpcaPackage
 #' @docType package
 #' @example inst/examples/package-cpca.R
 #'
