@@ -204,15 +204,75 @@ m31 <- prcomp(X3)
 scoreplot(m31, Y = Y3)
 ```
 
-## V dataset
+## Dataset vowel
 
 Loading the dataset:
 
 ```{r load_vowel}
 data(vowel.train, package = "ElemStatLearn")
 vowel <- vowel.train
+
+words <- c("heed", "hid", "head", "had", "hard", "hud", "hod", "hoard", "hood",
+  "whod", "heard")
+vowels <- c("hid", "hId", "hEd", "hAd", "hYd", "had", "hOd", "hod", "hUd", 
+  "hud", "hed")
+
+vowel <- within(vowel, {
+  y <- factor(y, levels = 1:11, labels = vowels)
+})
 ```
 
 ```{r vowel_tab_y, results = "asis"}
 pander(table(vowel$y))
 ```
+
+Preparing inputs to the CPCA model:
+
+```{r prepare_vowel}
+X4 <- as.matrix(vowel[, -1])
+Y4 <- vowel[, 1]
+```
+
+Running the CPCA model:
+
+```{r vowel_model}
+m4 <- comprcomp(X4, Y4) 
+```
+
+Plotting scores:
+
+```{r vowel_varplot, fig.width = 9, fig.height = 8}
+varplot(m4, X4, Y4)
+```
+
+```{r vowel_scoreplot, fig.width = 6, fig.height = 4}
+scoreplot(m4, X4, Y4)
+```
+
+## Subset of dataset vowel
+
+```{r prepare_subvowel}
+subvowel <- subset(vowel, y %in% c("hid", "hId", "hOd", "hod"))
+X5 <- as.matrix(subvowel[, -1])
+Y5 <- subvowel[, 1]
+
+Y5 <- droplevels(Y5)
+```
+
+Running the CPCA model:
+
+```{r subvowel_model}
+m5 <- comprcomp(X5, Y5) 
+```
+
+Plotting scores:
+
+```{r subvowel_varplot, fig.width = 6, fig.height = 5}
+varplot(m5, X5, Y5)
+```
+
+```{r subvowel_scoreplot, fig.width = 6, fig.height = 4}
+scoreplot(m5, X5, Y5)
+```
+
+
