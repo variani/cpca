@@ -97,9 +97,13 @@ comprcomp <- function(X, Y, center = TRUE, scale = FALSE, ncomp = 0)
 #' @param center A logical value indicating centering (per variable/per column).
 #' @param scale A logical value indicating scaling to unit variance (per variable/per column).
 #' @param grouping A logical value indicating doing PCA or CPCA (PCA per group).
+#'    The default value is \code{FALSE}.
 #' @param prop A logical indicating whether the data are to be reported in proportions.
+#'    The default value is \code{FALSE}.
 #' @param perc A logical indicating whether the data are to be reported in percentage.
-#' @param varcomp A logical indicating wether to sort results or not.
+#'    The default value is \code{FALSE}.
+#' @param sorted A logical indicating wether to sort results or not.
+#'    The default value is \code{FALSE}.
 #' @param facet A logical indicating whether faceting is to applied in \code{varplot} method.
 #' @param ... Additional arguments.
 #'

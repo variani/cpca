@@ -53,15 +53,19 @@ compscore(object, ...)
 
 \item{scale}{A logical value indicating scaling to unit variance (per variable/per column).}
 
-\item{grouping}{A logical value indicating doing PCA or CPCA (PCA per group).}
+\item{grouping}{A logical value indicating doing PCA or CPCA (PCA per group).
+The default value is \code{FALSE}.}
 
-\item{prop}{A logical indicating whether the data are to be reported in proportions.}
+\item{sorted}{A logical indicating wether to sort results or not.
+The default value is \code{FALSE}.}
 
-\item{perc}{A logical indicating whether the data are to be reported in percentage.}
+\item{prop}{A logical indicating whether the data are to be reported in proportions.
+The default value is \code{FALSE}.}
+
+\item{perc}{A logical indicating whether the data are to be reported in percentage.
+The default value is \code{FALSE}.}
 
 \item{facet}{A logical indicating whether faceting is to applied in \code{varplot} method.}
-
-\item{varcomp}{A logical indicating wether to sort results or not.}
 }
 \description{
 S3 class comprcomp.

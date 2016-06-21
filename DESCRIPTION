@@ -34,6 +34,7 @@ Suggests:
     knitr,
     rmarkdown,
     mclust,
+    ElemStatLearn,
     gridExtra,
     pander,
     MASS

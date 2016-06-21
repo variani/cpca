@@ -30,6 +30,7 @@ library(pls)
 library(MASS)
 
 library(mclust)
+library(ElemStatLearn)
 ```
 
 Settings:
@@ -201,4 +202,17 @@ PCA:
 m31 <- prcomp(X3)
 
 scoreplot(m31, Y = Y3)
+```
+
+## V dataset
+
+Loading the dataset:
+
+```{r load_vowel}
+data(vowel.train, package = "ElemStatLearn")
+vowel <- vowel.train
+```
+
+```{r vowel_tab_y, results = "asis"}
+pander(table(vowel$y))
 ```
