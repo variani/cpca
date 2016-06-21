@@ -7,6 +7,8 @@
 #' The function implements the power algorithm for EVD.
 #'
 #' @name eigenPower
+#' @rdname eigenPower
+#'
 #' @param A A two-dimensional square matrix, either of \code{matrix} or \code{Matrix} class.
 #' @param v0 A numeric vector; the initial guess for eignevector.
 #'   If it is missing, a random vector is generated.
@@ -22,6 +24,14 @@
 #' @param ncomp The number of eigenvectors to be extracted.
 #'   The default value is \code{1}.
 #'   The value of \code{0} means extract all eigenvectors.
+#' @param symmetric A logical which value says explicetly if the input matrix \code{A} is symmetric.
+#'    The default value is \code{FALSE}.
+#' @param cores The number of cores (for parallel versions).
+#'   The default value is \code{-1}.
+#'   This argument is passed next to \code{RcppParallel::setThreadOptions(numThreads = cores)}.
+#' @param chunkSize The minimal size of a chunk (for parallel versions).
+#'   The default value is \code{1}.
+#'   This argument is passed next to a wrapper \code{eigenPower_Rcpp_Parallel}.
 #' @param verbose The integer value indicating the verbose level.
 #'   The default value is \code{0}.
 #' @return A list several slots: \code{v} the first eigenvector; 
@@ -161,23 +171,8 @@ eigenPower <- function(A, v0, tol = 1e-6, maxit = 1e3,
 
 #' Function eigenPowerRcpp. 
 #'
-#' The function implements the power algorithm for EVD using Rcpp.
+#' @rdname eigenPower
 #'
-#' @name eigenPowerRcpp
-#' @param A A two-dimensional square matrix, either of \code{matrix} or \code{Matrix} class.
-#' @param v0 A numeric vector; the initial guess for eignevector.
-#'   If it is missing, a random vector is generated.
-#' @param tol The tolerance threshold used to stop when reaching no improvement if estmiation of eigenvalue.
-#'   The default value is \code{1e-6}.
-#' @param maxit The maximum number of iterations.
-#'   The default value is \code{1e4}.
-#' @param mode The integer number encoding the mode of computation in `eigenPower_Rcpp` C++ function.
-#'   \code{1} means doing matrix operations in loops (doing some calculus sync.).
-#'   \code{2} means dogig matrix operations using functions like computing the vector norm, etc.
-#' @param verbose The integer value indicating the verbose level.
-#'   The default value is \code{0}.
-#' @return A list several slots: \code{v} the first eigenvector; 
-#'   \code{lambda} the first eigenvalue; etc.
 #' @export
 eigenPowerRcpp <- function(A, v0, tol = 1e-6, maxit = 1e3, mode = 1,
   verbose = 0)
@@ -209,20 +204,8 @@ eigenPowerRcpp <- function(A, v0, tol = 1e-6, maxit = 1e3, mode = 1,
 
 #' Function eigenPowerRcppEigen. 
 #'
-#' The function implements the power algorithm for EVD using RcppEigen.
+#' @rdname eigenPower
 #'
-#' @name eigenPowerRcppEigen
-#' @param A A two-dimensional square matrix, either of \code{matrix} or \code{Matrix} class.
-#' @param v0 A numeric vector; the initial guess for eignevector.
-#'   If it is missing, a random vector is generated.
-#' @param tol The tolerance threshold used to stop when reaching no improvement if estmiation of eigenvalue.
-#'   The default value is \code{1e-6}.
-#' @param maxit The maximum number of iterations.
-#'   The default value is \code{1e4}.
-#' @param verbose The integer value indicating the verbose level.
-#'   The default value is \code{0}.
-#' @return A list several slots: \code{v} the first eigenvector; 
-#'   \code{lambda} the first eigenvalue; etc.
 #' @export
 eigenPowerRcppEigen <- function(A, v0, tol = 1e-6, maxit = 1e3, 
   ncomp = 1, symmetric = FALSE,
@@ -258,26 +241,8 @@ eigenPowerRcppEigen <- function(A, v0, tol = 1e-6, maxit = 1e3,
 
 #' Function eigenPowerRcppParallel. 
 #'
-#' The function implements the power algorithm for EVD using RcppParallel.
+#' @rdname eigenPower
 #'
-#' @name eigenPowerRcppParallel
-#' @param A A two-dimensional square matrix, either of \code{matrix} or \code{Matrix} class.
-#' @param v0 A numeric vector; the initial guess for eignevector.
-#'   If it is missing, a random vector is generated.
-#' @param tol The tolerance threshold used to stop when reaching no improvement if estmiation of eigenvalue.
-#'   The default value is \code{1e-6}.
-#' @param maxit The maximum number of iterations.
-#'   The default value is \code{1e4}.
-#' @param cores The number of cores.
-#'   The default value is \code{-1}.
-#'   This argument is passed next to \code{RcppParallel::setThreadOptions(numThreads = cores)}.
-#' @param chunkSize The minimal size of a chunk.
-#'   The default value is \code{1}.
-#'   This argument is passed next to a wrapper \code{eigenPower_Rcpp_Parallel}.
-#' @param verbose The integer value indicating the verbose level.
-#'   The default value is \code{0}.
-#' @return A list several slots: \code{v} the first eigenvector; 
-#'   \code{lambda} the first eigenvalue; etc.
 #' @export
 eigenPowerRcppParallel <- function(A, v0, tol = 1e-6, maxit = 1e3, 
   cores = -1, chunkSize = 1,
@@ -317,26 +282,8 @@ eigenPowerRcppParallel <- function(A, v0, tol = 1e-6, maxit = 1e3,
 
 #' Function eigenPowerEigenParallel. 
 #'
-#' The function implements the power algorithm for EVD using RcppEigen and RcppParallel.
+#' @rdname eigenPower
 #'
-#' @name eigenPowerEigenParallel
-#' @param A A two-dimensional square matrix, either of \code{matrix} or \code{Matrix} class.
-#' @param v0 A numeric vector; the initial guess for eignevector.
-#'   If it is missing, a random vector is generated.
-#' @param tol The tolerance threshold used to stop when reaching no improvement if estmiation of eigenvalue.
-#'   The default value is \code{1e-6}.
-#' @param maxit The maximum number of iterations.
-#'   The default value is \code{1e4}.
-#' @param cores The number of cores.
-#'   The default value is \code{-1}.
-#'   This argument is passed next to \code{RcppParallel::setThreadOptions(numThreads = cores)}.
-#' @param chunkSize The minimal size of a chunk.
-#'   The default value is \code{1}.
-#'   This argument is passed next to a wrapper \code{eigenPower_RcppEigen_Parallel}.
-#' @param verbose The integer value indicating the verbose level.
-#'   The default value is \code{0}.
-#' @return A list several slots: \code{v} the first eigenvector; 
-#'   \code{lambda} the first eigenvalue; etc.
 #' @export
 eigenPowerEigenParallel <- function(A, v0, tol = 1e-6, maxit = 1e3, 
   cores = -1, chunkSize = 1,

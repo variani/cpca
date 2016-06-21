@@ -41,11 +41,12 @@ Collate:
     'utils.lib.R'
     'RcppExports.R'
     'package.R'
+    'classMethodsS3.R'    
+    'classEigenPower.R'
+    'classCPCAPower.R'
     'eigen.lib.R'
     'cpc.lib.R'
     'comprcomp.lib.R'
-    'classEigenPower.R'
-    'classCPCAPower.R'
     'onUnload.R'
 RoxygenNote: 5.0.1
 LinkingTo: Rcpp, RcppEigen, RcppParallel

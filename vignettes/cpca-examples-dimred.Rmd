@@ -126,14 +126,14 @@ The second component (CPC2, y-axis) on `scoreplot` captures little variance (5.7
 Let us see on the proportions of captured variance across all CPCs (expressed in percentage).
 
 ```{r banknote_com_var, results = "asis"}
-pander(varcomp(m2, X2, Y2, perc = TRUE))
+pander(compvar(m2, X2, Y2, perc = TRUE, sorted = TRUE))
 ```
 
 ```{r banknote_com_var_gr, results = "asis"}
-pander(varcomp(m2, X2, Y2, grouping = TRUE, perc = TRUE))
+pander(compvar(m2, X2, Y2, grouping = TRUE, perc = TRUE))
 ```
 
-#### Looking a higher-order components
+#### Looking higher-order components
 
 ```{r banknote_scoreplot_23, fig.width = 6, fig.height = 4}
 scoreplot(m2, X2, Y2, comp = c(2, 3))
@@ -143,6 +143,17 @@ scoreplot(m2, X2, Y2, comp = c(2, 3))
 scoreplot(m2, X2, Y2, comp = c(3, 4))
 ```
 
+#### Scoring the components
+
+```{r banknote_com_score, results = "asis"}
+pander(compscore(m2, X2, sorted = TRUE))
+```
+
+```{r banknote_scoreplot_43, fig.width = 6, fig.height = 4}
+scoreplot(m2, X2, Y2, comp = c(4, 3))
+```
+
+
 #### PCA
 
 ```{r bankbote_pca, fig.width = 6, fig.height = 4}
@@ -151,4 +162,41 @@ m21 <- prcomp(X2)
 scoreplot(m21, Y = Y2)
 ```
 
+### Using 4/6 variables
 
+Preparing inputs to the CPCA model:
+
+```{r prepare_banknote_4var}
+X3 <- as.matrix(banknote[, 3:6])
+Y3 <- banknote[, 1]
+```
+
+Running the CPCA model:
+
+```{r banknote_model_4var}
+m3 <- comprcomp(X3, Y3) 
+```
+
+Exploring captured variance from two perspectives:
+
+```{r banknote_com_var_m3, results = "asis"}
+pander(compvar(m3, X3, Y3, perc = TRUE))
+```
+
+```{r banknote_com_var_gr_m3, results = "asis"}
+pander(compvar(m3, X3, Y3, grouping = TRUE, perc = TRUE))
+```
+
+Plotting scores:
+
+```{r banknote_scoreplot_4var, fig.width = 6, fig.height = 4}
+scoreplot(m3, X3, Y3)
+```
+
+PCA:
+
+```{r bankbote_pca_4var, fig.width = 6, fig.height = 4}
+m31 <- prcomp(X3)
+
+scoreplot(m31, Y = Y3)
+```
