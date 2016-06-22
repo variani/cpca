@@ -226,6 +226,10 @@ vowel <- within(vowel, {
 pander(table(vowel$y))
 ```
 
+```{r head_vowel, results = "asis"}
+pander(head(vowel))
+```
+
 Preparing inputs to the CPCA model:
 
 ```{r prepare_vowel}
@@ -275,4 +279,60 @@ varplot(m5, X5, Y5)
 scoreplot(m5, X5, Y5)
 ```
 
+Computing the discrimination scores of CPCs:
+
+```{r subvowel_compscore, results = "asis"}
+pander(compscore(m5, X5, sorted = TRUE))
+```
+
+Now we can say something about the components in terms of their discrimination properties.
+
+* The first component CPC1 has the lowest score among the others. 
+  CPC1 is likely to capture the common variance among the four classes. 
+  The previous figure produced by `scoreplot` confirms this conclusion.
+* The component CPC3 has the highest score, and it is substantially higher in comparison with the next components CPC5, CPC9, etc.
+
+Ploting with `scoreplot` using two pairs _CPC3 vs. CPC5_ and _CPC3 vs. CPC9_ should 
+clarify the role of each of the three (most dicriminative) components.
+
+```{r subvowel_scoreplot_comparison, fig.width = 8, fig.height = 3}
+grid.arrange(
+  scoreplot(m5, X5, Y5, comp = c(3, 5)),
+  scoreplot(m5, X5, Y5, comp = c(3, 9)),
+  nrow = 1)
+```
+  
+It is clear that CPC3 performs reasonably well the main job on separation between two groups:
+_hid_ / _hId_ and _hOd_ / _hod_ pairs of classes.
+The further fine-grained job on separation e.g., between _hid_ and _hId_, is more comlicated.
+The CPCA technique can offer to the user a solution of low quality:
+(1) CPC5 for separation between _hid_ and _hId_ (the left panel of the figure above), and
+(2) CPC9 for separation betwen _hOd_ and _hod_ (the right panel).
+
+
+Interestingly, PCA applied to the same data has a similar group separation for all four classes,
+but the first two PC1 and PC2 are not able to separate two _hid_ / _hId_ and _hOd_ / _hod_ groups linearly,
+as CPCA did.
+
+```{r subvowel_pca}
+m51 <- prcomp(X5)
+```
+
+```{r subvowel_pca_plot, fig.width = 6, fig.height = 4}
+scoreplot(m51, Y = Y5)
+```
+
+Let us close the loop and shows the results of LDA.
+
+```{r subvowel_lda}
+m52 <- lda(X5, Y5)
+```
+
+```{r subvowel_lda_plot, fig.width = 6, fig.height = 4}
+scoreplot(m52, Y = Y5)
+```
+
+It seems that results of all CPCA, PCA and LDA are similar.
+None of the techniques was able to cope with a cluster of red points (_hid_ class),
+which tend to be closer to the _hOd_ / _hod_ group.
 

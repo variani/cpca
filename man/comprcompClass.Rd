@@ -8,8 +8,10 @@
 \alias{compvar.comprcomp}
 \alias{print.comprcomp}
 \alias{scoreplot.comprcomp}
+\alias{scoreplot.lda}
 \alias{scoreplot.prcomp}
 \alias{scores.comprcomp}
+\alias{scores.lda}
 \alias{varplot}
 \alias{varplot.comprcomp}
 \title{S3 class comprcomp.}
@@ -25,6 +27,8 @@ compscore(object, ...)
 \method{scores}{comprcomp}(object, X, Y, comp = 1:2, center, scale,
   grouping = FALSE, ...)
 
+\method{scores}{lda}(object, X, Y, comp = 1:2, ...)
+
 \method{compscore}{comprcomp}(object, X, sorted = FALSE, ...)
 
 \method{compvar}{comprcomp}(object, X, Y, comp, center, scale,
@@ -35,6 +39,8 @@ compscore(object, ...)
 \method{scoreplot}{comprcomp}(object, X, Y, comp = 1:2, ...)
 
 \method{scoreplot}{prcomp}(object, X, Y, comp = 1:2, ...)
+
+\method{scoreplot}{lda}(object, X, Y, comp = 1:2, ...)
 }
 \arguments{
 \item{object}{An object of class \code{comprcomp}.}

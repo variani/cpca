@@ -175,7 +175,18 @@ scores.comprcomp <- function(object, X, Y, comp = 1:2,
   return(S)
 }
 
-
+#' @rdname comprcompClass
+#' @export
+scores.lda <- function(object, X, Y, comp = 1:2, ...) 
+{
+  pred <- predict(object, X)
+  scores <- pred$x
+  
+  scores <- scores[, comp, drop = F]
+  
+  return(scores)
+}
+  
 #--------------------------------
 # Methods `comp*` for components
 #--------------------------------
@@ -439,6 +450,35 @@ scoreplot.prcomp <- function(object, X, Y, comp = 1:2, ...)
   p <- p + labs(x = paste0("PC", comp[1], " ", vars.perc[1]), 
     y = paste0("PC", comp[2], " ", vars.perc[2]))
   
+  return(p)
+}
+
+#' @rdname comprcompClass
+#' @export
+scoreplot.lda <- function(object, X, Y, comp = 1:2, ...)
+{
+  ### args
+  stopifnot(length(comp) == 2)
+  
+  ### get scores
+  S <- scores(object, X, Y, comp = comp, ...)
+ 
+  ### prepare data.frame `df` for plotting
+  df <- as.data.frame(S)
+  colnames(df) <- paste0("comp", 1:2)
+
+  df$group <- Y
+  
+  ### plot
+  comp1 <- comp2 <- group <- NULL # no visible binding for global variable
+  
+  p <- ggplot(df, aes(comp1, comp2, color = group)) + geom_point()
+  
+  # labs
+  #p <- p + labs(x = paste0("PC", comp[1], " ", vars.perc[1]), 
+  #  y = paste0("PC", comp[2], " ", vars.perc[2]))
+  p <- p + labs(x = paste0("LD", comp[1]), y = paste0("LD", comp[2]))
+    
   return(p)
 }
 
