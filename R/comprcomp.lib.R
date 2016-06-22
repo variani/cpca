@@ -179,6 +179,8 @@ scores.comprcomp <- function(object, X, Y, comp = 1:2,
 #' @export
 scores.lda <- function(object, X, Y, comp = 1:2, ...) 
 {
+  stopifnot(requireNamespace("MASS")) # for MASS:::predict.lda
+  
   pred <- predict(object, X)
   scores <- pred$x
   
