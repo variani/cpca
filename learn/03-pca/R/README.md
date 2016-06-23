@@ -8,11 +8,10 @@
       is the square of the condition number of X.
 
 
-```
-computes on      extract all PCs at once       sequential extraction    
-X                SVD                           NIPALS    
-X'X              EVD                           POWER
-```
+| computes on | extract all PCs at once | sequential extraction |
+|--|--|--|
+| `X`   | SVD | NIPALS |
+| `X'X` | EVD | POWER  |
 
 ## Application to image compression
 
