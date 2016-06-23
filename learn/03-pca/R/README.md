@@ -18,3 +18,4 @@ X'X              EVD                           POWER
 
 * http://www.johnmyleswhite.com/notebook/2009/12/17/image-compression-with-the-svd-in-r/
 * https://github.com/road2stat/imgsvd
+* http://www.r-bloggers.com/large-scale-eigenvalue-decomposition-and-svd-with-rarpack/
