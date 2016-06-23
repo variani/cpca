@@ -206,6 +206,24 @@ scoreplot(m31, Y = Y3)
 
 ## Dataset vowel
 
+[Data description](https://archive.ics.uci.edu/ml/machine-learning-databases/undocumented/connectionist-bench/vowel/vowel.data)
+at [UCI ML repository](https://archive.ics.uci.edu/ml/datasets/Connectionist+Bench+(Vowel+Recognition+-+Deterding+Data)):
+
+>The problem is specified by the accompanying data file, "vowel.data".  This
+>consists of a three dimensional array: voweldata [speaker, vowel, input].
+>The speakers are indexed by integers 0-89.  (Actually, there are fifteen
+>individual speakers, each saying each vowel six times.)  The vowels are
+>indexed by integers 0-10.  For each utterance, there are ten floating-point
+>input values, with array indices 0-9.
+
+>The problem is to train the network as well as possible using only on data
+>from "speakers" 0-47, and then to test the network on speakers 48-89,
+>reporting the number of correct classifications in the test set.
+
+The data set `vowel.train`, as well as `vowel.test`,
+is [available](http://www.inside-r.org/packages/cran/ElemStatLearn/docs/vowel.train)
+within the R package `ElemStatLearn`.
+
 Loading the dataset:
 
 ```{r load_vowel}
