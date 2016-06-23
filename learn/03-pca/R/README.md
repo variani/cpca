@@ -8,8 +8,9 @@
       is the square of the condition number of X.
 
 
+
 | computes on | extract all PCs at once | sequential extraction |
-|--|--|--|
+|-------------|-------------------------|-----------------------|
 | `X`   | SVD | NIPALS |
 | `X'X` | EVD | POWER  |
 
