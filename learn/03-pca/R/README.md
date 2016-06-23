@@ -17,3 +17,4 @@ X'X              EVD                           POWER
 ## Application to image compression
 
 * http://www.johnmyleswhite.com/notebook/2009/12/17/image-compression-with-the-svd-in-r/
+* https://github.com/road2stat/imgsvd
