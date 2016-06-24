@@ -71,8 +71,9 @@ p <- marrangeGrob(rasterGrob(compress_eigen(img, 5)),
   rasterGrob(compress_eigen(img, 25)), 
   rasterGrob(img), 
   nrow = 1, ncol = 3, 
-  top = "Compressed image from lenna.org, using EVD/SVD with k = {5, 25, all} components")
-
+  #top = "Compressed image from lenna.org, using EVD/SVD with k = {5, 25, all} components")
+  top = NULL)
+  
 ggsave("lena.pdf", p, width = 12, height = 4)
 
 
