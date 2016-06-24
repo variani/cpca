@@ -1,17 +1,3 @@
----
-output:
-  md_document:
-    variant: markdown_github+backtick_code_blocks
----
-
-
-
-
-
-
-
-
-
 # cpca
 
 [![travis-ci build status](https://travis-ci.org/variani/cpca.svg?branch=master)](https://travis-ci.org/variani/cpca)
@@ -87,32 +73,3 @@ Mathematical algorithms implemented in the `cpca` package:
 The cpca package is licensed under the GPLv3. See COPYING file in the `inst` directory for additional details.
 
 * COPYING - cpca package license (GPLv3)
-
-## Benchmarks
-
-### Speed up of eigenPower by using Rcpp & RcppEigen
-
-
-```r
-f <- system.file("benchmarks/bench-01-eigenPowerRcpp.R", package = "cpca")
-source(f)
-print(p)
-```
-
-![plot of chunk becnh1](docs/figures/becnh1-1.png)
-
-The same figure from a previous version of `cpca`, where both RcppEigen and RcppArmadillo
-version of `eigenPower` function were implemented.
-
-![](docs/images/becnh1-1-v1.png)
-
-### Speed up of eigenPower by using RcppEigen on larger matrices
-
-
-```r
-f <- system.file("benchmarks/bench-02-eigenPower.R", package = "cpca")
-source(f)
-print(p)
-```
-
-![plot of chunk becnh2](docs/figures/becnh2-1.png)
