@@ -5,7 +5,7 @@ output:
 ---
 
 ```{r options, echo = F}
-opts_chunk$set(fig.path = "doc/figures/", comment = NA, tidy = F, message = F, warning = F, echo = F, results = 'verbatim')
+opts_chunk$set(fig.path = "docs/figures/", comment = NA, tidy = F, message = F, warning = F, echo = F, results = 'verbatim')
 ```
 
 ```{r inc1}
@@ -32,6 +32,9 @@ panderOptions('knitr.auto.asis', FALSE)
 [![total downloads](http://cranlogs.r-pkg.org/badges/grand-total/cpca)](http://cranlogs.r-pkg.org/badges/grand-total/cpca)
 [![research software impact](http://depsy.org/api/package/cran/cpca/badge.svg)](http://depsy.org/package/r/cpca)
 
+## About
+
+![](https://raw.githubusercontent.com/variani/cpca/master/docs/images/lena.png)
 
 `cpca` is an R package with methods to perform Common Principal Component Analysis (CPCA).
 
@@ -110,7 +113,7 @@ print(p)
 The same figure from a previous version of `cpca`, where both RcppEigen and RcppArmadillo
 version of `eigenPower` function were implemented.
 
-![](doc/images/becnh1-1-v1.png)
+![](docs/images/becnh1-1-v1.png)
 
 ### Speed up of eigenPower by using RcppEigen on larger matrices
 
