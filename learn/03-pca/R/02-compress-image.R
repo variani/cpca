@@ -35,10 +35,15 @@ compress_eigen <- function(m, k)
     cat(" EVD on", c, "...\n")
     mat <- m[, , c]
     
+    means <- colMeans(mat)
+    mat <- sweep(mat, 2, means, "-") 
+    
     fac <- eigen(crossprod(mat), symmetric = TRUE)
     
-    m <- mat %*% fac$vectors[, 1:k]
+    m <- mat %*% fac$vectors[, 1:k] %*% t(fac$vectors[, 1:k])
     
+    m <- sweep(m, 2, means, "+") 
+        
     m[m < 0] <- 0
     m[m > 1] <- 1
         
@@ -60,3 +65,15 @@ viewPNG <- function(img, tmpfile = "tmp.png")
 
 ### read file
 img <- readPNG(imgfile)
+
+### create a figure
+p <- marrangeGrob(rasterGrob(compress_eigen(img, 5)), 
+  rasterGrob(compress_eigen(img, 25)), 
+  rasterGrob(img), 
+  nrow = 1, ncol = 3, 
+  top = "Compressed image from lenna.org, using EVD/SVD with k = {5, 25, all} components")
+
+ggsave("lena.pdf", p, width = 12, height = 4)
+
+
+
