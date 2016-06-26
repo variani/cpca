@@ -1,8 +1,18 @@
+# References:
 # @ https://github.com/road2stat/imgsvd/edit/master/server.R
 # @ https://en.wikipedia.org/wiki/Principal_component_analysis
+# @ (ggplot + png) https://dgkontopoulos.wordpress.com/2012/11/22/setting-a-background-image-in-ggplot2/
+#
+# Notes:
+# - Center data using EVD? Try `compress_eigen` varying `center` argument.
+#   On `lena_std.png` image and with k = 5, one can see the effect of centering.
+#   In particular, the centered approach gives a more contrast image.
 
 ### inc 
 library(png)
+
+library(ggplot2)
+library(gridExtra)
 
 ### par
 imgfile <- "data/lena_std.png"
@@ -28,22 +38,26 @@ compress_svd <- function(m, k)
   return(rimg)
 }
 
-compress_eigen <- function(m, k) 
+compress_eigen <- function(m, k, center = TRUE) 
 {
   factorize <- function(m, c, k)
   {
     cat(" EVD on", c, "...\n")
     mat <- m[, , c]
     
-    means <- colMeans(mat)
-    mat <- sweep(mat, 2, means, "-") 
-    
+    if(center) {
+      means <- colMeans(mat)
+      mat <- sweep(mat, 2, means, "-") 
+    }
+      
     fac <- eigen(crossprod(mat), symmetric = TRUE)
     
     m <- mat %*% fac$vectors[, 1:k] %*% t(fac$vectors[, 1:k])
     
-    m <- sweep(m, 2, means, "+") 
-        
+    if(center) {
+      m <- sweep(m, 2, means, "+") 
+    }
+          
     m[m < 0] <- 0
     m[m > 1] <- 1
         
