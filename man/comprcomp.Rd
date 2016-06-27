@@ -4,7 +4,7 @@
 \alias{comprcomp}
 \title{Function comprcomp.}
 \usage{
-comprcomp(X, Y, center = TRUE, scale = FALSE, ncomp = 0)
+comprcomp(X, Y, center = TRUE, scale = FALSE, ncomp = 0, ...)
 }
 \arguments{
 \item{X}{A matrix of data points (raw data).}
@@ -17,6 +17,8 @@ comprcomp(X, Y, center = TRUE, scale = FALSE, ncomp = 0)
 
 \item{ncomp}{The numberof components.
 The default value is \code{0}, that means computing of all components.}
+
+\item{...}{Arguments to be passed to \code{cpca} function.}
 }
 \value{
 A object of class \code{comprcomp}.

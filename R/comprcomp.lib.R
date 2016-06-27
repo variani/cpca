@@ -22,11 +22,15 @@
 #' @param scale A logical value indicating scaling to unit variance (per variable/per column).
 #' @param ncomp The numberof components.
 #'    The default value is \code{0}, that means computing of all components.
+#' @param dataOnly A logical value whether to return only data and do not run the model.
+#'    The default value is \code{FALSE}.
+#' @param ... Arguments to be passed to \code{cpca} function.
 #'
 #' @return A object of class \code{comprcomp}.
 #' 
 #' @export
-comprcomp <- function(X, Y, center = TRUE, scale = FALSE, ncomp = 0)
+comprcomp <- function(X, Y, center = TRUE, scale = FALSE, ncomp = 0, 
+  dataOnly = FALSE, ...)
 {
   ### arg
   stopifnot(!missing(Y))
@@ -67,14 +71,22 @@ comprcomp <- function(X, Y, center = TRUE, scale = FALSE, ncomp = 0)
   # compute group size: vector `ng`
   ng <- laply(desc, function(x) x$nobs)
   
-  ### EVD
-  cpca <- cpca(cov, ng, ncomp = ncomp)
-  
-  ### output
+  # prepare the output object
   out <- list(nobs = nobs, p = p, ncomp = ncomp,
     desc = desc, cov = cov, ng = ng,
     center = center, scale = scale,
-    cpca = cpca)
+    dataOnly = dataOnly)
+  oldClass(out) <- c("comprcompData", "comprcomp")
+  
+  if(dataOnly) {
+    return(out)
+  }  
+  
+  ### EVD
+  cpca <- cpca(cov, ng, ncomp = ncomp, ...)
+  
+  ### output
+  out <- c(out, list(cpca = cpca))
   
   oldClass(out) <- "comprcomp"
   return(out)

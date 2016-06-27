@@ -96,10 +96,19 @@ compress_cpca <- function(img, k, center = TRUE)
   return(dat)
 }
 
-viewImg <- function(img, tmpfile = "tmp.png") 
+viewImg <- function(img) 
 {
   marrangeGrob(list(rasterGrob(img)), nrow = 1, ncol = 1, top = NULL)
 }  
+
+lineImg <- function(img, k, ncol = 10, center = TRUE) 
+{
+  imgs <- c(llply(k, function(x) compress_pca(img, x, center = center)), list(img),
+    llply(k, function(x) compress_cpca(img, x, center = center)), list(img))
+    
+  marrangeGrob(llply(imgs, rasterGrob),
+    nrow = 2, ncol = length(k) + 1, top = NULL)  
+}
 
 ### read file
 img <- readPNG(imgfile)
