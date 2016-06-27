@@ -35,4 +35,7 @@ Sample images
       * visualization via t-SNE https://lvdmaaten.github.io/tsne/
       * more description: http://scikit-learn.org/stable/datasets/olivetti_faces.html
 
+Methods similar to CPCA
 
+* Concurent Subspace Analysis (CSA) [link](https://scholar.google.es/scholar?cluster=15503588781614231812&hl=en&as_sdt=2005&sciodt=0,5)
+* Multi-block PCA method for image change detection [link](https://scholar.google.es/scholar?cluster=13099656007719521232&hl=en&as_sdt=0,5)
