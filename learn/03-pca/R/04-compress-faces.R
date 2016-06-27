@@ -99,6 +99,8 @@ compress_cpca <- function(mat, k, center = TRUE, transpose = FALSE)
       mati <- t(mati)
     }
     
+    meansi <- means[[i]]
+    
     if(center) {
       mati <- sweep(mati, 2, meansi, "-") 
     }
@@ -131,8 +133,7 @@ plotFaces <- function(dat, ncol = 10)
   grobs <- llply(1:nrow(dat), function(i) {
     rasterGrob(matrix(dat[i, ], 64, 64))
   })
-  p <- do.call(marrangeGrob, c(grobs, 
-    list(nrow = ceiling(nrow(dat) / ncol), ncol = ncol, top = NULL)))
+  p <- marrangeGrob(grobs, nrow = ceiling(nrow(dat) / ncol), ncol = ncol, top = NULL)
   
   return(p)
 }
