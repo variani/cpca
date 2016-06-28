@@ -20,6 +20,10 @@ Issues
 | `X'X` | EVD | POWER  |
 
 
+* A detailed math. description of relationship between SVD and EVD [link](http://stats.stackexchange.com/questions/134282/relationship-between-svd-and-pca-how-to-use-svd-to-perform-pca)
+* Centering data in SVD/PCA? [link](http://stats.stackexchange.com/questions/189822/how-does-centering-make-a-difference-in-pca-for-svd-and-eigen-decomposition)
+      * If not centering, the variance you see will be around the origing, which is zero.
+
 ## Application to image compression
 
 * http://www.johnmyleswhite.com/notebook/2009/12/17/image-compression-with-the-svd-in-r/
