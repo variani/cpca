@@ -10,7 +10,7 @@
 
 ![](https://raw.githubusercontent.com/variani/cpca/master/docs/images/lena.png)
 
-`cpca` is an R package with methods to perform Common Principal Component Analysis (CPCA).
+`cpca` is an R package with methods to perform Common Principal Component Analysis (CPCA). The figure above shows an image compression example on [lenna.org](http://www.cs.cmu.edu/~chuck/lennapg/lenna.shtml), where the CPCA method using three RBG layers simultaneously was applied instead of the traditional SVD/PCA method.
 
 The main function to perform CPCA is called `cpc`. See `?cpc` for the help.
 
