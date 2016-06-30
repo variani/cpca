@@ -31,7 +31,7 @@ library(cpca)
 demo(iris, package = "cpca")
 ```
 
-[demo.html](http://htmlpreview.github.io/?https://raw.github.com/variani/cpca/master/inst/doc/demo.html) stored in the `inst/doc` directory presents both the code and the resulted output of the demo.
+[demo.html](http://htmlpreview.github.io/?https://raw.github.com/variani/cpca/master/inst/pages/demo.html) stored in the `inst/doc` directory presents both the code and the resulted output of the demo.
 
 Note that the eigenvectors obtained by the `cpc` function are exactly the same as reported in Trendafilov, 2010, Section 5, Example 2. That means that Trendafilov's method (which is default in the `cpc` function) is implemnted accurately (at least for iris data).  
 
