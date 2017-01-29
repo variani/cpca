@@ -34,19 +34,25 @@ panderOptions('knitr.auto.asis', FALSE)
 
 ## About
 
+The `cpca` package approaches Common Principal Component Analysis (CPCA)
+by [the stepwise method](http://www.sciencedirect.com/science/article/pii/S016794731000112X) proposed by Trendafilov.
+In contrast to others, this method orders the components by the explained variance intrincically
+and alows computing a few first components.
+The later feature is beneficial in practice for high-dimenstional data.
+
 ![](https://raw.githubusercontent.com/variani/cpca/master/docs/images/lena.png)
 
-`cpca` is an R package with methods to perform Common Principal Component Analysis (CPCA).
+The figure above shows an application of CPCA to the image compression problem.
+The original figure is the famous one from [http://lenna.org](lenna.org),
+and we estimated CPCA for three RBG data matrices *simultaneously*
+rather than doing SVD/PCA for each matrix separately.
 
-The main function to perform CPCA is called `cpc`. See `?cpc` for the help.
+The left panel on the Figure shows the CPCA-based compression using 5 components,
+the central panel - 25 components, and the right panel - all components.
+Script: [learn/03-pca/R/02-compress-image.R](https://github.com/variani/cpca/blob/master/learn/03-pca/R/02-compress-image.R).
 
-For now, the `cpc` function implements only one method based on Trendafilov, 2010.
-This method estimates the Common Principal Components (CPCs) by a stepwise procedure 
-based on the well-known power method for a single covariance/correlation matrix.
-The feature of this method is that it orders the CPCs by the explained variance (intrincically),
-and the user can estimate the few first components, e.g. 2-3, rather than all the components.
-It is beneficial in practice when a data set has many variables.
-
+The main function in the official release of `cpca` is `cpc`,
+while other function `cpca` is used in the `cpca` devepoment branch.
 
 ## Demo
 
