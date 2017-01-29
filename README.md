@@ -47,8 +47,8 @@ citation(package = "cpca")
 
 A list of publications where the `cpca` package was used:
 
-- Kanaan-Izquierdo *et al.*. Multiview approach to spectral clustering, [EMBC, 2012](https://doi.org/10.1109/EMBC.2012.6346165)
-- Fernandez-Albert *et al.*. Intensity drift removal in LC/MS metabolomics by common variance compensation, [Bioinformatics, 2014](https://doi.org/10.1093/bioinformatics/btu423)
+- Kanaan-Izquierdo *et al.*, Multiview approach to spectral clustering, [EMBC, 2012](https://doi.org/10.1109/EMBC.2012.6346165)
+- Fernandez-Albert *et al.*, Intensity drift removal in LC/MS metabolomics by common variance compensation, [Bioinformatics, 2014](https://doi.org/10.1093/bioinformatics/btu423)
 
 ## License
 
