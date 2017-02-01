@@ -12,7 +12,7 @@ The figure above shows an application of CPCA to the image compression problem. 
 
 Left panel on the Figure shows the CPCA-based compression using 5 components, central panel - 25 components, and right panel - all components. Script: [learn/03-pca/R/02-compress-image.R](https://github.com/variani/cpca/blob/master/learn/03-pca/R/02-compress-image.R).
 
-The main function in the official release of `cpca` is `cpc`, while a new function `cpca` is used in the `cpca` development branch.
+The main function in the official release is `cpc`, while a new function `cpca` is used in the development branch.
 
 ## CPCA on the iris data
 
