@@ -4,7 +4,7 @@
 
 ## About
 
-The `cpca` package approaches Common Principal Component Analysis (CPCA) by [the stepwise method](http://www.sciencedirect.com/science/article/pii/S016794731000112X) proposed by Trendafilov. In contrast to others, this method orders the components by the explained variance intrincically and allows computing a few first components. The later feature is beneficial in practice for high-dimensional data.
+The `cpca` package approaches Common Principal Component Analysis (CPCA) using [the stepwise method](http://www.sciencedirect.com/science/article/pii/S016794731000112X) proposed by Trendafilov. In contrast to others, this method orders the components by the explained variance intrincically and allows computing a few first components. The later feature is beneficial in practice for high-dimensional data.
 
 ![](https://raw.githubusercontent.com/variani/cpca/master/docs/images/lena.png)
 
