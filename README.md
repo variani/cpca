@@ -8,7 +8,7 @@ The `cpca` package approaches Common Principal Component Analysis (CPCA) using [
 
 ![](https://raw.githubusercontent.com/variani/cpca/master/docs/images/lena.png)
 
-The figure above shows an application of CPCA to the image compression problem. The original figure is the famous one from [http://lenna.org](lenna.org), and we estimated CPCA for three RBG data matrices *simultaneously* rather than doing SVD/PCA for each matrix separately.
+The figure above shows an application of CPCA to the image compression problem. The original figure is the famous one from [http://lenna.org](lenna.org), and we estimated CPCA for three RBG data matrices *simultaneously* rather than doing SVD/PCA for each matrix separately. (Spoiler: the performance of PCA and CPCA is the same, and this example is sought for the demonstration purpose only.)
 
 Left panel on the Figure shows the CPCA-based compression using 5 components, central panel - 25 components, and right panel - all components. Script: [learn/03-pca/R/02-compress-image.R](https://github.com/variani/cpca/blob/master/learn/03-pca/R/02-compress-image.R).
 
