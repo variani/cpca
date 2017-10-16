@@ -2,30 +2,30 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 eigenPower_Rcpp <- function(A, v0, tol = 1e-6, maxit = 1e3L, mode = 1L, verbose = 0L) {
-    .Call('cpca_eigenPower_Rcpp', PACKAGE = 'cpca', A, v0, tol, maxit, mode, verbose)
+    .Call('_cpca_eigenPower_Rcpp', PACKAGE = 'cpca', A, v0, tol, maxit, mode, verbose)
 }
 
 eigenPower_RcppEigen <- function(A, v0, tol = 1e-6, maxit = 1e3L, ncomp = 1L, symmetric = FALSE, verbose = 0L) {
-    .Call('cpca_eigenPower_RcppEigen', PACKAGE = 'cpca', A, v0, tol, maxit, ncomp, symmetric, verbose)
+    .Call('_cpca_eigenPower_RcppEigen', PACKAGE = 'cpca', A, v0, tol, maxit, ncomp, symmetric, verbose)
 }
 
 numericNorm <- function(x) {
-    .Call('cpca_numericNorm', PACKAGE = 'cpca', x)
+    .Call('_cpca_numericNorm', PACKAGE = 'cpca', x)
 }
 
 numericProdMatVec <- function(mat, vec) {
-    .Call('cpca_numericProdMatVec', PACKAGE = 'cpca', mat, vec)
+    .Call('_cpca_numericProdMatVec', PACKAGE = 'cpca', mat, vec)
 }
 
 numericMultVec <- function(x, a) {
-    .Call('cpca_numericMultVec', PACKAGE = 'cpca', x, a)
+    .Call('_cpca_numericMultVec', PACKAGE = 'cpca', x, a)
 }
 
 eigen_RcppEigen <- function(mat) {
-    .Call('cpca_eigen_RcppEigen', PACKAGE = 'cpca', mat)
+    .Call('_cpca_eigen_RcppEigen', PACKAGE = 'cpca', mat)
 }
 
 eigenSelfAdjoint_RcppEigen <- function(mat) {
-    .Call('cpca_eigenSelfAdjoint_RcppEigen', PACKAGE = 'cpca', mat)
+    .Call('_cpca_eigenSelfAdjoint_RcppEigen', PACKAGE = 'cpca', mat)
 }
 

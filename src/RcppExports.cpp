@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // eigenPower_Rcpp
 List eigenPower_Rcpp(const NumericMatrix& A, const NumericVector& v0, double tol, int maxit, int mode, int verbose);
-RcppExport SEXP cpca_eigenPower_Rcpp(SEXP ASEXP, SEXP v0SEXP, SEXP tolSEXP, SEXP maxitSEXP, SEXP modeSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _cpca_eigenPower_Rcpp(SEXP ASEXP, SEXP v0SEXP, SEXP tolSEXP, SEXP maxitSEXP, SEXP modeSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -24,7 +24,7 @@ END_RCPP
 }
 // eigenPower_RcppEigen
 List eigenPower_RcppEigen(const Eigen::Map<Eigen::MatrixXd>& A, const Eigen::Map<Eigen::VectorXd>& v0, double tol, unsigned int maxit, unsigned int ncomp, bool symmetric, unsigned int verbose);
-RcppExport SEXP cpca_eigenPower_RcppEigen(SEXP ASEXP, SEXP v0SEXP, SEXP tolSEXP, SEXP maxitSEXP, SEXP ncompSEXP, SEXP symmetricSEXP, SEXP verboseSEXP) {
+RcppExport SEXP _cpca_eigenPower_RcppEigen(SEXP ASEXP, SEXP v0SEXP, SEXP tolSEXP, SEXP maxitSEXP, SEXP ncompSEXP, SEXP symmetricSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -41,7 +41,7 @@ END_RCPP
 }
 // numericNorm
 double numericNorm(const NumericVector& x);
-RcppExport SEXP cpca_numericNorm(SEXP xSEXP) {
+RcppExport SEXP _cpca_numericNorm(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -52,7 +52,7 @@ END_RCPP
 }
 // numericProdMatVec
 NumericVector numericProdMatVec(const NumericMatrix& mat, const NumericVector& vec);
-RcppExport SEXP cpca_numericProdMatVec(SEXP matSEXP, SEXP vecSEXP) {
+RcppExport SEXP _cpca_numericProdMatVec(SEXP matSEXP, SEXP vecSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -64,7 +64,7 @@ END_RCPP
 }
 // numericMultVec
 NumericVector numericMultVec(const NumericVector& x, double a);
-RcppExport SEXP cpca_numericMultVec(SEXP xSEXP, SEXP aSEXP) {
+RcppExport SEXP _cpca_numericMultVec(SEXP xSEXP, SEXP aSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -76,7 +76,7 @@ END_RCPP
 }
 // eigen_RcppEigen
 List eigen_RcppEigen(const Eigen::Map<Eigen::MatrixXd>& mat);
-RcppExport SEXP cpca_eigen_RcppEigen(SEXP matSEXP) {
+RcppExport SEXP _cpca_eigen_RcppEigen(SEXP matSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -87,7 +87,7 @@ END_RCPP
 }
 // eigenSelfAdjoint_RcppEigen
 List eigenSelfAdjoint_RcppEigen(const Eigen::Map<Eigen::MatrixXd>& mat);
-RcppExport SEXP cpca_eigenSelfAdjoint_RcppEigen(SEXP matSEXP) {
+RcppExport SEXP _cpca_eigenSelfAdjoint_RcppEigen(SEXP matSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -95,4 +95,20 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(eigenSelfAdjoint_RcppEigen(mat));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_cpca_eigenPower_Rcpp", (DL_FUNC) &_cpca_eigenPower_Rcpp, 6},
+    {"_cpca_eigenPower_RcppEigen", (DL_FUNC) &_cpca_eigenPower_RcppEigen, 7},
+    {"_cpca_numericNorm", (DL_FUNC) &_cpca_numericNorm, 1},
+    {"_cpca_numericProdMatVec", (DL_FUNC) &_cpca_numericProdMatVec, 2},
+    {"_cpca_numericMultVec", (DL_FUNC) &_cpca_numericMultVec, 2},
+    {"_cpca_eigen_RcppEigen", (DL_FUNC) &_cpca_eigen_RcppEigen, 1},
+    {"_cpca_eigenSelfAdjoint_RcppEigen", (DL_FUNC) &_cpca_eigenSelfAdjoint_RcppEigen, 1},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_cpca(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }
