@@ -21,7 +21,7 @@ library(cpca)
 demo(iris, package = "cpca")
 ```
 
-The [demo.html](http://htmlpreview.github.io/?https://raw.github.com/variani/cpca/master/inst/doc/demo.html) shows that 
+The [demo.html](http://htmlpreview.github.io/?https://raw.github.com/variani/cpca/master/inst/pages/demo.html) shows that 
 the eigenvectors obtained by the `cpc` function are exactly the same as reported 
 in [Trendafilov et al., 2010](http://www.sciencedirect.com/science/article/pii/S016794731000112X), Section 5, Example 2. 
 
