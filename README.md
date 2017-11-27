@@ -6,7 +6,7 @@
 
 The `cpca` package approaches Common Principal Component Analysis (CPCA) using [the stepwise method](http://www.sciencedirect.com/science/article/pii/S016794731000112X) proposed by Trendafilov. In contrast to others, this method orders the components by the explained variance intrincically and allows computing a few first components. The later feature is beneficial in practice for high-dimensional data.
 
-![](https://raw.githubusercontent.com/variani/cpca/master/pages/images/lena.png)
+![](https://raw.githubusercontent.com/variani/cpca/master/docs/images/lena.png)
 
 The figure above shows an application of CPCA to the image compression problem. The original figure is the famous one from [http://lenna.org](lenna.org), and we estimated CPCA for three RBG data matrices *simultaneously* rather than doing SVD/PCA for each matrix separately. (Spoiler: the performance of PCA and CPCA is visually the same, and this example is sought for the demonstration purpose only.)
 
